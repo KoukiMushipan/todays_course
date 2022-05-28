@@ -23,6 +23,9 @@ module TodaysCourse
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
+    config.time_zone = 'Tokyo'
+    config.active_record.default_timezone = :local
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
@@ -33,5 +36,11 @@ module TodaysCourse
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.generators do |g|
+      g.skip_routes true
+      g.helper false
+      g.test_framework :rspec, view_specs: false, request_specs: false, routing_specs: false
+    end
   end
 end
