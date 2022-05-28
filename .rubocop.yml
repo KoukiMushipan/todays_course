@@ -1,0 +1,100 @@
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+    - 'db/**/*'
+    - 'bin/**/*'
+    - 'spec/**/*'
+    - "config/**/*"
+    - "lib/**/*"
+    - "Gemfile" # 後で確認
+  SuggestExtensions: false # rubocop-rspecをおすすめ
+  NewCops: enable # 警告文通りに追加
+  DisplayCopNames: true # どのcopに引っかかったのかを表示する
+
+# ソースコードの行の長さをチェックします。(デフォルト：80文字）
+Layout/LineLength:
+  Enabled: false
+
+# メソッドの代入、メソッド呼び出し、条件分岐のサイズが設定された最大値を超えていないことを確認します。
+# デフォルト: 15
+# ⇐ 17 satisfactory
+# 18..30 unsatisfactory
+# > 30 dangerous
+Metrics/AbcSize:
+  Max: 25
+
+# ブロックの長さが最大値を超えているかどうか
+Metrics/BlockLength:
+  Max: 30
+  CountComments: false
+  Exclude:
+    # - 'Gemfile' # 同上
+    - 'config/**/*'
+
+# クラスの長さが最大値を超えているかどうか
+Metrics/ClassLength:
+  CountComments: false
+  Max: 300
+
+# メソッドの循環的複雑度が設定された最大値を超えないこと
+# 循環的複雑度は、メソッドを通る直線的に独立したパスの数
+Metrics/CyclomaticComplexity:
+  Max: 30
+
+# メソッドの長さが最大値を超えるかどうか
+Metrics/MethodLength:
+  CountComments: false
+  Max: 30
+
+# accessor methodsに適切な名前が付けられていることを確認
+# instance and class methodsの両方に適用されます
+Naming/AccessorMethodName:
+  Exclude:
+    - 'app/controllers/**/*'
+
+# classやmoduleの書き方がネストかコンパクトを確認
+# デフォルト: nested
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# ドキュメントの無いpublic classを確認
+Style/Documentation:
+  Enabled: false
+
+# Ruby 2.3 から# frozen_string_literal: trueというマジックコメントを使用すると、
+# 文字列リテラルがデフォルトでfreezeされるようになりました。
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# 1行で書くべき if / unless ステートメントに対して警告を出す。
+# MaxLineLength デフォルト: 80
+Style/IfUnlessModifier:
+  Enabled: false
+
+# 1行で書くべき while/ until ステートメントに対して警告を出す。
+# MaxLineLength デフォルト: 80
+Style/WhileUntilModifier:
+  Enabled: false
+
+# eachを使用してHashのkeyやvalueに対して繰り返し処理を行っている箇所をeach_keyやeach_valueを使用するように修正するものです。
+Style/HashEachMethods:
+  Enabled: false
+
+# each_with_object, map, to_hを探しtransform_keysを提案する
+Style/HashTransformKeys:
+  Enabled: false
+
+# each_with_object, map, to_hを探しtransform_valuesを提案する
+Style/HashTransformValues:
+  Enabled: false
+
+# gemをアルファベット順にソートする
+Bundler/OrderedGems:
+  Enabled: false
+
+# Rails 用に最適化されたモード
+Rails:
+  Enabled: true
+
+require:
+    - rubocop-rails
