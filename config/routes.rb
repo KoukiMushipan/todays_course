@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  resources :users
+  resources :users, except: :new
+  get 'signup', to: 'users#new'
 
   get 'login', to: 'user_sessions#new'
   post 'login', to: 'user_sessions#create'
