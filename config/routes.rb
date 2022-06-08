@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root 'landing_pages#top'
+
   resources :users, except: :new
   get 'signup', to: 'users#new'
 
