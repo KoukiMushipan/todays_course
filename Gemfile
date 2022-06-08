@@ -49,7 +49,9 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 # 追加
+gem 'draper'
 gem 'enum_help'
+gem 'rails-i18n'
 gem 'sorcery'
 
 group :development, :test do
