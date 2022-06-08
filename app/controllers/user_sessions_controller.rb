@@ -5,15 +5,15 @@ class UserSessionsController < ApplicationController
     @user = login(params[:email], params[:password])
 
     if @user
-      redirect_back_or_to(:users, notice: 'Login successful')
+      redirect_back_or_to :users
     else
-      flash.now[:alert] = 'Login failed'
-      render action: 'new'
+      @error_message = 'メールアドレス、もしくはパスワードが間違っています'
+      render :new, status: :unprocessable_entity
     end
   end
 
   def destroy
     logout
-    redirect_to(:users, notice: 'Logged out!')
+    redirect_to login_path, status: :see_other
   end
 end
