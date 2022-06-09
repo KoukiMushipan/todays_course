@@ -59,6 +59,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
 
   # 追加
+  gem 'config'
   gem 'faker'
   gem 'factory_bot_rails'
   gem 'letter_opener_web'
