@@ -1,0 +1,7 @@
+yahoo:
+  appid: <%= Rails.application.credentials.yahoo[:appid] %>
+mapbox:
+  forward_url_front:  'https://api.mapbox.com/search/v1/forward/'
+  forward_url_rear:  '?country=JP&language=ja&limit=1&access_token=<%= Rails.application.credentials.mapbox[:access_token] %>'
+  reverse_url_front: 'https://api.mapbox.com/search/v1/reverse/'
+  reverse_url_rear: '?language=ja&access_token=<%= Rails.application.credentials.mapbox[:access_token] %>'

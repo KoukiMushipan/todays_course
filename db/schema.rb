@@ -10,9 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_31_013226) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_08_090700) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "departures", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "location_id", null: false
+    t.boolean "is_saved", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_departures_on_location_id"
+    t.index ["user_id"], name: "index_departures_on_user_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "name", null: false
+    t.float "latitude", null: false
+    t.float "longitude", null: false
+    t.string "address", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
@@ -24,4 +43,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_31_013226) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "departures", "locations"
+  add_foreign_key "departures", "users"
 end
