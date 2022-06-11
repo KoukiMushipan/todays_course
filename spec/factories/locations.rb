@@ -3,7 +3,7 @@
 # Table name: locations
 #
 #  id         :bigint           not null, primary key
-#  adress     :string           not null
+#  address    :string           not null
 #  latitude   :float            not null
 #  longitude  :float            not null
 #  name       :string           not null
@@ -15,6 +15,6 @@ FactoryBot.define do
     name { "MyString" }
     latitude { 1.5 }
     longitude { 1.5 }
-    adress { "MyString" }
+    address { "MyString" }
   end
 end

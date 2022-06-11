@@ -3,7 +3,7 @@
 # Table name: locations
 #
 #  id         :bigint           not null, primary key
-#  adress     :string           not null
+#  address    :string           not null
 #  latitude   :float            not null
 #  longitude  :float            not null
 #  name       :string           not null
