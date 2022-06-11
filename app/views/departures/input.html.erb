@@ -1,20 +1,20 @@
 <%= form_with model: @search_departure, url: search_departure_from_address_path, class: "contents" do |f| %>
   <div class="my-5">
-    <%= f.label :name, '場所名 (保存する場合は必須)' %>
+    <%= f.label :name, (t '.name') %>
     <%= f.text_field :name, class: "block shadow rounded-md border border-gray-200 px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
-    <%= f.label :address, '住所' %>
+    <%= f.label :address, (t '.address') %>
     <%= f.text_field :address, class: "block shadow rounded-md border border-gray-200 px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
     <%= f.check_box :save, class: "shadow rounded-md border border-gray-200 px-3.5 py-1 inline mr-3" %>
-    <%= f.label :save, '保存します' %>
+    <%= f.label :save, (t '.save') %>
   </div>
 
   <div class="text-right">
-    <%= f.submit class: "rounded-lg py-3 px-5 bg-orange-600 text-white font-medium cursor-pointer" %>
+    <%= f.submit (t '.next'), class: "rounded-lg py-3 px-5 bg-orange-600 text-white font-medium cursor-pointer" %>
   </div>
 <% end %>

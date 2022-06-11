@@ -8,3 +8,10 @@ ja:
         password: 'パスワード'
         password_confirmation: 'パスワード確認'
         name: '名前'
+      location:
+        name: '場所名'
+        address: '住所'
+        latitude: '緯度'
+        longitude: '経度'
+      departure:
+        is_saved: '保存済み'
