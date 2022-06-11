@@ -23,5 +23,7 @@ class Departure < ApplicationRecord
   belongs_to :user
   belongs_to :location, dependent: :destroy
 
-  validates :is_saved, presence: true
+  def set_search_departure
+    SearchDeparture.new(name: location.name, address: location.address, latitude: location.latitude, longitude: location.longitude, departure_id: id)
+  end
 end

@@ -1,0 +1,27 @@
+<div>
+  <h1 class="font-bold text-4xl">出発地選択</h1>
+
+  <div data-controller="current-location">
+    <button
+    data-action='click->current-location#getLoction'
+    class="bg-orange-500 text-white font-bold py-2 px-4 rounded block my-10">
+    現在地取得
+    </button>
+  </div>
+
+  <div class='block my-10'>
+    <%= link_to '入力する', search_departure_input_path, class: "bg-orange-500 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+  <div class='block my-10'>
+    <%= link_to '保存済みから選択', search_departure_saved_path, class: "bg-orange-500 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+  <div class='block my-10'>
+    <%= link_to '履歴から選択', search_departure_histories_path, class: "bg-orange-500 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+
+  <%= form_with model: @search_departure, url: search_departure_from_current_location_path do |f| %>
+    <%= f.hidden_field :latitude, id: 'js-get-latitude' %>
+    <%= f.hidden_field :longitude, id: 'js-get-longitude' %>
+    <%= f.submit id: 'js-location-submit', class: 'hidden' %>
+  <% end %>
+</div>
