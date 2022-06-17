@@ -1,0 +1,10 @@
+<div class='ppp'>
+  <p>ピンをタップして目的地を選んでください</p>
+</div>
+
+<div id="map"></div>
+
+<%= include_gon %>
+
+<%= javascript_include_tag 'show-map' %>
+<%= javascript_include_tag Settings.google.map_url, async: 'async', defer: 'defer' %>
