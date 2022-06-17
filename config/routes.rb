@@ -8,21 +8,21 @@ Rails.application.routes.draw do
   post 'login', to: 'user_sessions#create'
   delete 'logout', to: 'user_sessions#destroy'
 
-  scope :search, as: 'search' do
-    get 'destination', to: 'searches#destination'
-    get 'candidates', to: 'searches#candidates'
-    get 'route', to: 'searches#route'
+  resources :destinations, only: [:new, :create]
 
+  namespace :search do
     scope :departure, as: 'departure' do
       get 'menu', to: 'departures#menu'
       get 'saved', to: 'departures#saved'
       get 'histories', to: 'departures#histories'
       get 'input', to: 'departures#input'
-
       post 'from_current_location', to: 'departures#from_current_location'
       post 'from_saved', to: 'departures#from_saved'
       post 'from_address', to: 'departures#from_address'
     end
-  end
 
+    get 'terms', to: 'destinations#terms'
+    get 'candidates', to: 'destinations#candidates'
+    post 'ready_recommend', to: 'destinations#ready_recommend'
+  end
 end

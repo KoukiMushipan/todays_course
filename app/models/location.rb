@@ -12,6 +12,7 @@
 #
 class Location < ApplicationRecord
   has_one :departure, dependent: :destroy
+  has_one :destination, dependent: :destroy
 
   validates :name, presence: true
   validates :latitude, presence: true
