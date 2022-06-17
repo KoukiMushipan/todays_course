@@ -13,3 +13,17 @@
  *= require_tree .
  *= require_self
  */
+
+#map {
+  height: 85vh;
+}
+
+/* デバッグ用 */
+
+.console-prompt-display {
+  font-size: 13pt;
+}
+
+.console {
+  height: 200px !important;
+}

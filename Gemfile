@@ -51,6 +51,7 @@ gem "bootsnap", require: false
 # 追加
 gem 'draper'
 gem 'enum_help'
+gem 'gon'
 gem 'rails-i18n'
 gem 'sorcery'
 
