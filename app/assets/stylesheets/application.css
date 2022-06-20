@@ -28,18 +28,18 @@
   height: 90%;
   width: 95%;
   border-radius: 16px;
+  text-align: center;
 }
 
 .button-in-menu {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%) translateX(-50%);
+  height: 100%;
   width: 100%;
   font-size: 28px;
   font-weight: 500;
   color: white;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* デバッグ用 */

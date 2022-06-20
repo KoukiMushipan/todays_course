@@ -26,8 +26,8 @@ function initMap() {
       result['routes'][0]['legs'][0]['end_address'] = destination['name']
       directionsRenderer.setDirections(result);
       distance = result['routes'][0]['legs'][0]['distance']['value']
-      document.getElementById('js-get-distance').value = distance
-      // document.getElementById('js-create-distance-link').setAttribute('href', `/destinations/not_save?distance=${distance}`);
+      document.getElementById('js-show-distance').textContent = `片道: ${distance}m`
+      document.getElementById('js-get-distance').value = distance * 2
     }
   });
 }

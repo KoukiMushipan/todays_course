@@ -1,11 +1,11 @@
 <% @departures.each do |departure| %>
   <div class="p-4 w-full text-center bg-white rounded-lg border shadow-md sm:p-8 mb-4">
-    <h5 class="mb-2 text-3xl font-bold text-gray-900"><%= departure.location.name %></h5>
+    <h5 class="mb-2 text-3xl font-bold text-gray-900 break-words"><%= departure.location.name %></h5>
     <p class="mb-5 text-base text-gray-500 sm:text-lg"><%= departure.location.address %></p>
     <div class="justify-center items-center">
       <%= link_to (t '.start_here'), search_departure_from_saved_path(id: departure.id),
       data: { turbo_method: :post },
-      class: 'w-full sm:w-auto bg-orange-500 text-white rounded-lg inline-flex items-center justify-center px-4 py-3.5 font-semibold' %>
+      class: 'w-full sm:w-auto bg-orange-500 text-white rounded-lg inline-flex items-center justify-center px-4 py-3.5 font-semibold drop-shadow-lg' %>
     </div>
   </div>
 <% end %>

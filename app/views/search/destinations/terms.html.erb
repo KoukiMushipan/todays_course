@@ -1,12 +1,7 @@
-<h1 class="font-bold text-3xl">
-目的地<br>
-<%= @departure %>
-</h1>
-
 <%= form_with model: @search_destination, url: search_ready_recommend_path, class: "contents" do |f| %>
   <div class="my-5">
     <%= f.label :radius, (t '.radius') %>
-    <%= f.number_field :radius, step: 100, class: "block shadow rounded-md border border-gray-200 px-3 py-2 mt-2" %>
+    <%= f.number_field :radius, class: "block shadow rounded-md border border-gray-200 pr-12 py-2 mt-2", step: 100, min: 1000, max: 5000 %>
   </div>
 
   <div class="my-5">
@@ -15,6 +10,6 @@
   </div>
 
   <div class="text-right">
-    <%= f.submit (t '.search'), class: "rounded-lg py-3 px-5 bg-orange-600 text-white font-medium cursor-pointer" %>
+    <%= f.submit (t '.search'), class: "rounded-lg py-3 px-5 bg-orange-600 text-white font-medium cursor-pointer drop-shadow-lg" %>
   </div>
 <% end %>

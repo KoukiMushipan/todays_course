@@ -4,6 +4,8 @@ ja:
     login: 'ログイン'
     register: '新規登録'
     logout: 'ログアウト'
+    place_name: '場所名'
+    address: '住所'
   users:
     new:
       title: '新規登録'
@@ -20,14 +22,23 @@ ja:
         select_saved_departures: '保存済み'
         select_departure_histories: '履歴'
       input:
-        name: '場所名 (保存する場合は必須)'
-        address: '住所'
-        save: '保存します'
+        save: '保存する'
         next: '次に進む'
+      fix:
+        save: '保存する'
+        not_fix: 'そのまま進む'
+        fix: '編集して進む'
       saved:
         start_here: 'ここから出発'
     destinations:
       terms:
-        radius: '半径(メートル)'
+        radius: '半径(100メートルごと)'
         gc: '目的地の種類'
         search: '検索'
+      candidates:
+        select: 'ピンをタップして目的地を選んでください'
+  destinations:
+    new:
+      distance: '距離(往復)'
+      save: '目的地を保存する'
+      start: 'スタート画面へ'

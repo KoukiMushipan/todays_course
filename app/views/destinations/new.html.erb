@@ -1,27 +1,29 @@
+<p id='js-show-distance' class='text-lg '></p>
+
 <div id='map'></div>
 
 <turbo-frame id="destination-form">
 <%= form_with model: @destination, url: destinations_path, class: "contents" do |f| %>
   <div class="my-5">
-    <%= f.label :name %>
+    <%= f.label :name, (t 'defaults.place_name') %>
     <%= f.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
   <div class="my-5">
-    <%= f.label :address %>
+    <%= f.label :address, (t 'defaults.address') %>
     <%= f.text_field :address, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
   <div class="my-5">
-    <%= f.label :distance %>
+    <%= f.label :distance, (t '.distance') %>
     <%= f.number_field :distance, id: 'js-get-distance', class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
   <div class="my-5">
     <%= f.check_box :is_saved, class: "shadow rounded-md border border-gray-200 px-3.5 py-1 inline mr-3" %>
-    <%= f.label :is_saved, '目的地を保存する' %>
+    <%= f.label :is_saved, (t '.save') %>
   </div>
   <%= f.hidden_field :latitude %>
   <%= f.hidden_field :longitude %>
   <div class="text-right mb-5">
-    <%= f.submit 'スタート画面へ', class: "rounded-lg py-3 px-5 bg-orange-600 text-white font-medium cursor-pointer" %>
+    <%= f.submit (t '.start'), class: "rounded-lg py-3 px-5 bg-orange-600 text-white font-medium cursor-pointer" %>
   </div>
 <% end %>
 </turbo-frame>
