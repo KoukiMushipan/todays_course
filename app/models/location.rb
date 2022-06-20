@@ -6,7 +6,7 @@
 #  address    :string           not null
 #  latitude   :float            not null
 #  longitude  :float            not null
-#  name       :string           not null
+#  name       :string           default("未設定"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

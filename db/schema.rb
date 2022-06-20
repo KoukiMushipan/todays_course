@@ -38,7 +38,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_021614) do
   end
 
   create_table "locations", force: :cascade do |t|
-    t.string "name", null: false
+    t.string "name", default: "未設定", null: false
     t.float "latitude", null: false
     t.float "longitude", null: false
     t.string "address", null: false
