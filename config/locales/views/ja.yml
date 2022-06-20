@@ -30,6 +30,11 @@ ja:
         fix: '編集して進む'
       saved:
         start_here: 'ここから出発'
+      from_current_location:
+        get_current_location: '現在地取得'
+        failed_get_current_location: '現在地の取得に失敗しました'
+      from_address:
+        failed_get_location: '住所の取得に失敗しました'
     destinations:
       terms:
         radius: '半径(100メートルごと)'

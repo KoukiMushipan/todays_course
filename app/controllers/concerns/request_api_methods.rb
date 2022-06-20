@@ -1,4 +1,4 @@
-module ApiMethods
+module RequestApiMethods
   extend ActiveSupport::Concern
 
   def request_api(url)
@@ -6,13 +6,14 @@ module ApiMethods
     JSON.parse(json_result)
   end
 
-  def pickup_address(result)
-    result['features'][0]['properties']['place_name'].split(', ').last
+  def request_reverse_geocoder(search_departure)
+    url = search_departure.create_reverse_geocoder_url
+    request_api(url)
   end
 
-  def pickup_coordinates(result)
-    arr = result['features'][0]['geometry']['coordinates']
-    {latitude: arr[1], longitude: arr[0]}
+  def request_geocoder(search_departure)
+    url = search_departure.create_geocoder_url
+    request_api(url)
   end
 
   def pickup_distances(results)

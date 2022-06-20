@@ -16,4 +16,16 @@ class Search::Departure
     self.latitude = coordinates[:latitude]
     self.longitude = coordinates[:longitude]
   end
+
+  def make_hash_for_location
+    if name.blank?
+      {address: address, latitude: latitude, longitude: longitude}
+    else
+      {name: name, address: address, latitude: latitude, longitude: longitude}
+    end
+  end
+
+  def will_save?
+    is_saved == '1'
+  end
 end

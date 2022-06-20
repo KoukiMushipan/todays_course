@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       get 'saved', to: 'departures#saved'
       get 'histories', to: 'departures#histories'
       get 'input', to: 'departures#input'
+      get 'fix', to: 'departures#fix'
       post 'from_current_location', to: 'departures#from_current_location'
       post 'from_saved', to: 'departures#from_saved'
       post 'from_address', to: 'departures#from_address'
