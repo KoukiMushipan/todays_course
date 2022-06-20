@@ -14,11 +14,11 @@ ja:
   search:
     departures:
       menu:
-        title: 出発地選択
+        title: '出発地'
         get_current_location: '現在地取得'
-        input_address: '住所を入力する'
-        select_saved_departures: '保存済みの出発地から選択する'
-        select_departure_histories: '履歴から出発地を選択する'
+        input_address: '入力する'
+        select_saved_departures: '保存済み'
+        select_departure_histories: '履歴'
       input:
         name: '場所名 (保存する場合は必須)'
         address: '住所'

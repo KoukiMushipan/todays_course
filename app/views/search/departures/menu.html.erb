@@ -1,27 +1,37 @@
 <div>
-  <h1 class="font-bold text-4xl"><%= t '.title' %></h1>
+  <h1 class="font-bold text-4xl mb-3"><%= t '.title' %></h1>
 
-  <div data-controller="location">
-    <button
-    data-action='click->location#getLocation'
-    class="bg-orange-500 text-white font-bold py-2 px-4 rounded block my-10">
-    <%= t '.get_current_location' %>
-    </button>
+  <div class='menu'>
+    <div data-controller="location" class='w-1/2 h-1/2 inline-block'>
+      <div class="menu-child bg-orange-500 block drop-shadow-xl">
+        <%= link_to (t '.get_current_location'), '#',
+        data: { action: 'click->location#getLocation' },
+        class: 'button-in-menu' %>
+      </div>
+    </div>
+
+    <div class='w-1/2 h-1/2 inline-block float-right'>
+      <div class="menu-child bg-orange-500 block drop-shadow-xl">
+        <%= link_to (t '.input_address'), search_departure_input_path, class: 'button-in-menu' %>
+      </div>
+    </div>
+
+    <div class='w-1/2 h-1/2 inline-block'>
+      <div class="menu-child bg-orange-500 block drop-shadow-xl">
+        <%= link_to (t '.select_saved_departures'), search_departure_saved_path, class: 'button-in-menu' %>
+      </div>
+    </div>
+
+    <div class='w-1/2 h-1/2 inline-block float-right'>
+      <div class="menu-child bg-orange-500 block drop-shadow-xl">
+        <%= link_to (t '.select_departure_histories'), search_departure_histories_path, class: 'button-in-menu' %>
+      </div>
+    </div>
   </div>
 
-  <div class='block my-10'>
-    <%= link_to (t '.input_address'), search_departure_input_path, class: "bg-orange-500 text-white font-bold py-2 px-4 rounded" %>
-  </div>
-  <div class='block my-10'>
-    <%= link_to (t '.select_saved_departures'), search_departure_saved_path, class: "bg-orange-500 text-white font-bold py-2 px-4 rounded" %>
-  </div>
-  <div class='block my-10'>
-    <%= link_to (t '.select_departure_histories'), search_departure_histories_path, class: "bg-orange-500 text-white font-bold py-2 px-4 rounded" %>
-  </div>
-
-  <%= form_with model: @search_departure, url: search_departure_from_current_location_path do |f| %>
+  <%= form_with model: @search_departure, url: search_departure_from_current_location_path, class: 'hidden' do |f| %>
     <%= f.hidden_field :latitude, id: 'js-get-latitude' %>
     <%= f.hidden_field :longitude, id: 'js-get-longitude' %>
-    <%= f.submit id: 'js-location-submit', class: 'hidden' %>
+    <%= f.submit id: 'js-location-submit' %>
   <% end %>
 </div>

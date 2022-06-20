@@ -18,6 +18,30 @@
   height: 85vh;
 }
 
+.menu {
+  height: 50vh;
+}
+
+.menu-child {
+  position: relative;
+  margin: 0 auto;
+  height: 90%;
+  width: 95%;
+  border-radius: 16px;
+}
+
+.button-in-menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  width: 100%;
+  font-size: 28px;
+  font-weight: 500;
+  color: white;
+  text-align: center;
+}
+
 /* デバッグ用 */
 
 .console-prompt-display {

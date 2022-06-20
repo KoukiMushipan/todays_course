@@ -5,7 +5,7 @@ class UserSessionsController < ApplicationController
     @user = login(params[:email], params[:password])
 
     if @user
-      redirect_back_or_to :users
+      redirect_back_or_to search_departure_menu_path
     else
       @error_message = 'メールアドレス、もしくはパスワードが間違っています'
       render :new, status: :unprocessable_entity
