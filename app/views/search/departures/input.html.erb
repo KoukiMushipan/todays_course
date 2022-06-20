@@ -7,6 +7,7 @@
   <div class="my-5">
     <%= f.label :address, (t 'defaults.address') %>
     <%= f.text_field :address, class: "block shadow rounded-md border border-gray-200 px-3 py-2 mt-2 w-full" %>
+    <%= render 'shared/error_message', error_message: @error_message %>
   </div>
 
   <div class="my-5">

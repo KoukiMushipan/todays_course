@@ -1,5 +1,6 @@
 class Search::DestinationsController < ApplicationController
-  include ApiMethods
+  include RequestApiMethods
+  include ResponseApiMethods
 
   def terms
     @departure = session[:departure]
