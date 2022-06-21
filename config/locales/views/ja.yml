@@ -37,7 +37,8 @@ ja:
         failed_get_location: '住所の取得に失敗しました'
     destinations:
       terms:
-        radius: '半径(100メートルごと)'
+        radius: '目的地までの距離'
+        description: '1000m以上5000m以下、100m単位で指定してください'
         gc: '目的地の種類'
         search: '検索'
       candidates:

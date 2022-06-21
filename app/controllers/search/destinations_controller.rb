@@ -3,7 +3,6 @@ class Search::DestinationsController < ApplicationController
   include ResponseApiMethods
 
   def terms
-    @departure = session[:departure]
     @search_destination = Search::Destination.new
   end
 

@@ -16,7 +16,9 @@ class Search::DeparturesController < ApplicationController
 
   def input; end
 
-  def fix; end
+  def fix
+    @search_departure = Search::Departure.new(session[:departure])
+  end
 
   def from_current_location
     @search_departure = Search::Departure.new(get_current_location_params)
@@ -30,7 +32,7 @@ class Search::DeparturesController < ApplicationController
     @search_departure.name = t '.get_current_location'
     @search_departure.address = pickup_address(result)
 
-    render :fix, status: :created
+    redirect_to search_departure_fix_path
   end
 
   def from_saved
