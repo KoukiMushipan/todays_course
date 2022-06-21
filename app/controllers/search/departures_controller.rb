@@ -3,7 +3,7 @@ class Search::DeparturesController < ApplicationController
   include ResponseApiMethods
 
   before_action :set_new_search_departure, only: %i[menu input]
-  after_action :set_session_search_departure, only: %i[from_current_location from_saved from_address]
+  after_action :set_session_search_departure, only: %i[from_current_location from_saved from_input from_fix]
 
   def menu; end
 
@@ -42,7 +42,7 @@ class Search::DeparturesController < ApplicationController
     redirect_to search_terms_path
   end
 
-  def from_address
+  def from_input
     @search_departure = Search::Departure.new(input_departure_params)
     return render :input, status: :unprocessable_entity unless @search_departure.valid?
 
@@ -50,6 +50,24 @@ class Search::DeparturesController < ApplicationController
     unless normal_result?(result)
       @error_message = t '.failed_get_location'
       return render :input, status: :unprocessable_entity
+    end
+
+    set_coordinates_and_address(@search_departure, result)
+    if @search_departure.will_save?
+      @search_departure = Departure.create_and_set_departure(current_user, @search_departure)
+    end
+
+    redirect_to search_terms_path
+  end
+
+  def from_fix
+    @search_departure = Search::Departure.new(input_departure_params)
+    return render :fix, status: :unprocessable_entity unless @search_departure.valid?
+
+    result = request_geocoder(@search_departure)
+    unless normal_result?(result)
+      @error_message = t '.failed_get_location'
+      return render :fix, status: :unprocessable_entity
     end
 
     set_coordinates_and_address(@search_departure, result)

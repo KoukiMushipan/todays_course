@@ -19,7 +19,8 @@ Rails.application.routes.draw do
       get 'fix', to: 'departures#fix'
       post 'from_current_location', to: 'departures#from_current_location'
       post 'from_saved', to: 'departures#from_saved'
-      post 'from_address', to: 'departures#from_address'
+      post 'from_input', to: 'departures#from_input'
+      post 'from_fix', to: 'departures#from_fix'
     end
 
     get 'terms', to: 'destinations#terms'
