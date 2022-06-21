@@ -2,6 +2,9 @@ class Search::Departure
   include ActiveModel::Model
   attr_accessor :name, :address, :latitude, :longitude, :id, :is_saved
 
+  validates :name, length: { maximum: 50 }
+  validates :address, presence: true, length: { maximum: 255 }
+
   def create_reverse_geocoder_url
     query = longitude + ',' + latitude
     URI(Settings.mapbox.reverse_url_front + query + Settings.mapbox.reverse_url_rear)

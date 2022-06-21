@@ -2,11 +2,13 @@
   <div class="my-5">
     <%= f.label :name, (t 'defaults.place_name') %>
     <%= f.text_field :name, class: "block shadow rounded-md border border-gray-200 px-3 py-2 mt-2 w-full" %>
+    <%= render partial: 'shared/error_message', collection: @search_departure.errors.full_messages_for(:name) %>
   </div>
 
   <div class="my-5">
     <%= f.label :address, (t 'defaults.address') %>
     <%= f.text_field :address, class: "block shadow rounded-md border border-gray-200 px-3 py-2 mt-2 w-full" %>
+    <%= render partial: 'shared/error_message', collection: @search_departure.errors.full_messages_for(:address) %>
     <%= render 'shared/error_message', error_message: @error_message %>
   </div>
 
