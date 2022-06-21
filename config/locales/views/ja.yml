@@ -21,11 +21,11 @@ ja:
         input_address: '入力する'
         select_saved_departures: '保存済み'
         select_departure_histories: '履歴'
-      input:
-        save: '保存する'
+      input_form:
+        save: '出発地を保存する'
         next: '次に進む'
-      fix:
-        save: '保存する'
+      fix_form:
+        save: '出発地を保存する'
         not_fix: 'そのまま進む'
         fix: '編集して進む'
       saved:
@@ -36,10 +36,8 @@ ja:
       from_address:
         failed_get_location: '住所の取得に失敗しました'
     destinations:
-      terms:
-        radius: '目的地までの距離'
+      terms_form:
         description: '1000m以上5000m以下、100m単位で指定してください'
-        gc: '目的地の種類'
         search: '検索'
       candidates:
         select: 'ピンをタップして目的地を選んでください'
