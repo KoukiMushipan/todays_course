@@ -30,16 +30,9 @@ ja:
         fix: '編集して進む'
       saved:
         start_here: 'ここから出発'
-      from_current_location:
-        get_current_location: '現在地取得'
-        failed_get_current_location: '現在地の取得に失敗しました'
-      from_address:
-        failed_get_location: '住所の取得に失敗しました'
-      from_fix:
-        failed_get_location: '住所の取得に失敗しました'
     destinations:
       terms_form:
-        description: '1000m以上5000m以下、100m単位で指定してください'
+        description: '※ 1000m以上5000m以下、100m単位で指定してください'
         search: '検索'
       candidates:
         select: 'ピンをタップして目的地を選んでください'

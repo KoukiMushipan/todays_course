@@ -15,12 +15,3 @@ ja:
         longitude: '経度'
       departure:
         is_saved: '保存済み'
-  activemodel:
-    models:
-    attributes:
-      search/departure:
-        name: '名前'
-        address: '住所'
-      search/destination:
-        radius: '目的地までの距離'
-        gc: '目的地の種類'

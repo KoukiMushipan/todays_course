@@ -1,7 +1,4 @@
 class Search::DeparturesController < ApplicationController
-  include RequestApiMethods
-  include ResponseApiMethods
-
   before_action :set_new_search_departure, only: %i[menu input]
   after_action :set_session_search_departure, only: %i[from_current_location from_saved from_input from_fix]
 
@@ -23,14 +20,13 @@ class Search::DeparturesController < ApplicationController
   def from_current_location
     @search_departure = Search::Departure.new(get_current_location_params)
 
-    result = request_reverse_geocoder(@search_departure)
-    unless normal_result?(result)
-      @error_message = t '.failed_get_current_location'
+    result = @search_departure.request_reverse_geocoder
+    if !result
+      @error_message = t 'process.failed_get_current_location'
       return render :menu, status: :unprocessable_entity
     end
 
-    @search_departure.name = t '.get_current_location'
-    @search_departure.address = pickup_address(result)
+    @search_departure.set_current_location_info(result)
 
     redirect_to search_departure_fix_path
   end
@@ -43,16 +39,11 @@ class Search::DeparturesController < ApplicationController
   end
 
   def from_input
-    @search_departure = Search::Departure.new(input_departure_params)
-    return render :input, status: :unprocessable_entity unless @search_departure.valid?
+    @search_departure = Search::Departure.new_and_valid(input_departure_params)
+    result = @search_departure.request_geocoder
+    return render :input, status: :unprocessable_entity if @search_departure.errors.present?
 
-    result = request_geocoder(@search_departure)
-    unless normal_result?(result)
-      @error_message = t '.failed_get_location'
-      return render :input, status: :unprocessable_entity
-    end
-
-    set_coordinates_and_address(@search_departure, result)
+    @search_departure.set_coordinates_and_address(result)
     if @search_departure.will_save?
       @search_departure = Departure.create_and_set_departure(current_user, @search_departure)
     end
@@ -61,16 +52,11 @@ class Search::DeparturesController < ApplicationController
   end
 
   def from_fix
-    @search_departure = Search::Departure.new(input_departure_params)
-    return render :fix, status: :unprocessable_entity unless @search_departure.valid?
+    @search_departure = Search::Departure.new_and_valid(input_departure_params)
+    result = @search_departure.request_geocoder
+    return render :fix, status: :unprocessable_entity if @search_departure.errors.present?
 
-    result = request_geocoder(@search_departure)
-    unless normal_result?(result)
-      @error_message = t '.failed_get_location'
-      return render :fix, status: :unprocessable_entity
-    end
-
-    set_coordinates_and_address(@search_departure, result)
+    @search_departure.set_coordinates_and_address(result)
     if @search_departure.will_save?
       @search_departure = Departure.create_and_set_departure(current_user, @search_departure)
     end

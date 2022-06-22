@@ -1,7 +1,7 @@
 <%= form_with model: search_destination, url: search_ready_recommend_path, class: "contents" do |f| %>
   <div class="my-5">
     <%= f.label :radius %>
-    <p><%= (t '.description') %></p>
+    <p class='text-xs'><%= (t '.description') %></p>
     <%= f.number_field :radius, class: "block shadow rounded-md border border-gray-200 pr-12 py-2 mt-2", step: 100, min: 1000, max: 5000, required: true %>
     <%= render partial: 'shared/error_message', collection: search_destination.errors.full_messages_for(:radius) %>
   </div>
@@ -9,6 +9,7 @@
   <div class="my-5">
     <%= f.label :gc %>
     <%= f.select :gc, Settings.yahoo.gc.to_h, {}, class: "block shadow rounded-md border border-gray-200 px-3 py-2 mt-2 w-full sm:w-1/2" %>
+    <%= render partial: 'shared/error_message', collection: search_destination.errors.full_messages_for(:gc) %>
   </div>
 
   <div class="text-right sm:text-center">

@@ -6,16 +6,6 @@ module RequestApiMethods
     JSON.parse(json_result)
   end
 
-  def request_reverse_geocoder(search_departure)
-    url = search_departure.create_reverse_geocoder_url
-    request_api(url)
-  end
-
-  def request_geocoder(search_departure)
-    url = search_departure.create_geocoder_url
-    request_api(url)
-  end
-
   def pickup_distances(results)
     arr = results['distances'][0]
     arr.shift

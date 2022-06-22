@@ -1,0 +1,5 @@
+ja:
+  process:
+    get_current_location: '現在地取得'
+    failed_get_current_location: '現在地の取得に失敗しました'
+    failed_get_location: 'の取得に失敗しました'
