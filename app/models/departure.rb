@@ -30,15 +30,11 @@ class Departure < ApplicationRecord
   scope :saved_list, -> { saved.with_location.sorted }
 
   def set_search_departure
-    Search::Departure.new(name: location.name, address: location.address, latitude: location.latitude, longitude: location.longitude, id: id)
+    Search::Departure.new(id: id, name: location.name, address: location.address, latitude: location.latitude, longitude: location.longitude)
   end
 
-  def self.create_and_set_departure(current_user, search_departure)
-    departure = create_departure_and_location(current_user, search_departure)
-    departure.set_search_departure
-  end
-
-  def self.create_departure_and_location(user, search_departure)
+  def self.create_departure_and_location(search_departure)
+    user = User.find(search_departure.user_id)
     location = Location.new(search_departure.make_hash_for_location)
     user.departures.create!(location: location, is_saved: search_departure.is_saved)
   end

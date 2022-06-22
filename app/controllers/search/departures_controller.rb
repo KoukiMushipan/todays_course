@@ -19,12 +19,8 @@ class Search::DeparturesController < ApplicationController
 
   def from_current_location
     @search_departure = Search::Departure.new(get_current_location_params)
-
     result = @search_departure.request_reverse_geocoder
-    if !result
-      @error_message = t 'process.failed_get_current_location'
-      return render :menu, status: :unprocessable_entity
-    end
+    return render :menu, status: :unprocessable_entity if @search_departure.errors.present?
 
     @search_departure.set_current_location_info(result)
 
@@ -44,9 +40,7 @@ class Search::DeparturesController < ApplicationController
     return render :input, status: :unprocessable_entity if @search_departure.errors.present?
 
     @search_departure.set_coordinates_and_address(result)
-    if @search_departure.will_save?
-      @search_departure = Departure.create_and_set_departure(current_user, @search_departure)
-    end
+    @search_departure.create_departure_and_set if @search_departure.is_saved
 
     redirect_to search_terms_path
   end
@@ -57,9 +51,7 @@ class Search::DeparturesController < ApplicationController
     return render :fix, status: :unprocessable_entity if @search_departure.errors.present?
 
     @search_departure.set_coordinates_and_address(result)
-    if @search_departure.will_save?
-      @search_departure = Departure.create_and_set_departure(current_user, @search_departure)
-    end
+    @search_departure.create_departure_and_set if @search_departure.is_saved
 
     redirect_to search_terms_path
   end
@@ -71,11 +63,11 @@ class Search::DeparturesController < ApplicationController
   end
 
   def set_session_search_departure
-    session[:departure] = @search_departure
+    session[:departure] = @search_departure.attributes
   end
 
   def input_departure_params
-    params.require(:search_departure).permit(:name, :address, :is_saved)
+    params.require(:search_departure).permit(:name, :address, :is_saved).merge(user_id: current_user.id)
   end
 
   def get_current_location_params
