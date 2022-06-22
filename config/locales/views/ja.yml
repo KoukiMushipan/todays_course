@@ -28,7 +28,7 @@ ja:
         save: '出発地を保存する'
         not_fix: 'そのまま進む'
         fix: '編集して進む'
-      saved:
+      card:
         start_here: 'ここから出発'
     destinations:
       terms_form:
