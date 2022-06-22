@@ -5,6 +5,6 @@ ja:
       search/departure:
         name: '名前'
         address: '住所'
-      search/destination:
+      search/term:
         radius: '目的地までの距離'
         gc: '目的地の種類'

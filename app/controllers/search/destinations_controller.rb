@@ -3,7 +3,15 @@ class Search::DestinationsController < ApplicationController
   include ResponseApiMethods
 
   def terms
-    @search_destination = Search::Destination.new
+    @search_term = Search::Term.new
+  end
+
+  def ready_recommend
+    @search_term = Search::Term.new(search_term_params)
+    return render :terms, status: :unprocessable_entity unless @search_term.valid?
+
+    session[:terms] = @search_term.attributes
+    redirect_to search_candidates_path(I18n.l(Time.now).delete(' '))
   end
 
   def candidates
@@ -18,15 +26,9 @@ class Search::DestinationsController < ApplicationController
     gon.searchInfo = {departure: session[:departure], terms: session[:terms], recommendations: session[:recommendations]}
   end
 
-  def ready_recommend
-    session[:terms] = Search::Destination.new(search_destination_params)
-
-    redirect_to search_candidates_path(I18n.l(Time.now).delete(' '))
-  end
-
   private
 
-  def search_destination_params
-    params.require(:search_destination).permit(:radius, :gc)
+  def search_term_params
+    params.require(:search_term).permit(:radius, :gc)
   end
 end
