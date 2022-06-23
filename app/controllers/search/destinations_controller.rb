@@ -1,7 +1,4 @@
 class Search::DestinationsController < ApplicationController
-  include RequestApiMethods
-  include ResponseApiMethods
-
   def terms
     @search_term = Search::Term.new
   end
@@ -11,18 +8,22 @@ class Search::DestinationsController < ApplicationController
     return render :terms, status: :unprocessable_entity unless @search_term.valid?
 
     session[:terms] = @search_term.attributes
-    redirect_to search_candidates_path(I18n.l(Time.now).delete(' '))
+    q = l(Time.now, format: :for_reload)
+    redirect_to search_candidates_path(q)
   end
 
   def candidates
-    search_destination = Search::Destination.new(session[:terms])
-    url = search_destination.create_local_search_url(session[:departure])
-    results = request_api(url)
+    @search_term = Search::Term.new(session[:terms])
+    results = @search_term.request_local_search(session[:departure])
+    return render :terms, status: :unprocessable_entity unless results
 
-    recommendations = Search::Recommend.set_locations(results)
-    calc_distance_and_set(recommendations, search_destination.radius)
+    recommendations = Search::Recommend.create_recommendations(results,  @search_term.radius)
+    unless recommendations
+      @error_message = t('process.failed_matrix')
+      return render :terms, status: :unprocessable_entity
+    end
 
-    sort_pop_set(recommendations)
+    session[:recommendations] = recommendations
     gon.searchInfo = {departure: session[:departure], terms: session[:terms], recommendations: session[:recommendations]}
   end
 
