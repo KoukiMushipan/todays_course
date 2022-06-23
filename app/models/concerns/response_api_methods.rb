@@ -30,7 +30,7 @@ module ResponseApiMethods
     arr.map(&:to_i)
   end
 
-  def normal_result?(result)
+  def normal_geocoder_result?(result)
     result['type'] == "FeatureCollection" && result['features'].count > 0
   end
 
