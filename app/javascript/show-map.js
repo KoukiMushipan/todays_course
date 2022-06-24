@@ -1,55 +1,53 @@
 let map;
-let homeMarker;
-let marker = [];
+let departureMarker;
+let markers = [];
 let infoWindow = [];
 
 const departure = gon.searchInfo['departure']
-const terms = gon.searchInfo['terms']
+const radius = gon.searchInfo['radius']
 const recommendations = gon.searchInfo['recommendations'];
 
+function calcZoom(radius) {
+  let n = radius - 1000
+  if (radius == 0) {
+    return 14.2;
+  }
+  n = 14.2 - n / 100 * 0.06;
+  return Math.round(n * 10) / 10;
+}
+
 function initMap() {
-  let latlng = { lat: parseFloat(departure['latitude']), lng: parseFloat(departure['longitude']) };
-  // 初期位置の指定
+  let coordinates = { lat: departure['latitude'], lng: departure['longitude'] };
+
   map = new google.maps.Map(document.getElementById('map'), {
-    center: latlng,
-    zoom: 14
+    center: coordinates,
+    zoom: calcZoom(radius)
   });
 
-  // 初期位置にマーカーを立てる
-  homeMarker = new google.maps.Marker({
+  departureMarker = new google.maps.Marker({
     map: map,
-    position: latlng
+    position: coordinates,
+    icon: '/marker/marker-departure.png'
   });
 
-  // 近隣店舗にマーカーを立てる
   for (let i = 0; i < recommendations.length; i++) {
-
-    const image = "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
-    // 緯度経度のデータを作成
-    let markerLatLng = new google.maps.LatLng({ lat: parseFloat(recommendations[i]['latitude']), lng: parseFloat(recommendations[i]['longitude']) });
-    // マーカーの追加
-    marker[i] = new google.maps.Marker({
-      position: markerLatLng,
+    let markerCoordinates = new google.maps.LatLng({ lat: recommendations[i]['latitude'], lng: recommendations[i]['longitude'] });
+    markers[i] = new google.maps.Marker({
+      position: markerCoordinates,
       map: map,
-      icon: image,
+      icon: `/marker/marker-destination${i}.png`
     });
 
-    // 吹き出しの追加
     infoWindow[i] = new google.maps.InfoWindow({
-      // 吹き出しに店舗詳細ページへのリンクを追加
-      content: `${recommendations[i]['name']}<br>${recommendations[i]['address']}<br><a class="text-blue-700" href="/destinations/new?id=${i}" data-turbo="false">ルート表示</a>` // target="_blank" rel="noopener noreferrer"
+      content: `${recommendations[i]['name']}<br>${recommendations[i]['address']}<br><a class="text-blue-700" href="/destinations/new?id=${i}" data-turbo="false">ルート表示</a>`
     });
-
     markerEvent(i);
   }
 
-  // マーカークリック時に吹き出しを表示する
   function markerEvent(i) {
-    marker[i].addListener('click', function () {
-      infoWindow[i].open(map, marker[i]);
-      // 他マーカーを閉じる
+    markers[i].addListener('click', function () {
+      infoWindow[i].open(map, markers[i]);
       for (let n = 0; n < recommendations.length; n++) {
-        // i === nの場合のみスキップ
         if (n === i) {
           continue;
         }
@@ -58,18 +56,18 @@ function initMap() {
     });
   }
 
-  let homeInfoWindow = new google.maps.InfoWindow({
+  let departureInfoWindow = new google.maps.InfoWindow({
     content: departure['name'] + '<br>' + departure['address']
   });
 
-  homeMarker.addListener('click', function () {
-    homeInfoWindow.open(map, homeMarker);
+  departureMarker.addListener('click', function () {
+    departureInfoWindow.open(map, departureMarker);
   });
 
   var circle = new google.maps.Circle({
     map: map,
-    center: latlng,
-    radius: parseInt(terms['radius'])
+    center: coordinates,
+    radius: radius
   });
 
   circle.setOptions({

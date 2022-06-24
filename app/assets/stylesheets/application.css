@@ -15,7 +15,8 @@
  */
 
 #map {
-  height: 85vh;
+  height: 82vh;
+  border: ridge 16px #cccccc;
 }
 
 .menu {

@@ -33,7 +33,6 @@ class Search::Recommend
   def self.request_matrix(departure, recommendations)
     url = create_matrix_url(departure, recommendations)
     results = request_api(url)
-    debugger
     return false unless normal_martix_results?(results)
     distances = pickup_distances(results)
   end

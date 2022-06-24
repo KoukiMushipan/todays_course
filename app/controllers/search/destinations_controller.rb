@@ -24,7 +24,7 @@ class Search::DestinationsController < ApplicationController
     end
 
     session[:recommendations] = recommendations
-    gon.searchInfo = {departure: session[:departure], terms: session[:terms], recommendations: session[:recommendations]}
+    gon.searchInfo = {departure: session[:departure], radius: session[:terms]['radius'], recommendations: session[:recommendations]}
   end
 
   private
