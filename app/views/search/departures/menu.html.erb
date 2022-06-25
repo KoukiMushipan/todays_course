@@ -1,0 +1,42 @@
+<div>
+  <% if @error_message %>
+    <h1 class="text-red-600 font-medium text-xl mt-5 ml-3"><%= @error_message %></h2>
+  <% end %>
+  <%= render partial: 'shared/error_message', collection: @search_departure.errors.full_messages_for(:base) %>
+
+  <h1 class="text-3xl mb-3 ml-3 text-gray-700 font-noto under"><%= t '.title' %></h1>
+
+  <div class='menu font-noto'>
+    <div data-controller="location" class='w-1/2 h-1/2 inline-block'>
+      <div class="menu-child bg-cyan-700 block drop-shadow-xl">
+        <%= link_to (t '.get_current_location'), '#',
+        data: { action: 'click->location#getLocation' },
+        class: 'button-in-menu' %>
+      </div>
+    </div>
+
+    <div class='w-1/2 h-1/2 inline-block float-right'>
+      <div class="menu-child bg-cyan-700 block drop-shadow-xl">
+        <%= link_to (t '.input_address'), search_departure_input_path, class: 'button-in-menu' %>
+      </div>
+    </div>
+
+    <div class='w-1/2 h-1/2 inline-block'>
+      <div class="menu-child bg-cyan-700 block drop-shadow-xl">
+        <%= link_to (t '.select_saved_departures'), search_departure_saved_path, class: 'button-in-menu' %>
+      </div>
+    </div>
+
+    <div class='w-1/2 h-1/2 inline-block float-right'>
+      <div class="menu-child bg-cyan-700 block drop-shadow-xl">
+        <%= link_to (t '.select_departure_histories'), search_departure_histories_path, class: 'button-in-menu' %>
+      </div>
+    </div>
+  </div>
+
+  <%= form_with model: @search_departure, url: search_departure_from_current_location_path, class: 'hidden' do |f| %>
+    <%= f.hidden_field :latitude, id: 'js-get-latitude' %>
+    <%= f.hidden_field :longitude, id: 'js-get-longitude' %>
+    <%= f.submit id: 'js-location-submit' %>
+  <% end %>
+</div>

@@ -1,7 +1,12 @@
 yahoo:
   appid: <%= Rails.application.credentials.yahoo[:appid] %>
+  local_search_url: 'https://map.yahooapis.jp/search/local/V1/localSearch?appid=<%= Rails.application.credentials.yahoo[:appid] %>&sort=-geo&output=json&results=7&group=gid&'
 mapbox:
   forward_url_front:  'https://api.mapbox.com/search/v1/forward/'
   forward_url_rear:  '?country=JP&language=ja&limit=1&access_token=<%= Rails.application.credentials.mapbox[:access_token] %>'
   reverse_url_front: 'https://api.mapbox.com/search/v1/reverse/'
   reverse_url_rear: '?language=ja&access_token=<%= Rails.application.credentials.mapbox[:access_token] %>'
+  matrix_url_front: 'https://api.mapbox.com/directions-matrix/v1/mapbox/walking/'
+  matrix_url_rear: '?sources=0&destinations=all&annotations=distance&access_token=<%= Rails.application.credentials.mapbox[:access_token] %>'
+google:
+  map_url: 'https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials.google[:key] %>&callback=initMap'

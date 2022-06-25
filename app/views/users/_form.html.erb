@@ -1,25 +1,25 @@
 <%= form_with model: user, class: "contents" do |f| %>
   <div class="my-5">
     <%= f.label :name %>
-    <%= f.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= f.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", required: true %>
     <%= render partial: 'shared/error_message', collection: user.errors.full_messages_for(:name) %>
   </div>
 
   <div class="my-5">
     <%= f.label :email %>
-    <%= f.email_field :email, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= f.email_field :email, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", required: true %>
     <%= render partial: 'shared/error_message', collection: user.errors.full_messages_for(:email) %>
   </div>
 
   <div class="my-5">
     <%= f.label :password %>
-    <%= f.password_field :password, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= f.password_field :password, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", required: true %>
     <%= render partial: 'shared/error_message', collection: user.errors.full_messages_for(:password) %>
   </div>
 
   <div class="my-5">
     <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= f.password_field :password_confirmation, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", required: true %>
     <%= render partial: 'shared/error_message', collection: user.errors.full_messages_for(:password_confirmation) %>
   </div>
 

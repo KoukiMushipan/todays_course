@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  getLoction() {
+  getLocation() {
     const success = (position) => {
       document.getElementById('js-get-latitude').value = position.coords.latitude
       document.getElementById('js-get-longitude').value = position.coords.longitude

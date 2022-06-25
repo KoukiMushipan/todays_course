@@ -1,0 +1,8 @@
+<p class='text-lg'><%= t '.select' %></p>
+
+<div id="map" class='shadow-2xl'></div>
+
+<%= include_gon %>
+
+<%= javascript_include_tag 'show-map' %>
+<%= javascript_include_tag Settings.google.map_url, async: 'async', defer: 'defer' %>

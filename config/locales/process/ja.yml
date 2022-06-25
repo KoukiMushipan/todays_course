@@ -1,0 +1,11 @@
+ja:
+  process:
+    get_current_location: '現在地取得'
+    failed_get_current_location: '現在地の取得に失敗しました'
+    failed_get_location: 'の取得に失敗しました'
+    failed_select_gc: 'は指定されたものから選択してください'
+    failed_search_recommendation: '指定した条件の場所は見つかりませんでした。'
+    failed_matrix: '目的地までの距離の算出に失敗しました。'
+  time:
+    formats:
+      for_reload: "%Y%m%d%H%M%S"

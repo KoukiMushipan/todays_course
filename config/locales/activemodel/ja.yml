@@ -1,0 +1,15 @@
+ja:
+  activemodel:
+    models:
+    attributes:
+      search/departure:
+        name: '場所名'
+        address: '住所'
+      search/term:
+        radius: '目的地までの距離'
+        gc: '目的地の種類'
+      search/destination:
+        name: '場所名'
+        address: '住所'
+        distance: '距離(往復)'
+        is_saved: '目的地を保存する'

@@ -13,3 +13,60 @@
  *= require_tree .
  *= require_self
  */
+
+#map {
+  height: 82vh;
+  border: ridge 16px #cccccc;
+}
+
+.menu {
+  height: 50vh;
+}
+
+.menu-child {
+  position: relative;
+  margin: 0 auto;
+  height: 90%;
+  width: 95%;
+  border-radius: 16px;
+  text-align: center;
+  border: outset 8px #3ba1bd;
+}
+
+.button-in-menu {
+  height: 100%;
+  width: 100%;
+  font-size: 28px;
+  font-weight: 500;
+  color: #f9fafb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.font-noto {
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+.under {
+  background: linear-gradient(transparent 50%, #fb923c 150%);
+  width: 96%;
+  border-top-left-radius: 60px;
+  border-top-right-radius: 60px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.header-border {
+  border-bottom: solid 4px #124e61;
+}
+
+/* デバッグ用 */
+
+.console-prompt-display {
+  font-size: 13pt;
+}
+
+.console {
+  height: 200px !important;
+}

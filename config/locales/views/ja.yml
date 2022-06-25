@@ -11,17 +11,29 @@ ja:
     new:
       title: 'ログイン'
       password_forget: 'パスワードをお忘れの方はこちら'
-  departures:
-    menu:
-      title: 出発地選択
-      get_current_location: '現在地取得'
-      input_address: '住所を入力する'
-      select_saved_departures: '保存済みの出発地から選択する'
-      select_departure_histories: '履歴から出発地を選択する'
-    input:
-      name: '場所名 (保存する場合は必須)'
-      address: '住所'
-      save: '保存します'
-      next: '次に進む'
-    saved:
-      start_here: 'ここから出発'
+  search:
+    departures:
+      menu:
+        title: '出発地'
+        get_current_location: '現在地取得'
+        input_address: '入力する'
+        select_saved_departures: '保存済み'
+        select_departure_histories: '履歴'
+      input_form:
+        save: '出発地を保存する'
+        next: '次に進む'
+      fix_form:
+        save: '出発地を保存する'
+        not_fix: 'そのまま進む'
+        fix: '編集して進む'
+      card:
+        start_here: 'ここから出発'
+    destinations:
+      terms_form:
+        description: '※ 1000m以上5000m以下、100m単位で指定してください'
+        search: '検索'
+      candidates:
+        select: 'ピンをタップして目的地を選んでください'
+  destinations:
+    new:
+      start: 'スタート画面へ'
