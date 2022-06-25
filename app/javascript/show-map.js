@@ -1,37 +1,30 @@
-let map;
-let departureMarker;
-let markers = [];
-let infoWindow = [];
-
-const departure = gon.searchInfo['departure']
-const radius = gon.searchInfo['radius']
-const recommendations = gon.searchInfo['recommendations'];
-
-function calcZoom(radius) {
-  let n = radius - 1000
-  if (radius == 0) {
-    return 14.2;
-  }
-  n = 14.2 - n / 100 * 0.06;
-  return Math.round(n * 10) / 10;
-}
-
 function initMap() {
-  let coordinates = { lat: departure['latitude'], lng: departure['longitude'] };
+  let markers = [];
+  let infoWindow = [];
+  const departure = gon.searchInfo['departure']
+  const radius = gon.searchInfo['radius']
+  const recommendations = gon.searchInfo['recommendations'];
+  const coordinates = { lat: departure['latitude'], lng: departure['longitude'] };
 
-  map = new google.maps.Map(document.getElementById('map'), {
+  function calcZoom(radius) {
+    let n = radius - 1000
+    n = 14.2 - n / 100 * 0.06;
+    return Math.round(n * 10) / 10;
+  }
+
+  const map = new google.maps.Map(document.getElementById('map'), {
     center: coordinates,
     zoom: calcZoom(radius)
   });
 
-  departureMarker = new google.maps.Marker({
+  const departureMarker = new google.maps.Marker({
     map: map,
     position: coordinates,
     icon: '/marker/marker-departure.png'
   });
 
   for (let i = 0; i < recommendations.length; i++) {
-    let markerCoordinates = new google.maps.LatLng({ lat: recommendations[i]['latitude'], lng: recommendations[i]['longitude'] });
+    const markerCoordinates = new google.maps.LatLng({ lat: recommendations[i]['latitude'], lng: recommendations[i]['longitude'] });
     markers[i] = new google.maps.Marker({
       position: markerCoordinates,
       map: map,
