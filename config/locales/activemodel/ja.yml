@@ -11,5 +11,5 @@ ja:
       search/destination:
         name: '場所名'
         address: '住所'
-        distance: '距離(往復)'
+        distance: '片道の距離(メートル)'
         is_saved: '目的地を保存する'
