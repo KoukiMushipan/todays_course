@@ -19,7 +19,9 @@ module ResponseApiMethods
     arr = []
     results['Feature'].each do |result|
       coordinates = result['Geometry']['Coordinates'].split(',')
-      arr << {name: result['Name'], address: result['Property']['Address'], latitude: coordinates[1], longitude: coordinates[0]}
+      edit_address = result['Property']['Address'].tr('０-９ａ-ｚＡ-Ｚ','0-9a-zA-Z')
+      edit_address = edit_address.gsub(/(?<=\d)[‐－―ー−](?=\d)/, "-")
+      arr << {name: result['Name'], address: edit_address, latitude: coordinates[1], longitude: coordinates[0]}
     end
     arr
   end

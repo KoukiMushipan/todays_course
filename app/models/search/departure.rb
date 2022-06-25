@@ -54,7 +54,7 @@ class Search::Departure
   end
 
   def create_departure_and_set
-    departure = Departure.create_departure_and_location(self)
+    departure = Departure.create_departure_and_location_by_search(self)
     self.attributes = departure.set_search_departure.attributes
   end
 

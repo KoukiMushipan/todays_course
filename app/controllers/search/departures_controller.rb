@@ -63,14 +63,16 @@ class Search::DeparturesController < ApplicationController
   end
 
   def set_session_search_departure
-    session[:departure] = @search_departure.attributes
+    session[:departure] = @search_departure.attributes.compact
   end
 
   def input_departure_params
-    params.require(:search_departure).permit(:name, :address, :is_saved).merge(user_id: current_user.id)
+    p = params.require(:search_departure).permit(:name, :address, :is_saved)
+    p.merge(user_id: current_user.id)
   end
 
   def get_current_location_params
-    params.require(:search_departure).permit(:latitude, :longitude)
+    p = params.require(:search_departure).permit(:latitude, :longitude).merge(user_id: current_user.id)
+    p.merge(user_id: current_user.id, is_saved: false)
   end
 end

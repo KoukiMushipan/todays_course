@@ -27,4 +27,19 @@ class Destination < ApplicationRecord
   belongs_to :user
   belongs_to :location, dependent: :destroy
   belongs_to :departure
+
+  def set_search_destination
+    Search::Destination.new(id: id, user_id: user_id, name: location.name, address: location.address,
+                          latitude: location.latitude, longitude: location.longitude,
+                          distance: distance, is_saved: is_saved)
+  end
+
+  def self.create_destination_by_params(destination_params, departure)
+    location_parameter = destination_params.slice(:name, :address, :latitude, :longitude)
+    location = Location.new(location_parameter)
+
+    destination_parameter = destination_params.slice(:user_id, :distance, :is_saved)
+    marge_params = destination_params.merge(location: location, departure: @departure)
+    create!(marge_params)
+  end
 end

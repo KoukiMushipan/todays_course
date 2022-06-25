@@ -18,4 +18,10 @@ class Location < ApplicationRecord
   validates :latitude, presence: true
   validates :longitude, presence: true
   validates :address, presence: true
+
+  def address=(param)
+    edit_address  = param.tr('０-９ａ-ｚＡ-Ｚ','0-9a-zA-Z')
+    edit_address = edit_address.gsub(/(?<=\d)[‐－―ー−](?=\d)/, "-")
+    write_attribute(:address, edit_address)
+  end
 end

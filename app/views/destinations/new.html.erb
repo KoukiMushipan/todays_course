@@ -3,22 +3,25 @@
 <div id='map'></div>
 
 <turbo-frame id="destination-form">
-<%= form_with model: @destination, url: destinations_path, class: "contents" do |f| %>
+<%= form_with model: @search_destination, url: destinations_path, class: "contents" do |f| %>
   <div class="my-5">
-    <%= f.label :name, (t 'defaults.place_name') %>
+    <%= f.label :name %>
     <%= f.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= render partial: 'shared/error_message', collection: @search_destination.errors.full_messages_for(:name) %>
   </div>
   <div class="my-5">
-    <%= f.label :address, (t 'defaults.address') %>
+    <%= f.label :address %>
     <%= f.text_field :address, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= render partial: 'shared/error_message', collection: @search_destination.errors.full_messages_for(:address) %>
   </div>
   <div class="my-5">
-    <%= f.label :distance, (t '.distance') %>
+    <%= f.label :distance %>
     <%= f.number_field :distance, id: 'js-get-distance', class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= render partial: 'shared/error_message', collection: @search_destination.errors.full_messages_for(:distance) %>
   </div>
   <div class="my-5">
     <%= f.check_box :is_saved, class: "shadow rounded-md border border-gray-200 px-3.5 py-1 inline mr-3" %>
-    <%= f.label :is_saved, (t '.save') %>
+    <%= f.label :is_saved %>
   </div>
   <%= f.hidden_field :latitude %>
   <%= f.hidden_field :longitude %>
