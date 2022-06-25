@@ -6,21 +6,21 @@
 <%= form_with model: @search_destination, url: destinations_path, class: "contents" do |f| %>
   <div class="my-5">
     <%= f.label :name %>
-    <%= f.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= f.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full bg-teal-50" %>
     <%= render partial: 'shared/error_message', collection: @search_destination.errors.full_messages_for(:name) %>
   </div>
   <div class="my-5">
     <%= f.label :address %>
-    <%= f.text_field :address, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= f.text_field :address, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full bg-teal-50" %>
     <%= render partial: 'shared/error_message', collection: @search_destination.errors.full_messages_for(:address) %>
   </div>
   <div class="my-5">
     <%= f.label :distance %>
-    <%= f.number_field :distance, id: 'js-get-distance', class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= f.number_field :distance, id: 'js-get-distance', class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full bg-teal-50" %>
     <%= render partial: 'shared/error_message', collection: @search_destination.errors.full_messages_for(:distance) %>
   </div>
   <div class="my-5">
-    <%= f.check_box :is_saved, class: "shadow rounded-md border border-gray-200 px-3.5 py-1 inline mr-3" %>
+    <%= f.check_box :is_saved, class: "shadow rounded-md border border-gray-200 px-3.5 py-1 inline mr-3 bg-teal-50" %>
     <%= f.label :is_saved %>
   </div>
   <%= f.hidden_field :latitude %>

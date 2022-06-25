@@ -1,19 +1,22 @@
 <turbo-stream action="replace" target="destination-form">
   <template>
     <div class="text-center">
-      <div class="p-4 w-full rounded-lg border shadow-md sm:p-8 mt-5 mb-4 bg-cyan-50">
+      <div class="p-4 w-full rounded-lg border shadow-md sm:p-8 mt-5 mb-4 font-noto bg-cyan-50">
         <h5 class="mb-2 text-3xl font-bold text-gray-900 break-words"><%= @search_departure.name %></h5>
         <p class="mb-2 text-base text-gray-600 sm:text-lg"><%= @search_departure.address %></p>
       </div>
 
-      <div class="p-4 w-full rounded-lg border shadow-md sm:p-8 mb-4 bg-teal-50">
+      <div class="p-4 w-full rounded-lg border shadow-md sm:p-8 mb-4 font-noto bg-teal-50">
         <h5 class="mb-2 text-3xl font-bold text-gray-900 break-words"><%= @search_destination.name %></h5>
         <p class="mb-2 text-base text-gray-600 sm:text-lg"><%= @search_destination.address %></p>
       </div>
 
-      <%= link_to 'スタート', '#',
+      <%= link_to 'スタート(片道)', '#',
       data: { turbo_method: :post },
-      class: 'w-full sm:w-1/2 bg-orange-500 text-white rounded-lg inline-flex items-center justify-center px-4 py-3.5 font-semibold drop-shadow-lg' %>
+      class: 'w-full sm:w-2/5 bg-orange-500 text-white rounded-lg inline-flex items-center justify-center px-4 py-3.5 font-semibold drop-shadow-lg sm:mr-2' %>
+      <%= link_to 'スタート(往復)', '#',
+      data: { turbo_method: :post },
+      class: 'w-full sm:w-2/5 bg-orange-600 text-white rounded-lg inline-flex items-center justify-center px-4 py-3.5 font-semibold drop-shadow-lg mb-8 mt-4 sm:mt-0 sm:ml-2' %>
     </div>
   </template>
 </turbo-stream>
