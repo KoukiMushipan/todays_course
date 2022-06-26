@@ -40,3 +40,10 @@ ja:
     before_start:
       start_one_way: 'スタート(片道)'
       start_round_trip: 'スタート(往復)'
+    create:
+      start: 'スタート: '
+      moving_distance: "移動距離: %{distance}m"
+      goal: 'ゴール'
+    goal:
+      goal: 'ゴール: '
+      time: '経過時間: %{time}分'

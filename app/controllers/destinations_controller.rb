@@ -9,7 +9,6 @@ class DestinationsController < ApplicationController
   end
 
   def create
-    debugger
     @search_departure = Search::Departure.new(session[:departure])
     @search_destination = Search::Destination.new(search_destination_params)
     return render :new, status: :unprocessable_entity unless @search_destination.valid?
