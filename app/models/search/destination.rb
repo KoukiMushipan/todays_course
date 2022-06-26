@@ -9,4 +9,15 @@ class Search::Destination
     new(name: recommendation['name'], address: recommendation['address'], latitude: recommendation['latitude'], longitude: recommendation['longitude'])
   end
 
+  def make_hash_for_location
+    if name.blank?
+      {address: address, latitude: latitude, longitude: longitude}
+    else
+      {name: name, address: address, latitude: latitude, longitude: longitude}
+    end
+  end
+
+  def make_hash_for_destination
+    {distance: distance, is_saved: is_saved}
+  end
 end

@@ -20,7 +20,8 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Departure < ApplicationRecord
-  has_many :destinations
+  has_many :destinations, dependent: :destroy
+  has_many :histories, through: :destinations
   belongs_to :user
   belongs_to :location, dependent: :destroy
 
@@ -36,19 +37,19 @@ class Departure < ApplicationRecord
 
   def self.create_departure_and_location_by_search(search_departure)
     user = User.find(search_departure.user_id)
-    location = Location.new(search_departure.make_hash_for_location)
+    location_parameter = search_departure.make_hash_for_location
+    location = Location.new(location_parameter)
     user.departures.create!(location: location, is_saved: search_departure.is_saved)
   end
 
-  def self.set_or_create_by_session(session_departure)
-    id = session_departure['id']
-    user = User.find(session_departure['user_id'])
-    if id
-      user.departures.find(id)
+  def self.set_or_new_departure_by_search(search_departure)
+    user = User.find(search_departure.user_id)
+    if search_departure.id
+      user.departures.find(search_departure.id)
     else
-      location_parameter = session_departure.slice('name', 'address', 'latitude', 'longitude')
+      location_parameter = search_departure.make_hash_for_location
       location = Location.new(location_parameter)
-      user.departures.create!(location: location, is_saved: session_departure['is_saved'])
+      user.departures.new(location: location, is_saved: search_departure.is_saved)
     end
   end
 end

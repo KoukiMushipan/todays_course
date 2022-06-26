@@ -5,6 +5,7 @@ ja:
       search/departure:
         name: '場所名'
         address: '住所'
+        is_saved: '出発地を保存する'
       search/term:
         radius: '目的地までの距離'
         gc: '目的地の種類'

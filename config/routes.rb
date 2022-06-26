@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   delete 'logout', to: 'user_sessions#destroy'
 
   resources :destinations, only: [:new, :create]
+  resources :histories, only: [:new, :create]
 
   namespace :search do
     scope :departure, as: 'departure' do

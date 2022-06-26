@@ -24,6 +24,7 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Destination < ApplicationRecord
+  has_many :histories, dependent: :destroy
   belongs_to :user
   belongs_to :location, dependent: :destroy
   belongs_to :departure
@@ -34,12 +35,27 @@ class Destination < ApplicationRecord
                           distance: distance, is_saved: is_saved)
   end
 
-  def self.create_destination_by_params(destination_params, departure)
-    location_parameter = destination_params.slice(:name, :address, :latitude, :longitude)
+  def self.create_destination_by_search(search_destination, departure)
+    location_parameter = search_destination.make_hash_for_location
     location = Location.new(location_parameter)
 
-    destination_parameter = destination_params.slice(:user_id, :distance, :is_saved)
-    marge_params = destination_params.merge(location: location, departure: @departure)
-    create!(marge_params)
+    user = User.find(search_destination.user_id)
+    destination_parameter = search_destination.make_hash_for_destination
+    marge_params = destination_parameter.merge(location: location, departure: departure)
+    user.destinations.create!(marge_params)
+  end
+
+  def self.set_or_new_destination_by_search(search_destination, departure)
+    user = User.find(search_destination.user_id)
+    if search_destination.id
+      user.destinations.find(search_destination.id)
+    else
+      location_parameter = search_destination.make_hash_for_location
+      location = Location.new(location_parameter)
+
+      destination_parameter = search_destination.make_hash_for_destination
+      marge_params = destination_parameter.merge(location: location, departure: departure)
+      user.destinations.new(marge_params)
+    end
   end
 end

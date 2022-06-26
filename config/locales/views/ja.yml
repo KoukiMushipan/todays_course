@@ -20,7 +20,6 @@ ja:
         select_saved_departures: '保存済み'
         select_departure_histories: '履歴'
       input_form:
-        save: '出発地を保存する'
         next: '次に進む'
       fix_form:
         save: '出発地を保存する'
@@ -35,5 +34,9 @@ ja:
       candidates:
         select: 'ピンをタップして目的地を選んでください'
   destinations:
-    new:
+    form:
       start: 'スタート画面へ'
+  histories:
+    before_start:
+      start_one_way: 'スタート(片道)'
+      start_round_trip: 'スタート(往復)'
