@@ -1,3 +1,10 @@
+<div class="text-center">
+  <div class="p-4 w-full rounded-lg border shadow-md sm:p-8 mt-5 mb-4 font-noto bg-cyan-50">
+    <h5 class="mb-2 text-3xl font-bold text-gray-900 break-words"><%= @search_departure.name %></h5>
+    <p class="mb-2 text-base text-gray-600 sm:text-lg"><%= @search_departure.address %></p>
+  </div>
+</div>
+
 <%= render partial: 'shared/error_message', collection: @search_term.errors.full_messages_for(:base) %>
 <%= render 'shared/error_message', error_message: @error_message if @error_message %>
 <%= render 'terms_form', search_term: @search_term %>

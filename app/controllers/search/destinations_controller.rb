@@ -1,6 +1,7 @@
 class Search::DestinationsController < ApplicationController
   def terms
     @search_term = Search::Term.new
+    @search_departure = Search::Departure.new(session[:departure])
   end
 
   def ready_recommend

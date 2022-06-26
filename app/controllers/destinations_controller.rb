@@ -9,6 +9,7 @@ class DestinationsController < ApplicationController
   end
 
   def create
+    debugger
     @search_departure = Search::Departure.new(session[:departure])
     @search_destination = Search::Destination.new(search_destination_params)
     return render :new, status: :unprocessable_entity unless @search_destination.valid?
@@ -27,7 +28,8 @@ class DestinationsController < ApplicationController
   private
 
   def search_destination_params
-    p = params.require(:search_destination).permit(:name, :address, :latitude, :longitude, :distance, :is_saved)
-    p.merge(user_id: current_user.id)
+    p = params.require(:search_destination).permit(:name, :distance, :is_saved)
+    session_destiantion = session[:destination].slice('address', 'latitude', 'longitude')
+    p.merge(user_id: current_user.id).merge(session_destiantion)
   end
 end
