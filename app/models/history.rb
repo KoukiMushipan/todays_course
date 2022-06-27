@@ -26,6 +26,11 @@ class History < ApplicationRecord
   belongs_to :destination
   has_one :departure, through: :destination
 
+  scope :having_end_time, -> { where.not(end_time: nil) }
+  scope :place_info, -> { includes([destination: :location, departure: :location]) }
+  scope :recent, -> { order(start_time: :desc)}
+  scope :for_index, -> { having_end_time.place_info.recent }
+
   def self.set_or_create_place_and_create_history(session_departure, session_destination, course)
     search_departure = Search::Departure.new(session_departure)
     search_destination = Search::Destination.new(session_destination)

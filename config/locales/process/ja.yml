@@ -9,3 +9,5 @@ ja:
   time:
     formats:
       for_reload: "%Y%m%d%H%M%S"
+      for_history_start: "%m/%d %H:%M"
+      for_history_end: "%H:%M"

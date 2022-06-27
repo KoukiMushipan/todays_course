@@ -2,7 +2,7 @@
   <template>
     <div class="p-4 w-full rounded-lg border shadow-md sm:p-8 mb-4 font-noto bg-emerald-50">
       <h5 class="mb-2 text-3xl font-bold text-gray-900 break-words"><%= (t'.goal') + l(@history.end_time, format: :short) %></h5>
-      <p class="mb-2 text-base text-gray-600 sm:text-lg"><%= (t'.time', time: @history.decorate.calc_time %></p>
+      <p class="mb-2 text-base text-gray-600 sm:text-lg"><%= (t'.time', time: @history.decorate.calc_time) %></p>
     </div>
 
     <%= link_to 'ユーザーページに戻る', '#',

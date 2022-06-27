@@ -37,6 +37,8 @@ ja:
     form:
       start: 'スタート画面へ'
   histories:
+    index:
+      delete_confirm: '削除してもよろしいですか？'
     before_start:
       start_one_way: 'スタート(片道)'
       start_round_trip: 'スタート(往復)'
