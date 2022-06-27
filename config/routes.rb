@@ -25,9 +25,10 @@ Rails.application.routes.draw do
       post 'from_input', to: 'departures#from_input'
       post 'from_fix', to: 'departures#from_fix'
     end
-
-    get 'terms', to: 'destinations#terms'
-    get 'candidates', to: 'destinations#candidates'
-    post 'ready_recommend', to: 'destinations#ready_recommend'
+    scope :destination, as: 'destination' do
+      get 'terms', to: 'destinations#terms'
+      get 'candidates', to: 'destinations#candidates'
+      post 'ready_recommend', to: 'destinations#ready_recommend'
+    end
   end
 end

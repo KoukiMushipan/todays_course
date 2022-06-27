@@ -31,7 +31,7 @@ class Search::DeparturesController < ApplicationController
     departure = Departure.find(params[:id])
     @search_departure = departure.set_search_departure
 
-    redirect_to search_terms_path
+    redirect_to search_destination_terms_path
   end
 
   def from_input
@@ -42,7 +42,7 @@ class Search::DeparturesController < ApplicationController
     @search_departure.set_coordinates_and_address(result)
     @search_departure.create_departure_and_set if @search_departure.is_saved
 
-    redirect_to search_terms_path
+    redirect_to search_destination_terms_path
   end
 
   def from_fix
@@ -53,7 +53,7 @@ class Search::DeparturesController < ApplicationController
     @search_departure.set_coordinates_and_address(result)
     @search_departure.create_departure_and_set if @search_departure.is_saved
 
-    redirect_to search_terms_path
+    redirect_to search_destination_terms_path
   end
 
   private

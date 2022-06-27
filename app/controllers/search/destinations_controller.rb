@@ -10,7 +10,7 @@ class Search::DestinationsController < ApplicationController
 
     session[:terms] = @search_term.attributes
     q = l(Time.now, format: :for_reload)
-    redirect_to search_candidates_path(q)
+    redirect_to search_destination_candidates_path(q)
   end
 
   def candidates
