@@ -1,14 +1,12 @@
-<turbo-stream action="replace" target="start-button-field">
-  <template>
-    <div class="p-4 w-full rounded-lg border shadow-md sm:p-8 mb-4 font-noto bg-sky-50">
-      <h5 class="mb-2 text-3xl font-bold text-gray-900 break-words"><%= (t'.start') + l(@history.start_time, format: :short) %></h5>
-      <p class="mb-2 text-base text-gray-600 sm:text-lg"><%= (t'.moving_distance', distance: @history.moving_distance) %></p>
-    </div>
+<%= turbo_stream.replace 'start-button-field' do %>
+  <div class="p-4 w-full rounded-lg border shadow-md sm:p-8 mb-4 font-noto bg-sky-50">
+    <h5 class="mb-2 text-3xl font-bold text-gray-900 break-words"><%= (t'.start') + l(@history.start_time, format: :short) %></h5>
+    <p class="mb-2 text-base text-gray-600 sm:text-lg"><%= (t'.moving_distance', distance: @history.moving_distance) %></p>
+  </div>
 
-    <turbo-frame id="goal-button-field">
-      <%= link_to (t'.goal'), goal_history_path(@history),
-      data: { turbo_method: :post },
-      class: 'w-full sm:w-2/5 bg-orange-600 text-white rounded-lg inline-flex items-center justify-center px-4 py-3.5 font-semibold drop-shadow-lg mb-8 mt-4 sm:mt-0 sm:ml-2' %>
-    </turbo-frame>
-  </template>
-</turbo-stream>
+  <%= turbo_frame_tag 'goal-button-field' do %>
+    <%= link_to (t'.goal'), goal_history_path(@history),
+    data: { turbo_method: :post },
+    class: 'w-full sm:w-2/5 bg-orange-600 text-white rounded-lg inline-flex items-center justify-center px-4 py-3.5 font-semibold drop-shadow-lg mb-8 mt-4 sm:mt-0 sm:ml-2' %>
+  <% end %>
+<% end %>

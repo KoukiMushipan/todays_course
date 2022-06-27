@@ -1,10 +1,9 @@
 <p id='js-show-distance' class='text-lg '></p>
 
 <div id='map'></div>
-
-<turbo-frame id="destination-form">
+<%= turbo_frame_tag 'destination-form' do %>
   <%= render 'form', search_destination: @search_destination %>
-</turbo-frame>
+<% end %>
 
 <%= include_gon %>
 

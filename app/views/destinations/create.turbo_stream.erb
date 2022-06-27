@@ -1,5 +1,3 @@
-<turbo-stream action="replace" target="destination-form">
-  <template>
-    <%= render 'histories/before_start', { departure: @search_departure, destination: @search_destination } %>
-  </template>
-</turbo-stream>
+<%= turbo_stream.replace 'destination-form' do %>
+  <%= render 'histories/before_start', { departure: @search_departure, destination: @search_destination } %>
+<% end %>
