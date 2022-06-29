@@ -8,15 +8,7 @@ class Search::Term
   attribute :gc, :string
 
   validates :radius, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1000, less_than_or_equal_to: 5000}
-  validates :gc, presence: true
-  validate :have_gc?
-
-  def have_gc?
-    unless Settings.yahoo.gc.to_h.values.include?(gc)
-      error_message = I18n.t('process.failed_select_gc')
-      errors.add(:gc, error_message)
-    end
-  end
+  validates :gc, presence: true, inclusion: { in: Settings.yahoo.gc.to_h.values }
 
   def request_local_search(departure)
     url = create_local_search_url(departure)

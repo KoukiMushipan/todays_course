@@ -15,6 +15,9 @@ ja:
         longitude: '経度'
       departure:
         is_saved: '保存済み'
+      destination:
+        distance: '片道の距離'
+        is_saved: '保存済み'
       history:
         start_time: '開始時刻'
         end_time: '終了時刻'

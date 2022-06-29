@@ -29,6 +29,9 @@ class Destination < ApplicationRecord
   belongs_to :location, dependent: :destroy
   belongs_to :departure
 
+  validates :distance, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 21097}
+  validates :is_saved, inclusion: { in: [true, false] }
+
   def set_search_destination
     Search::Destination.new(id: id, user_id: user_id, name: location.name, address: location.address,
                           latitude: location.latitude, longitude: location.longitude,
