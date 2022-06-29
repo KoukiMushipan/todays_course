@@ -16,13 +16,10 @@ class Search::DestinationsController < ApplicationController
   def candidates
     @search_term = Search::Term.new(session[:terms])
     results = @search_term.request_local_search(session[:departure])
-    return render :terms, status: :unprocessable_entity unless results
+    return redirect_to search_destination_terms_path, alert: t('process.failed_search_recommendation') unless results
 
     recommendations = Search::Recommend.create_recommendations(results,  @search_term.radius)
-    unless recommendations
-      @error_message = t('process.failed_matrix')
-      return render :terms, status: :unprocessable_entity
-    end
+    redirect_to search_destination_terms_path, alert: t('process.failed_matrix') unless recommendations
 
     session[:recommendations] = recommendations
     gon.searchInfo = {departure: session[:departure], radius: session[:terms]['radius'], recommendations: session[:recommendations]}

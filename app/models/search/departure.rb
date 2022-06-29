@@ -10,22 +10,14 @@ class Search::Departure
   def request_reverse_geocoder
     url = create_reverse_geocoder_url
     result = request_api(url)
-    unless normal_geocoder_result?(result)
-      error_message = I18n.t('process.failed_get_current_location')
-      errors.add(:base, error_message)
-      result = false
-    end
+    return false unless normal_geocoder_result?(result)
     result
   end
 
   def request_geocoder
     url = create_geocoder_url
     result = request_api(url)
-    unless normal_geocoder_result?(result)
-      error_message = I18n.t('process.failed_get_location')
-      errors.add(:address, error_message)
-      result = false
-    end
+    return false unless normal_geocoder_result?(result)
     result
   end
 

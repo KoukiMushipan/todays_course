@@ -1,9 +1,4 @@
 <div>
-  <% if @error_message %>
-    <h1 class="text-red-600 font-medium text-xl mt-5 ml-3"><%= @error_message %></h2>
-  <% end %>
-  <%= render partial: 'shared/error_message', collection: @search_departure.errors.full_messages_for(:base) %>
-
   <h1 class="text-3xl mb-3 ml-3 text-gray-700 font-noto under"><%= t '.title' %></h1>
 
   <div class='menu'>

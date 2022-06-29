@@ -1,0 +1,11 @@
+<%= turbo_frame_tag 'flash' do %>
+  <% if flash[:notice] %>
+    <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3">
+      <p class="font-bold"><%= notice %></p>
+    </div>
+  <% elsif flash[:alert] %>
+    <div class="bg-red-100 border-t border-b border-red-500 text-red-700 px-4 py-3">
+      <p class="font-bold"><%= alert %></p>
+    </div>
+  <% end %>
+<% end %>

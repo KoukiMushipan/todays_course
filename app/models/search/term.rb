@@ -25,8 +25,6 @@ class Search::Term
       results[:departure] = departure.compact
       results
     else
-      error_message = I18n.t('process.failed_search_recommendation')
-      errors.add(:base, error_message)
       false
     end
   end
