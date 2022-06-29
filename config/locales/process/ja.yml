@@ -8,6 +8,5 @@ ja:
     failed_matrix: '目的地までの距離の算出に失敗しました。'
   time:
     formats:
-      for_reload: "%Y%m%d%H%M%S"
       for_history_start: "%m/%d %H:%M"
       for_history_end: "%H:%M"

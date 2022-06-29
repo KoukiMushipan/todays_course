@@ -6,30 +6,42 @@
 
   <h1 class="text-3xl mb-3 ml-3 text-gray-700 font-noto under"><%= t '.title' %></h1>
 
-  <div class='menu font-noto'>
+  <div class='menu'>
     <div data-controller="location" class='w-1/2 h-1/2 inline-block'>
       <div class="menu-child bg-cyan-700 block drop-shadow-xl">
-        <%= link_to (t '.get_current_location'), '#',
+        <%= link_to '#',
         data: { action: 'click->location#getLocation' },
-        class: 'button-in-menu' %>
+        class: 'button-in-menu' do %>
+          <%= fa_icon "map-pin 3x", class: 'text-orange-400' %>
+          <p class='button-description'><%= t '.get_current_location' %></p>
+        <% end %>
       </div>
     </div>
 
     <div class='w-1/2 h-1/2 inline-block float-right'>
       <div class="menu-child bg-cyan-700 block drop-shadow-xl">
-        <%= link_to (t '.input_address'), search_departure_input_path, class: 'button-in-menu' %>
+        <%= link_to search_departure_input_path, class: 'button-in-menu' do %>
+          <%= fa_icon "pencil-square-o 3x", class: 'text-gray-300 left-5per' %>
+          <p class='button-description'><%= t '.input_address' %></p>
+        <% end %>
       </div>
     </div>
 
     <div class='w-1/2 h-1/2 inline-block'>
       <div class="menu-child bg-cyan-700 block drop-shadow-xl">
-        <%= link_to (t '.select_saved_departures'), search_departure_saved_path, class: 'button-in-menu' %>
+        <%= link_to search_departure_saved_path, class: 'button-in-menu' do %>
+          <%= fa_icon "folder-open 3x", class: 'text-sky-400' %>
+          <p class='button-description'><%= t '.select_saved_departures' %></p>
+        <% end %>
       </div>
     </div>
 
     <div class='w-1/2 h-1/2 inline-block float-right'>
       <div class="menu-child bg-cyan-700 block drop-shadow-xl">
-        <%= link_to (t '.select_departure_histories'), search_departure_histories_path, class: 'button-in-menu' %>
+        <%= link_to search_departure_histories_path, class: 'button-in-menu' do %>
+          <%= fa_icon "history 3x", class: 'text-gray-400' %>
+          <p class='button-description'><%= t '.select_departure_histories' %></p>
+        <% end %>
       </div>
     </div>
   </div>

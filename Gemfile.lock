@@ -169,6 +169,8 @@ GEM
       faraday-net_http (~> 2.0)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (2.0.3)
+    font-awesome-rails (4.7.0.8)
+      railties (>= 3.2, < 8.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
     gon (6.4.0)
@@ -402,6 +404,7 @@ DEPENDENCIES
   enum_help
   factory_bot_rails
   faker
+  font-awesome-rails
   gon
   importmap-rails
   letter_opener_web
