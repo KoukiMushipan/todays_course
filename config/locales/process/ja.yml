@@ -4,9 +4,11 @@ ja:
     failed_get_current_location: '現在地の取得に失敗しました'
     failed_get_location: '住所の取得に失敗しました'
     failed_select_gc: 'は指定されたものから選択してください'
-    failed_search_recommendation: '指定した条件の場所は見つかりませんでした。'
-    failed_matrix: '目的地までの距離の算出に失敗しました。'
+    failed_search_recommendation: '指定した条件の場所は見つかりませんでした'
+    failed_matrix: '目的地までの距離の算出に失敗しました'
     failed_login: 'メールアドレス、もしくはパスワードが間違っています'
+    end_time_presence: 'を入力してください'
+    start_end_check: 'は開始時刻より遅い時間を選択してください'
   time:
     formats:
       for_history_start: "%m/%d %H:%M"

@@ -26,10 +26,37 @@ class History < ApplicationRecord
   belongs_to :destination
   has_one :departure, through: :destination
 
+  validates :start_time, presence: true
+  validates :moving_distance, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 42195}
+
   scope :having_end_time, -> { where.not(end_time: nil) }
   scope :place_info, -> { includes([destination: :location, departure: :location]) }
   scope :recent, -> { order(start_time: :desc)}
   scope :for_index, -> { having_end_time.place_info.recent }
+
+  def time_validates
+    if end_time_presence
+      return start_end_check
+    end
+  end
+
+  def start_end_check
+    if start_time < end_time
+      true
+    else
+      errors.add(:end_time, I18n.t('process.start_end_check'))
+      false
+    end
+  end
+
+  def end_time_presence
+    if end_time.present?
+      true
+    else
+      errors.add(:end_time, I18n.t('process.end_time_presence'))
+      false
+    end
+  end
 
   def self.set_or_create_place_and_create_history(session_departure, session_destination, course)
     search_departure = Search::Departure.new(session_departure)
