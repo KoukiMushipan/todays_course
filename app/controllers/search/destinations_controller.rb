@@ -1,7 +1,8 @@
 class Search::DestinationsController < ApplicationController
+  before_action :set_search_departure, only: %i[terms ready_recommend]
+
   def terms
     @search_term = Search::Term.new
-    @search_departure = Search::Departure.new(session[:departure])
   end
 
   def ready_recommend
@@ -29,5 +30,9 @@ class Search::DestinationsController < ApplicationController
 
   def search_term_params
     params.require(:search_term).permit(:radius, :gc)
+  end
+
+  def set_search_departure
+    @search_departure = Search::Departure.new(session[:departure])
   end
 end
