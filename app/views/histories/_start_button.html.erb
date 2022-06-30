@@ -1,0 +1,10 @@
+<div class="text-center">
+  <%= turbo_frame_tag 'start-button-field' do %>
+    <%= link_to (t '.start_one_way'), histories_path(course: 'one_way'),
+    data: { turbo_method: :post },
+    class: 'w-full sm:w-2/5 bg-orange-500 text-white rounded-lg inline-flex items-center justify-center px-4 py-3.5 font-semibold drop-shadow-lg sm:mr-2' %>
+    <%= link_to (t '.start_round_trip'), histories_path(course: 'round_trip'),
+    data: { turbo_method: :post },
+    class: 'w-full sm:w-2/5 bg-orange-600 text-white rounded-lg inline-flex items-center justify-center px-4 py-3.5 font-semibold drop-shadow-lg mb-8 mt-4 sm:mt-0 sm:ml-2' %>
+  <% end %>
+</div>

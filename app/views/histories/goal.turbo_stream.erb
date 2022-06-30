@@ -1,9 +1,3 @@
 <%= turbo_stream.replace 'goal-button-field' do %>
-  <div class="p-4 w-full rounded-lg border shadow-md sm:p-8 mb-4 font-noto bg-emerald-50">
-    <h5 class="mb-2 text-3xl font-bold text-gray-900 break-words"><%= (t'.goal') + l(@history.end_time, format: :short) %></h5>
-    <p class="mb-2 text-base text-gray-600 sm:text-lg"><%= (t'.time', time: @history.decorate.calc_time) %></p>
-  </div>
-
-  <%= link_to 'ユーザーページに戻る', '#',
-  class: 'w-full sm:w-2/5 bg-orange-600 text-white rounded-lg inline-flex items-center justify-center px-4 py-3.5 font-semibold drop-shadow-lg mb-8 mt-4 sm:mt-0 sm:ml-2' %>
+  <%= render 'goal_info_and_back_button', history: @history %>
 <% end %>

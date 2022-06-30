@@ -4,6 +4,10 @@ ja:
     login: 'ログイン'
     register: '新規登録'
     logout: 'ログアウト'
+  shared:
+    not_yet_goal:
+      not_yet_goal_announce: 'まだゴールしていないものがあります'
+      this: 'こちら'
   users:
     new:
       title: '新規登録'
@@ -39,15 +43,17 @@ ja:
   histories:
     history:
       delete_confirm: '削除してもよろしいですか？'
-    before_start:
+    start_button:
       start_one_way: 'スタート(片道)'
       start_round_trip: 'スタート(往復)'
-    create:
+    start_info:
       start: 'スタート: '
       moving_distance: "移動距離: %{distance}m"
+    goal_button:
       goal: 'ゴール'
     update:
       success: '更新しました'
-    goal:
+    goal_info_and_back_button:
       goal: 'ゴール: '
       time: '経過時間: %{time}分'
+      back: 'ユーザーページに戻る'

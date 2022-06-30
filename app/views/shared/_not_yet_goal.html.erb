@@ -1,0 +1,5 @@
+<% if @not_yet_goal %>
+  <div class="bg-orange-100 border-t border-b border-orange-500 text-orange-700 px-4 py-3">
+    <p><%= t '.not_yet_goal_announce' %><%= link_to (t '.this'), history_path(@not_yet_goal), class: 'font-semibold underline ml-4' %></p>
+  </div>
+<% end %>

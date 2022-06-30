@@ -32,6 +32,7 @@ class History < ApplicationRecord
   scope :having_end_time, -> { where.not(end_time: nil) }
   scope :place_info, -> { includes([destination: :location, departure: :location]) }
   scope :recent, -> { order(start_time: :desc)}
+  scope :not_yet_goal, -> { where(end_time: nil).recent }
   scope :for_index, -> { having_end_time.place_info.recent }
 
   def time_validates

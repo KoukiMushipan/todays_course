@@ -1,0 +1,18 @@
+<p id='js-show-distance' class='text-lg '></p>
+
+<div id='map'></div>
+
+<%= render 'shared/place_info', place: @search_departure %>
+<%= render 'shared/place_info', place: @search_destination %>
+<%= render 'start_info', history: @history %>
+
+<% if @history.end_time.present? %>
+  <%= render 'goal_info_and_back_button', history: @history %>
+<% else %>
+  <%= render 'goal_button', history: @history %>
+<% end %>
+
+<%= include_gon %>
+
+<%= javascript_include_tag 'show-route' %>
+<%= javascript_include_tag Settings.google.map_url, async: 'async', defer: 'defer' %>

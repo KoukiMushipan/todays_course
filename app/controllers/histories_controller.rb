@@ -1,4 +1,5 @@
 class HistoriesController < ApplicationController
+  before_action :set_history_by_params, only: %i[show edit update destroy goal set]
 
   def index
     @histories = current_user.histories.for_index
@@ -15,12 +16,16 @@ class HistoriesController < ApplicationController
     @history = History.set_or_create_place_and_create_history(session[:departure], session[:destination], params[:course])
   end
 
-  def edit
-    @history = current_user.histories.find(params[:id])
+  def show
+    @search_departure = @history.departure.set_search_departure
+    @search_destination = @history.destination.set_search_destination
+
+    gon.routeInfo = {departure: @search_departure.attributes, destination: @search_destination.attributes}
   end
 
+  def edit; end
+
   def update
-    @history = current_user.histories.find(params[:id])
     @history.attributes = history_params
     if @history.time_validates && @history.save
       redirect_to histories_path, notice: t('.success')
@@ -30,17 +35,14 @@ class HistoriesController < ApplicationController
   end
 
   def destroy
-    @history = current_user.histories.find(params[:id])
     @history.destroy!
   end
 
   def goal
-    @history = current_user.histories.find(params[:id])
     @history.update!(end_time: Time.now)
   end
 
   def set
-    @history = current_user.histories.find(params[:id])
     search_departure = @history.departure.set_search_departure
     search_destination = @history.destination.set_search_destination
 
@@ -53,5 +55,9 @@ class HistoriesController < ApplicationController
 
   def history_params
     params.require(:history).permit(:start_time, :end_time, :moving_distance)
+  end
+
+  def set_history_by_params
+    @history = current_user.histories.find(params[:id])
   end
 end
