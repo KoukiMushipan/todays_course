@@ -32,6 +32,11 @@ class Destination < ApplicationRecord
   validates :distance, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 21097}
   validates :is_saved, inclusion: { in: [true, false] }
 
+  scope :saved, -> { where(is_saved: true) }
+  scope :with_location, -> { includes(:location, departure: :location) }
+  scope :sorted, -> { order(created_at: :desc) }
+  scope :saved_list, -> { saved.with_location.sorted }
+
   def set_search_destination
     Search::Destination.new(id: id, user_id: user_id, name: location.name, address: location.address,
                           latitude: location.latitude, longitude: location.longitude,

@@ -1,5 +1,5 @@
 class HistoriesController < ApplicationController
-  before_action :set_history_by_params, only: %i[show edit update destroy goal set]
+  before_action :set_history, only: %i[show edit update destroy goal set]
 
   def index
     @histories = current_user.histories.for_index
@@ -36,6 +36,7 @@ class HistoriesController < ApplicationController
 
   def destroy
     @history.destroy!
+    render turbo_stream: turbo_stream.remove(@history), status: :see_other
   end
 
   def goal
@@ -57,7 +58,7 @@ class HistoriesController < ApplicationController
     params.require(:history).permit(:start_time, :end_time, :moving_distance)
   end
 
-  def set_history_by_params
+  def set_history
     @history = current_user.histories.find(params[:id])
   end
 end

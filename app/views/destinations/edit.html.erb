@@ -1,0 +1,22 @@
+<%= turbo_frame_tag @destination do %>
+  <div class="p-4 w-full rounded-lg border shadow-md sm:p-8 mb-4 bg-teal-50">
+    <div class="justify-center items-center">
+      <%= form_with model: @search_destination, url: destination_path(@destination), method: :patch, class: "contents" do |f| %>
+        <div class="my-5">
+          <%= f.label :name %>
+          <%= f.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", value: @search_destination.name %>
+          <%= render partial: 'shared/error_message', collection: @search_destination.errors.full_messages_for(:name) %>
+        </div>
+        <div class="my-5">
+          <%= f.label :distance %>
+          <%= f.number_field :distance, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", value: @search_destination.distance %>
+          <%= render partial: 'shared/error_message', collection: @search_destination.errors.full_messages_for(:distance) %>
+        </div>
+        <div class="text-right mb-5">
+          <%= link_to 'キャンセル', @destination, class: "rounded-lg mt-3 px-5 text-gray-700 font-normal cursor-pointer underline" %>
+          <%= f.submit (t '.update'), class: "rounded-lg py-2.5 px-5 bg-orange-600 text-white font-medium cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -29,7 +29,7 @@ ja:
         save: '出発地を保存する'
         not_fix: 'そのまま進む'
         fix: '編集して進む'
-      card:
+      departure:
         start_here: 'ここから出発'
     destinations:
       terms_form:
@@ -40,6 +40,10 @@ ja:
   destinations:
     form:
       start: 'スタート画面へ'
+    destination:
+      delete_confirm: '削除してもよろしいですか？'
+    edit:
+      update: '更新'
   histories:
     history:
       delete_confirm: '削除してもよろしいですか？'
