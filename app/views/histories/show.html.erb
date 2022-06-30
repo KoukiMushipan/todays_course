@@ -2,8 +2,8 @@
 
 <div id='map'></div>
 
-<%= render 'shared/place_info', place: @search_departure %>
-<%= render 'shared/place_info', place: @search_destination %>
+<%= render 'shared/departure_info', departure: @search_departure %>
+<%= render 'shared/destination_info', destination: @search_destination %>
 <%= render 'start_info', history: @history %>
 
 <% if @history.end_time.present? %>
