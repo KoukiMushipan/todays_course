@@ -8,6 +8,11 @@ Rails.application.routes.draw do
   post 'login', to: 'user_sessions#create'
   delete 'logout', to: 'user_sessions#destroy'
 
+  resources :departures do
+    post :set, on: :member
+    get :cancel, on: :collection
+  end
+
   resources :destinations do
     post :set, on: :member
   end

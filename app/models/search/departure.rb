@@ -1,12 +1,6 @@
 class Search::Departure
   include ShareSearch
 
-  def self.new_and_valid(search_departure_params)
-    search_departure = Search::Departure.new(search_departure_params)
-    search_departure.valid?
-    search_departure
-  end
-
   def request_reverse_geocoder
     url = create_reverse_geocoder_url
     result = request_api(url)

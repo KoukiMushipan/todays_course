@@ -1,1 +1,7 @@
+<h1 class="text-3xl mb-3 ml-3 text-gray-700 font-noto under"><%= t '.title' %></h1>
+<div class="text-right my-4 text-white">
+  <%= link_to (t '.to_departures'), departures_path,
+      class: 'w-1/3 sm:w-1/5 bg-cyan-500 rounded-lg inline-flex items-center justify-center py-1.5 drop-shadow-lg mr-2' %>
+</div>
+
 <%= render @destinations %>

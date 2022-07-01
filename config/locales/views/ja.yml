@@ -37,11 +37,30 @@ ja:
         search: '検索'
       candidates:
         select: 'ピンをタップして目的地を選んでください'
+  departures:
+    index:
+      title: '保存済みの出発地'
+      to_destinations: '目的地へ'
+      new_departure: '新規作成'
+    departure:
+      delete_confirm: '削除してもよろしいですか？'
+      start_here: 'ここから出発'
+      edit: '編集'
+      destroy: '削除'
+    edit:
+      update: '更新'
   destinations:
+    index:
+      title: '保存済みの目的地'
+      to_departures: '出発地へ'
     form:
       start: 'スタート画面へ'
     destination:
+      distance: "から%{distance}m"
       delete_confirm: '削除してもよろしいですか？'
+      edit: '編集'
+      destroy: '削除'
+      show_route: 'ルート表示'
     edit:
       update: '更新'
   histories:
