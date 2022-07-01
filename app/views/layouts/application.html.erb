@@ -17,13 +17,11 @@
   </head>
 
   <body>
-    <%= render 'shared/header' %>
     <%= render 'shared/not_yet_goal' %>
     <%= render 'shared/flash' %>
-    <main class="container mx-auto mt-5 px-5">
+    <main class="container mx-auto mt-5 mb-20 px-5">
       <%= yield %>
     </main>
-
-    <%= render 'shared/license' %>
+    <%= render 'shared/navigation_bar' %>
   </body>
 </html>

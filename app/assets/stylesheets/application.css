@@ -40,10 +40,13 @@
   font-size: 28px;
   font-weight: 500;
   color: #f9fafb;
+  position: relative;
+}
+
+.icon-center {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
 }
 
 .button-description {
@@ -79,12 +82,35 @@
   right: 0%;
 }
 
-/* デバッグ用 */
-
-.console-prompt-display {
-  font-size: 13pt;
+.nav-child-width {
+  width: 32.5%;
+  height: 8vh;
 }
 
-.console {
-  height: 200px !important;
+.nav-icon_search {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  font-size: 5vh !important;
+}
+
+.nav-icon_folder {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  font-size: 5vh !important;
+}
+
+.nav-icon_user {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  font-size: 5vh !important;
+}
+
+.bottom-5-minus {
+  bottom: -5px;
 }

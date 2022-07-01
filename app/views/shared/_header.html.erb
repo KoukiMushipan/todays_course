@@ -1,27 +1,25 @@
-<div>
-  <nav class="bg-cyan-800 drop-shadow-xl header-border">
-    <div class="max-w-7xl mx-auto px-4 sm:px-8">
-      <div class="flex items-center justify-between h-16">
-        <div class="w-full justify-between flex items-center">
-          <%= link_to (t 'defaults.service'), root_path,
-          class: 'text-gray-100 block py-2 text-2xl font-extrabold' %>
+<nav class="bg-cyan-800 drop-shadow-xl header-border">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="w-full justify-between flex items-center">
+        <%= link_to (t 'defaults.service'), root_path,
+        class: 'text-gray-100 block py-2 text-2xl font-extrabold' %>
 
-          <div class="sm:ml-10 flex items-baseline space-x-4">
-          <% if request.path == login_path %>
-            <%= link_to (t 'defaults.register'), signup_path,
-            class: 'text-gray-300 hover:text-gray-800 dark:hover:text-white sm:px-3 py-2 text-base font-semibold' %>
-          <% elsif request.path == signup_path || (request.post? && request.path == users_path) %>
-            <%= link_to (t 'defaults.login'), login_path,
-            class: 'text-gray-300  hover:text-gray-800 dark:hover:text-white sm:px-3 py-2 text-base font-semibold' %>
-          <% else %>
-            <%= link_to (t 'defaults.register'), signup_path,
-            class: 'text-gray-300 hover:text-gray-800 dark:hover:text-white sm:px-3 py-2 text-base font-semibold' %>
-            <%= link_to (t 'defaults.login'), login_path,
-            class: 'text-gray-300  hover:text-gray-800 dark:hover:text-white sm:px-3 py-2 text-base font-semibold' %>
-          <% end %>
-          </div>
+        <div class="sm:ml-10 flex items-baseline space-x-4">
+        <% if request.path == login_path %>
+          <%= link_to (t 'defaults.register'), signup_path,
+          class: 'text-gray-300 hover:text-gray-800 dark:hover:text-white sm:px-3 py-2 text-base font-semibold' %>
+        <% elsif request.path == signup_path || (request.post? && request.path == users_path) %>
+          <%= link_to (t 'defaults.login'), login_path,
+          class: 'text-gray-300  hover:text-gray-800 dark:hover:text-white sm:px-3 py-2 text-base font-semibold' %>
+        <% else %>
+          <%= link_to (t 'defaults.register'), signup_path,
+          class: 'text-gray-300 hover:text-gray-800 dark:hover:text-white sm:px-3 py-2 text-base font-semibold' %>
+          <%= link_to (t 'defaults.login'), login_path,
+          class: 'text-gray-300  hover:text-gray-800 dark:hover:text-white sm:px-3 py-2 text-base font-semibold' %>
+        <% end %>
         </div>
       </div>
     </div>
-  </nav>
-</div>
+  </div>
+</nav>

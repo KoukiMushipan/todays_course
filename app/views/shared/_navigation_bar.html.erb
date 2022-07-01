@@ -1,0 +1,11 @@
+<div class="w-full bg-gray-900 text-white fixed bottom-5-minus">
+    <%= link_to search_departure_menu_path, class: 'nav-child-width inline-block text-center relative' do %>
+      <%= fa_icon "search", class: 'nav-icon_search' %>
+    <% end %>
+    <%= link_to departures_path, class: 'nav-child-width inline-block text-center relative border-x-2' do %>
+      <%= fa_icon "folder-open", class: 'nav-icon_folder' %>
+    <% end %>
+    <%= link_to histories_path, class: 'nav-child-width inline-block text-center relative' do %>
+      <%= fa_icon "user", class: 'nav-icon_user' %>
+    <% end %>
+</div>

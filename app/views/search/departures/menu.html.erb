@@ -6,7 +6,7 @@
       <div class="menu-child bg-cyan-700 block drop-shadow-xl">
         <%= link_to '#',
         data: { action: 'click->location#getLocation' },
-        class: 'button-in-menu' do %>
+        class: 'button-in-menu icon-center' do %>
           <%= fa_icon "map-pin 3x", class: 'text-orange-400' %>
           <p class='button-description'><%= t '.get_current_location' %></p>
         <% end %>
@@ -15,7 +15,7 @@
 
     <div class='w-1/2 h-1/2 inline-block float-right'>
       <div class="menu-child bg-cyan-700 block drop-shadow-xl">
-        <%= link_to search_departure_input_path, class: 'button-in-menu' do %>
+        <%= link_to search_departure_input_path, class: 'button-in-menu icon-center' do %>
           <%= fa_icon "pencil-square-o 3x", class: 'text-gray-300 left-5per' %>
           <p class='button-description'><%= t '.input_address' %></p>
         <% end %>
@@ -24,7 +24,7 @@
 
     <div class='w-1/2 h-1/2 inline-block'>
       <div class="menu-child bg-cyan-700 block drop-shadow-xl">
-        <%= link_to search_departure_saved_path, class: 'button-in-menu' do %>
+        <%= link_to search_departure_saved_path, class: 'button-in-menu icon-center' do %>
           <%= fa_icon "folder-open 3x", class: 'text-sky-400' %>
           <p class='button-description'><%= t '.select_saved_departures' %></p>
         <% end %>
@@ -33,7 +33,7 @@
 
     <div class='w-1/2 h-1/2 inline-block float-right'>
       <div class="menu-child bg-cyan-700 block drop-shadow-xl">
-        <%= link_to search_departure_histories_path, class: 'button-in-menu' do %>
+        <%= link_to search_departure_histories_path, class: 'button-in-menu icon-center' do %>
           <%= fa_icon "history 3x", class: 'text-gray-400' %>
           <p class='button-description'><%= t '.select_departure_histories' %></p>
         <% end %>
