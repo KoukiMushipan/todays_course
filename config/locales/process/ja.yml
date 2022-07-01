@@ -11,5 +11,4 @@ ja:
     start_end_check: 'は開始時刻より遅い時間を選択してください'
   time:
     formats:
-      for_history_start: "%m/%d %H:%M"
-      for_history_end: "%H:%M"
+      very_short: "%H:%M"
