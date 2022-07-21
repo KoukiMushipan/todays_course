@@ -54,7 +54,7 @@ class Search::DeparturesController < ApplicationController
   end
 
   def from_fix
-    @search_departure = Search::Departure.new_and_valid(input_departure_params)
+    @search_departure = Search::Departure.new(input_departure_params)
     return render :fix, status: :unprocessable_entity unless @search_departure.valid?
 
     result = @search_departure.request_geocoder

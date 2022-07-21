@@ -1,4 +1,5 @@
 class UserSessionsController < ApplicationController
+  skip_before_action :show_not_yet_goal
   def new; end
 
   def create
