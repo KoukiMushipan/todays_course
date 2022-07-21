@@ -5,11 +5,12 @@ ja:
       search/departure:
         name: '場所名'
         address: '住所'
+        is_saved: '出発地を保存する'
       search/term:
         radius: '目的地までの距離'
         gc: '目的地の種類'
       search/destination:
         name: '場所名'
         address: '住所'
-        distance: '距離(往復)'
+        distance: '片道の距離(メートル)'
         is_saved: '目的地を保存する'

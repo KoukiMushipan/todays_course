@@ -1,0 +1,10 @@
+<p id='js-show-distance' class='text-lg '></p>
+
+<div id='map'></div>
+
+<%= render 'histories/before_start', { departure: @search_departure, destination: @search_destination } %>
+
+<%= include_gon %>
+
+<%= javascript_include_tag 'show-route' %>
+<%= javascript_include_tag Settings.google.map_url, async: 'async', defer: 'defer' %>

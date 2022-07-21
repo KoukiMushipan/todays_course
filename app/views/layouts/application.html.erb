@@ -13,14 +13,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500&display=swap" rel="stylesheet">
+    <%= yield :head %>
   </head>
 
   <body>
-    <%= render 'shared/header' %>
-    <main class="container mx-auto mt-5 px-5">
+    <%= render 'shared/not_yet_goal' %>
+    <%= render 'shared/flash' %>
+    <main class="container mx-auto mt-5 mb-20 px-5">
       <%= yield %>
     </main>
-
-    <%= render 'shared/license' %>
+    <%= render 'shared/navigation_bar' %>
   </body>
 </html>

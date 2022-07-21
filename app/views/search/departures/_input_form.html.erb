@@ -1,19 +1,19 @@
 <%= form_with model: search_departure, url: search_departure_from_input_path, class: "contents" do |f| %>
   <div class="my-5">
-    <%= f.label :name, (t 'defaults.place_name') %>
-    <%= f.text_field :name, class: "block shadow rounded-md border border-gray-200 px-3 py-2 mt-2 w-full" %>
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "block shadow rounded-md border border-gray-200 px-3 py-2 mt-2 w-full bg-cyan-50" %>
     <%= render partial: 'shared/error_message', collection: search_departure.errors.full_messages_for(:name) %>
   </div>
 
   <div class="my-5">
-    <%= f.label :address, (t 'defaults.address') %>
-    <%= f.text_field :address, class: "block shadow rounded-md border border-gray-200 px-3 py-2 mt-2 w-full", required: true %>
+    <%= f.label :address %>
+    <%= f.text_field :address, class: "block shadow rounded-md border border-gray-200 px-3 py-2 mt-2 w-full bg-cyan-50", required: true %>
     <%= render partial: 'shared/error_message', collection: search_departure.errors.full_messages_for(:address) %>
   </div>
 
   <div class="my-5">
-    <%= f.check_box :is_saved, class: "shadow rounded-md border border-gray-200 px-3.5 py-1 inline mr-3" %>
-    <%= f.label :is_saved, (t '.save') %>
+    <%= f.check_box :is_saved, class: "shadow rounded-md border border-gray-200 px-3.5 py-1 inline mr-3 bg-cyan-50" %>
+    <%= f.label :is_saved %>
   </div>
 
   <div class="text-right">

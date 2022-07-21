@@ -20,40 +20,53 @@ class Search::DeparturesController < ApplicationController
   def from_current_location
     @search_departure = Search::Departure.new(get_current_location_params)
     result = @search_departure.request_reverse_geocoder
-    return render :menu, status: :unprocessable_entity if @search_departure.errors.present?
+
+    unless result
+      flash.now[:alert] = t('process.failed_get_current_location')
+      return render turbo_stream: turbo_stream.update("flash", partial: "shared/flash")
+    end
 
     @search_departure.set_current_location_info(result)
-
     redirect_to search_departure_fix_path
   end
 
   def from_saved
-    departure = Departure.find(params[:id])
+    departure = current_user.departures.find(params[:id])
     @search_departure = departure.set_search_departure
 
-    redirect_to search_terms_path
+    redirect_to search_destination_terms_path
   end
 
   def from_input
-    @search_departure = Search::Departure.new_and_valid(input_departure_params)
+    @search_departure = Search::Departure.new(input_departure_params)
+    return render :input, status: :unprocessable_entity unless @search_departure.valid?
+
     result = @search_departure.request_geocoder
-    return render :input, status: :unprocessable_entity if @search_departure.errors.present?
+    unless result
+      flash.now[:alert] = t('process.failed_get_location')
+      return render turbo_stream: turbo_stream.update("flash", partial: "shared/flash")
+    end
 
     @search_departure.set_coordinates_and_address(result)
     @search_departure.create_departure_and_set if @search_departure.is_saved
 
-    redirect_to search_terms_path
+    redirect_to search_destination_terms_path
   end
 
   def from_fix
-    @search_departure = Search::Departure.new_and_valid(input_departure_params)
+    @search_departure = Search::Departure.new(input_departure_params)
+    return render :fix, status: :unprocessable_entity unless @search_departure.valid?
+
     result = @search_departure.request_geocoder
-    return render :fix, status: :unprocessable_entity if @search_departure.errors.present?
+    unless result
+      flash.now[:alert] = t('process.failed_get_location')
+      return render turbo_stream: turbo_stream.update("flash", partial: "shared/flash")
+    end
 
     @search_departure.set_coordinates_and_address(result)
     @search_departure.create_departure_and_set if @search_departure.is_saved
 
-    redirect_to search_terms_path
+    redirect_to search_destination_terms_path
   end
 
   private
@@ -72,7 +85,7 @@ class Search::DeparturesController < ApplicationController
   end
 
   def get_current_location_params
-    p = params.require(:search_departure).permit(:latitude, :longitude).merge(user_id: current_user.id)
+    p = params.require(:search_departure).permit(:latitude, :longitude)
     p.merge(user_id: current_user.id, is_saved: false)
   end
 end

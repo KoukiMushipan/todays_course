@@ -1,0 +1,8 @@
+
+<%= turbo_frame_tag 'goal-button-field' do %>
+  <div class="text-center">
+    <%= link_to (t'.goal'), goal_history_path(history),
+    data: { turbo_method: :post },
+    class: 'w-full sm:w-2/5 bg-orange-600 text-white rounded-lg inline-flex items-center justify-center px-4 py-3.5 font-semibold drop-shadow-lg mb-8 mt-4 sm:mt-0 sm:ml-2' %>
+  </div>
+<% end %>

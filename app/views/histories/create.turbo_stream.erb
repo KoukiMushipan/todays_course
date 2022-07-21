@@ -1,0 +1,4 @@
+<%= turbo_stream.replace 'start-button-field' do %>
+  <%= render 'start_info', history: @history %>
+  <%= render 'goal_button', history: @history %>
+<% end %>

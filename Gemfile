@@ -63,6 +63,7 @@ group :development, :test do
   gem 'config'
   gem 'faker'
   gem 'factory_bot_rails'
+  gem 'font-awesome-rails'
   gem 'letter_opener_web'
   gem 'rspec-rails'
   gem 'rubocop', require: false

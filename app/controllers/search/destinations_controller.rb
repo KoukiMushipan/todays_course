@@ -1,4 +1,6 @@
 class Search::DestinationsController < ApplicationController
+  before_action :set_search_departure, only: %i[terms ready_recommend]
+
   def terms
     @search_term = Search::Term.new
   end
@@ -8,20 +10,17 @@ class Search::DestinationsController < ApplicationController
     return render :terms, status: :unprocessable_entity unless @search_term.valid?
 
     session[:terms] = @search_term.attributes
-    q = l(Time.now, format: :for_reload)
-    redirect_to search_candidates_path(q)
+
+    redirect_to search_destination_candidates_path
   end
 
   def candidates
     @search_term = Search::Term.new(session[:terms])
     results = @search_term.request_local_search(session[:departure])
-    return render :terms, status: :unprocessable_entity unless results
+    return redirect_to search_destination_terms_path, alert: t('process.failed_search_recommendation') unless results
 
     recommendations = Search::Recommend.create_recommendations(results,  @search_term.radius)
-    unless recommendations
-      @error_message = t('process.failed_matrix')
-      return render :terms, status: :unprocessable_entity
-    end
+    redirect_to search_destination_terms_path, alert: t('process.failed_matrix') unless recommendations
 
     session[:recommendations] = recommendations
     gon.searchInfo = {departure: session[:departure], radius: session[:terms]['radius'], recommendations: session[:recommendations]}
@@ -31,5 +30,9 @@ class Search::DestinationsController < ApplicationController
 
   def search_term_params
     params.require(:search_term).permit(:radius, :gc)
+  end
+
+  def set_search_departure
+    @search_departure = Search::Departure.new(session[:departure])
   end
 end

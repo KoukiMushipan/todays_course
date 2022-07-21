@@ -1,4 +1,5 @@
 class UserSessionsController < ApplicationController
+  skip_before_action :show_not_yet_goal
   def new; end
 
   def create
@@ -7,8 +8,8 @@ class UserSessionsController < ApplicationController
     if @user
       redirect_back_or_to search_departure_menu_path
     else
-      @error_message = 'メールアドレス、もしくはパスワードが間違っています'
-      render :new, status: :unprocessable_entity
+      flash.now[:alert] = t('process.failed_login')
+      return render turbo_stream: turbo_stream.update("flash", partial: "shared/flash")
     end
   end
 

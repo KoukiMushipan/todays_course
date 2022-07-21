@@ -14,10 +14,10 @@ class Location < ApplicationRecord
   has_one :departure, dependent: :destroy
   has_one :destination, dependent: :destroy
 
-  validates :name, presence: true
+  validates :name, presence: true, length: { maximum: 50 }
   validates :latitude, presence: true
   validates :longitude, presence: true
-  validates :address, presence: true
+  validates :address, presence: true, length: { maximum: 255 }
 
   def address=(param)
     edit_address  = param.tr('０-９ａ-ｚＡ-Ｚ','0-9a-zA-Z')
