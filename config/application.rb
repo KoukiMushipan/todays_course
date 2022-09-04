@@ -33,5 +33,18 @@ module TodaysCourse
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.time_zone = 'Tokyo'
+    config.active_record.default_timezone = :local
+
+    config.i18n.default_locale = :ja
+    config.i18n.available_locales = %i[ja]
+    config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.{rb,yml}').to_s]
+
+    config.generators do |g|
+      g.assets false
+      g.skip_routes true
+      g.helper false
+    end
   end
 end
