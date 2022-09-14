@@ -7,8 +7,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       auto_login(@user)
-      redirect_to profile_path
+      redirect_to profile_path, notice: '新規作成に成功しました'
     else
+      flash.now[:alert] = '新規作成に失敗しました'
       render :new, status: :unprocessable_entity
     end
   end
