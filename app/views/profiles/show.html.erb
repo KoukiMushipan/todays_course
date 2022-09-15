@@ -1,4 +1,7 @@
-<div>
-  <h1 class="font-bold text-4xl">Profiles#show</h1>
-  <p>Find me in app/views/profiles/show.html.erb</p>
+<div class="text-4xl text-gray-800 tracking-wider zen-kaku-bold">
+  <h1 class="m-10"><%= @user.name %></h1>
+  <h1 class="m-10"><%= @user.email %></h1>
+  <%= link_to '編集', edit_profile_path, class: 'zen-kaku-bold m-10 block text-green-600 underline' %>
+  <%= link_to 'ログアウト', logout_path, data: { turbo_method: :delete, turbo_confirm: 'ログアウトしますか？' }, class: 'zen-kaku-bold m-10 block text-red-600 underline' %>
+  <%= link_to 'ユーザー削除', profile_path, data: { turbo_method: :delete, turbo_confirm: "データは全て削除されます。\n削除しますか？" }, class: 'zen-kaku-bold m-10 block text-red-900 underline' %>
 </div>
