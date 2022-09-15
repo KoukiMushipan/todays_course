@@ -9,6 +9,6 @@
   }
 
   .orange-btn {
-    @apply shadow-md rounded-lg py-2.5 px-5 text-white tracking-wider text-xl cursor-pointer bg-orange-600 active:bg-orange-700;
+    @apply shadow-md rounded-lg text-white cursor-pointer bg-orange-600 active:bg-orange-700;
   }
 }
