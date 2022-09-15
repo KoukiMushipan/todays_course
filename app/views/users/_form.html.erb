@@ -1,0 +1,29 @@
+<%= form_with model: user, class: 'contents zen-kaku-medium' do |f| %>
+  <div class="my-5">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: 'normal-form', required: true %>
+    <%= render partial: 'shared/error_message', collection: user.errors.full_messages_for(:name) %>
+  </div>
+
+  <div class="my-5">
+    <%= f.label :email %>
+    <%= f.email_field :email, class: 'normal-form', required: true %>
+    <%= render partial: 'shared/error_message', collection: user.errors.full_messages_for(:email) %>
+  </div>
+
+  <div class="my-5">
+    <%= f.label :password %>
+    <%= f.password_field :password, class: 'normal-form', required: true %>
+    <%= render partial: 'shared/error_message', collection: user.errors.full_messages_for(:password) %>
+  </div>
+
+  <div class="my-5">
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation, class: 'normal-form', required: true %>
+    <%= render partial: 'shared/error_message', collection: user.errors.full_messages_for(:password_confirmation) %>
+  </div>
+
+  <div class="text-right">
+    <%= f.submit '登録', class: 'orange-btn tracking-wider text-xl px-5 py-2.5 zen-kaku-regular' %>
+  </div>
+<% end %>

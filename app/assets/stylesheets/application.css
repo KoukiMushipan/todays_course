@@ -13,3 +13,23 @@
  *= require_tree .
  *= require_self
  */
+
+.zen-kaku-light {
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: 300;
+}
+
+.zen-kaku-regular {
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: 400;
+}
+
+.zen-kaku-medium {
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: 500;
+}
+
+.zen-kaku-bold {
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: 700;
+}

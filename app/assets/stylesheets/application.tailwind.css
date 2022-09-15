@@ -2,12 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
 
 @layer components {
-  .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
+  .normal-form {
+    @apply shadow mt-2 w-full rounded-md border border-gray-200 focus:border-cyan-400 bg-gray-50 focus:bg-cyan-50;
+  }
+
+  .orange-btn {
+    @apply shadow-md rounded-lg text-white cursor-pointer bg-orange-600 active:bg-orange-700;
   }
 }
-
-*/
