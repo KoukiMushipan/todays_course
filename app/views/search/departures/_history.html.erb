@@ -1,0 +1,18 @@
+<div class="px-3 pb-3 my-5 w-full text-center keep-all rounded-lg border-2 zen-kaku-regular bg-gray-50">
+  <p class="text-left text-gray-700">
+    <span>出発</span>
+    <span class="ml-1"><%= l(history.start_time, format: :short) %></span>
+    <span class="ml-1"><%= ((history.end_time - history.start_time) / 60).floor %>分</span>
+  </p>
+  <p class="mb-1.5 text-left text-gray-700">
+    <span>目的地</span>
+    <span class="ml-1"><%= history.destination.location.name %></span>
+  </p>
+  <h5 class="mb-1 text-3xl text-gray-800 zen-kaku-medium"><%= history.departure.location.name %></h5>
+  <p class="mb-3 text-gray-700"><%= history.departure.location.address %></p>
+  <div class="justify-center">
+    <%= link_to '決定', '#',
+    data: { turbo_method: :post },
+    class: 'orange-btn inline-flex w-5/12 sm:w-1/6 py-2 justify-center tracking-widest text-xl zen-kaku-medium' %>
+  </div>
+</div>
