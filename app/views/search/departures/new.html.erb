@@ -1,16 +1,22 @@
+<h1 class="text-3xl text-gray-800 tracking-wider zen-kaku-bold pl-1 mb-1 sm:w-5/6 sm:mx-auto">出発地</h1>
 <div class="tabs">
   <input id="left" type="radio" name="tab-radio-button" checked>
   <label class="tab-item zen-kaku-bold" for="left">入力</label>
+
   <input id="center" type="radio" name="tab-radio-button">
   <label class="tab-item zen-kaku-bold" for="center">保存</label>
+
   <input id="right" type="radio" name="tab-radio-button">
   <label class="tab-item zen-kaku-bold" for="right">履歴</label>
+
   <div class="tab-content" id="left-content">
-    <%# 現在地取得と手入力 %>
+    <%= render 'form' %>
   </div>
+
   <div class="tab-content" id="center-content">
     <%# 保存済みから選択 %>
   </div>
+
   <div class="tab-content" id="right-content">
     <%# 履歴から選択 %>
   </div>
