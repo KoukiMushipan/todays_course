@@ -17,8 +17,9 @@
 
   <body>
     <%= render 'shared/flash' %>
-    <main class="container mx-auto mt-12 px-3 sm:px-5">
+    <main class="container mx-auto mt-4 px-3 sm:px-0">
       <%= yield %>
     </main>
+    <%= render 'shared/navigation_bar' %>
   </body>
 </html>
