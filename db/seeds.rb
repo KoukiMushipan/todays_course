@@ -39,10 +39,10 @@ family_mart_location = Location.create(name: 'ファミリーマート 新潟小
 saved_departure = user.departures.create(location_id: tokyo_location.id,
                                         is_saved: true)
 
-unsaved_departure = user.departures.create(location_id: lowson_location.id,
+unsaved_departure = user.departures.create(location_id: nigata_location.id,
                                           is_saved: false)
 
-saved_destination = user.destinations.create(location_id: nigata_location.id,
+saved_destination = user.destinations.create(location_id: lowson_location.id,
                                             departure_id: saved_departure.id,
                                             distance: 500,
                                             is_saved: true)
@@ -57,7 +57,7 @@ saved_history = user.histories.create(destination_id: saved_destination.id,
                                       end_time: DateTime.new(2022, 11, 1, 11),
                                       moving_distance: 1000)
 
-unsaved_history = user.histories.create(destination_id: saved_destination.id,
+unsaved_history = user.histories.create(destination_id: unsaved_destination.id,
                                         start_time: DateTime.new(2022, 11, 2, 17),
                                         end_time: DateTime.new(2022, 11, 2, 18),
                                         moving_distance: 1500)
