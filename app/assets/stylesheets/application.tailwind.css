@@ -5,11 +5,15 @@
 
 @layer components {
   .headline {
-    @apply text-3xl text-gray-800 tracking-wider pl-1.5 mb-1.5 sm:w-2/3 sm:mx-auto
+    @apply text-3xl text-gray-800 tracking-wider pl-1.5 mb-1.5 sm:w-2/3 sm:mx-auto;
   }
 
   .basic-card {
-    @apply mx-auto px-4 border-2 rounded-md border-gray-300 shadow-xl w-full sm:w-2/3
+    @apply mx-auto px-4 border-2 rounded-md border-gray-300 shadow-xl w-full sm:w-2/3;
+  }
+
+  .info-card {
+    @apply px-3 pb-3 my-5 w-full text-center break-words rounded-lg border-2 bg-gray-50;
   }
 
   .normal-form {

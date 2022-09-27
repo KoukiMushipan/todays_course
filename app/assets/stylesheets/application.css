@@ -62,3 +62,7 @@
 .nav-icon-user {
   top: 55%;
 }
+
+.swiper-pagination-bullet-active {
+  background-color: #0891b2 !important;
+}
