@@ -39,28 +39,29 @@
   word-break: keep-all;
 }
 
-.nav-child-width {
-  width: 32.5%;
+.nav-height {
   height: 8vh;
 }
 
 .nav-icon {
   position: absolute;
-  left: 50%;
   transform: translate(-50%, -50%);
   font-size: 5vh !important;
 }
 
-.nav-icon-search {
+.fa-search {
   top: 50%;
+  left: 50%;
 }
 
-.nav-icon-folder {
+.fa-folder-open {
   top: 58%;
+  left: 54%;
 }
 
-.nav-icon-user {
+.fa-user {
   top: 55%;
+  left: 50%;
 }
 
 .swiper-pagination-bullet-active {

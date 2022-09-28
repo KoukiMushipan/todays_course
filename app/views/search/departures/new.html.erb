@@ -1,13 +1,22 @@
 <h1 class="headline zen-kaku-bold">出発地</h1>
 <div class="tabs">
   <input id="left" type="radio" name="tab-radio-button" checked>
-  <label class="tab-item zen-kaku-bold" for="left">入力</label>
+  <label class="tab-item zen-kaku-bold" for="left">
+    <%= fa_icon 'pencil-square-o', class: 'text-2xl' %>
+    入力
+  </label>
 
   <input id="center" type="radio" name="tab-radio-button">
-  <label class="tab-item zen-kaku-bold" for="center">保存</label>
+  <label class="tab-item zen-kaku-bold border-x-2 border-x-gray-300" for="center">
+    <%= fa_icon 'folder-open', class: 'text-2xl' %>
+    保存
+  </label>
 
   <input id="right" type="radio" name="tab-radio-button">
-  <label class="tab-item zen-kaku-bold" for="right">履歴</label>
+  <label class="tab-item zen-kaku-bold" for="right">
+    <%= fa_icon 'history', class: 'text-2xl' %>
+    履歴
+  </label>
 
   <div class="tab-content" id="left-content">
     <%= render 'form' %>

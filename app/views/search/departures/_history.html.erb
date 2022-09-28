@@ -1,12 +1,12 @@
 <div class="info-card keep-all zen-kaku-regular swiper-slide">
   <p class="text-left text-gray-700">
-    <span>出発</span>
-    <span class="ml-1"><%= l(history.start_time, format: :short) %></span>
+    <%= fa_icon 'clock-o'%>
+    <span><%= l(history.start_time, format: :short) %></span>
     <span class="ml-1"><%= ((history.end_time - history.start_time) / 60).floor %>分</span>
   </p>
   <p class="mb-1.5 text-left text-gray-700">
-    <span>目的地</span>
-    <span class="ml-1"><%= history.destination.location.name %></span>
+    <%= fa_icon 'flag' %>
+    <span><%= history.destination.location.name %></span>
   </p>
   <h5 class="mb-1 text-3xl text-gray-800 zen-kaku-medium"><%= history.departure.location.name %></h5>
   <p class="mb-3 text-gray-700"><%= history.departure.location.address %></p>
