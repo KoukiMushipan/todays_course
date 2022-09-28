@@ -12,6 +12,7 @@
  *
  *= require_tree .
  *= require_self
+ *= require font-awesome
  */
 
 .zen-kaku-light {
@@ -36,4 +37,33 @@
 
 .keep-all {
   word-break: keep-all;
+}
+
+.nav-height {
+  height: 8vh;
+}
+
+.nav-icon {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 5vh !important;
+}
+
+.fa-search {
+  top: 50%;
+  left: 50%;
+}
+
+.fa-folder-open {
+  top: 58%;
+  left: 54%;
+}
+
+.fa-user {
+  top: 55%;
+  left: 50%;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #0891b2 !important;
 }
