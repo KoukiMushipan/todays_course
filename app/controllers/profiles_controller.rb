@@ -7,15 +7,16 @@ class ProfilesController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to profile_path, notice: 'ユーザー情報を更新しました'
+      redirect_to profile_path, flash: {success: 'ユーザー情報を更新しました'}
     else
+      flash.now[:error] = 'ユーザー情報の更新に失敗しました'
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @user.destroy!
-    redirect_to login_path, status: :see_other, notice: 'ユーザーを削除しました'
+    redirect_to login_path, status: :see_other, flash: {success: 'ユーザーを削除しました'}
   end
 
   private

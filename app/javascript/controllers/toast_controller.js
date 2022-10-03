@@ -9,15 +9,10 @@ export default class extends Controller {
       "closeButton": true,
     }
 
-    if (this.typeValue === 'info') {
-      toastr.info(this.messageValue);
-    } else if (this.typeValue === 'success') {
+    if (this.typeValue === 'success') {
       toastr.success(this.messageValue);
-    } else if (this.typeValue === 'warning') {
-      toastr.warning(this.messageValue);
     } else if (this.typeValue === 'error') {
       toastr.error(this.messageValue);
     }
-
   }
 }
