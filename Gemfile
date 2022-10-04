@@ -57,6 +57,9 @@ gem 'font-awesome-rails'
 # 翻訳
 gem 'rails-i18n'
 
+# session
+gem 'redis-actionpack'
+
 # ユーザー関連
 gem 'sorcery'
 
