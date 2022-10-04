@@ -12,6 +12,18 @@ class Search::DeparturesController < ApplicationController
       flash.now[:error] = '入力情報に誤りがあります'
       render :new, status: :unprocessable_entity
     end
+
+    result = RequestGeocodeService.new(@search_departure.name, @search_departure.address).call
+    if !result
+      flash.now[:error] = '位置情報の取得に失敗しました'
+      render :new, status: :unprocessable_entity
+    end
+
+    if @search_departure.is_saved
+
+    else
+
+    end
   end
 
   private

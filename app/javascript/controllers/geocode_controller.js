@@ -22,7 +22,7 @@ export default class extends Controller {
         const geocoder = new google.maps.Geocoder();
         const latLng = { lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude) }
 
-        geocoder.geocode({ location: latLng })
+        geocoder.geocode({ location: latLng, region: 'JP' })
           .then((response) => {
             if (response.results[0]) {
               this.formTarget.value = response.results[0].formatted_address.split(' ').pop();
