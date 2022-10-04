@@ -1,2 +1,0 @@
-google:
-  map_url: 'https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials.google[:key] %>&callback=initMap'
