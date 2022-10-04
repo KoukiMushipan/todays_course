@@ -6,7 +6,9 @@ class CreateHistories < ActiveRecord::Migration[7.0]
       t.datetime :start_time, null: false
       t.datetime :end_time, null: false
       t.integer :moving_distance, null: false
+      t.string :uuid, null: false
 
+      t.index :uuid, unique: true
       t.timestamps
     end
   end
