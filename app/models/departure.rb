@@ -6,4 +6,15 @@ class Departure < ApplicationRecord
   validates :is_saved, inclusion: { in: [true, false] }
 
   before_create -> { self.uuid = SecureRandom.uuid }
+
+  def attributes_for_session
+    {
+      uuid: uuid,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      address: location.address,
+      place_id: location.place_id,
+      created_at: created_at
+    }
+  end
 end

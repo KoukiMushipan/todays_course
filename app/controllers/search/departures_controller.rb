@@ -20,9 +20,12 @@ class Search::DeparturesController < ApplicationController
     end
 
     if @search_departure.is_saved
-
+      departure = current_user.departures.create!(is_saved: true, location: Location.create!(result))
+      session[:departure] = departure.attributes_for_session
+      redirect_to new_search_destination_path, flash: {success: "出発地を保存しました"}
     else
-
+      session[:departure] = result
+      redirect_to new_search_destination_path
     end
   end
 
