@@ -10,6 +10,7 @@ class Departure < ApplicationRecord
   def attributes_for_session
     {
       uuid: uuid,
+      name: location.name,
       latitude: location.latitude,
       longitude: location.longitude,
       address: location.address,
