@@ -2,7 +2,7 @@
   <p class="text-left text-gray-700">
     <%= fa_icon 'clock-o'%>
     <span><%= l(history.start_time, format: :short) %></span>
-    <span class="ml-1"><%= ((history.end_time - history.start_time) / 60).floor %>分</span>
+    <span class="ml-1"><%= history.decorate.moving_time %></span>
   </p>
   <p class="mb-1.5 text-left text-gray-700">
     <%= fa_icon 'flag' %>
