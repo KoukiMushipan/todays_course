@@ -51,6 +51,9 @@ gem "bootsnap", require: false
 # 定数管理
 gem 'config'
 
+# decorator
+gem 'draper'
+
 # アイコン
 gem 'font-awesome-rails'
 
