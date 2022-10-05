@@ -18,10 +18,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_04_033138) do
     t.bigint "user_id", null: false
     t.bigint "location_id", null: false
     t.boolean "is_saved", default: false, null: false
+    t.string "uuid", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["location_id"], name: "index_departures_on_location_id"
     t.index ["user_id"], name: "index_departures_on_user_id"
+    t.index ["uuid"], name: "index_departures_on_uuid", unique: true
   end
 
   create_table "destinations", force: :cascade do |t|
@@ -30,11 +32,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_04_033138) do
     t.bigint "departure_id", null: false
     t.integer "distance", null: false
     t.boolean "is_saved", default: false, null: false
+    t.string "uuid", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["departure_id"], name: "index_destinations_on_departure_id"
     t.index ["location_id"], name: "index_destinations_on_location_id"
     t.index ["user_id"], name: "index_destinations_on_user_id"
+    t.index ["uuid"], name: "index_destinations_on_uuid", unique: true
   end
 
   create_table "histories", force: :cascade do |t|
@@ -43,10 +47,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_04_033138) do
     t.datetime "start_time", null: false
     t.datetime "end_time", null: false
     t.integer "moving_distance", null: false
+    t.string "uuid", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["destination_id"], name: "index_histories_on_destination_id"
     t.index ["user_id"], name: "index_histories_on_user_id"
+    t.index ["uuid"], name: "index_histories_on_uuid", unique: true
   end
 
   create_table "locations", force: :cascade do |t|

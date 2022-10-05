@@ -48,11 +48,17 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+# 定数管理
+gem 'config'
+
 # アイコン
 gem 'font-awesome-rails'
 
 # 翻訳
 gem 'rails-i18n'
+
+# session
+gem 'redis-actionpack'
 
 # ユーザー関連
 gem 'sorcery'

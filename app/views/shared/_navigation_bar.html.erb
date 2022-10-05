@@ -2,7 +2,7 @@
   <tbody>
     <tr>
       <td>
-        <%= link_to new_search_departure_path, class: 'block h-full relative' do %>
+        <%= link_to new_search_departure_path, class: 'block h-full relative', data: { turbo: false } do %>
           <%= fa_icon 'search', class: 'nav-icon' %>
         <% end %>
       </td>

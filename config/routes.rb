@@ -13,5 +13,6 @@ Rails.application.routes.draw do
 
   namespace :search do
     resources :departures, only: %i[new create]
+    resources :destinations, only: %i[index new create]
   end
 end
