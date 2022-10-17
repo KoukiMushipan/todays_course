@@ -2,8 +2,8 @@ class Search::DeparturesController < ApplicationController
   def new
     @search_departure = SearchDepartureForm.new
 
-    @departures = current_user.departures.where(is_saved: true).includes(:location).order(created_at: :desc)
-    @histories = current_user.histories.includes(destination: [departure: :location], destination: :location).order(created_at: :desc)
+    @departures = current_user.departures.saved_list
+    @histories = current_user.histories.list
   end
 
   def create
