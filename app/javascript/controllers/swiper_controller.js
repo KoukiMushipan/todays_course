@@ -9,6 +9,7 @@ export default class extends Controller {
       new Swiper(`.swiper-container-${i}`, {
         loop: true,
         grabCursor: true,
+        shortSwipes: false,
         effect: "creative",
         creativeEffect: {
           prev: {

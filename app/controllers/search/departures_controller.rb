@@ -2,8 +2,8 @@ class Search::DeparturesController < ApplicationController
   def new
     @search_departure = SearchDepartureForm.new
 
-    @departures = current_user.departures.where(is_saved: true).includes(:location).order(created_at: :desc)
-    @histories = current_user.histories.includes(destination: [departure: :location], destination: :location).order(created_at: :desc)
+    @departures = current_user.departures.saved_list
+    @histories = current_user.histories.list
   end
 
   def create
@@ -21,8 +21,7 @@ class Search::DeparturesController < ApplicationController
 
     if @search_departure.is_saved
       departure = current_user.departures.create!(is_saved: true, location: Location.create!(result))
-      session[:departure] = departure.attributes_for_session
-      redirect_to new_search_destination_path, flash: {success: "出発地を保存しました"}
+      redirect_to new_search_destination_path(departure: departure.uuid), flash: {success: "出発地を保存しました"}
     else
       session[:departure] = result
       redirect_to new_search_destination_path
