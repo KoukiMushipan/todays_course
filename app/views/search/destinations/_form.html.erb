@@ -1,0 +1,17 @@
+<%= form_with model: search_destination, url: search_destinations_path, class: 'zen-kaku-medium' do |f| %>
+  <div class="my-5">
+    <%= f.label :radius, '距離(1000m~5000m)' %>
+    <%= f.number_field :radius, class: 'normal-form tracking-widest', step: 100, min: 1000, max: 5000, required: true  %>
+    <%= render partial: 'shared/error_message', collection: search_destination.errors.full_messages_for(:radius) %>
+  </div>
+
+  <div class="my-5">
+    <%= f.label :type %>
+    <%= f.select :type, Settings.google.place_type.to_h, {}, class: 'normal-form tracking-widest' %>
+    <%= render partial: 'shared/error_message', collection: search_destination.errors.full_messages_for(:type) %>
+  </div>
+
+  <div class="my-5 text-right">
+    <%= f.submit '検索', class: 'orange-btn tracking-wider text-xl px-5 py-2.5 zen-kaku-regular' %>
+  </div>
+<% end %>

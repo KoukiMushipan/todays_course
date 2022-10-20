@@ -1,0 +1,18 @@
+<div class="info-card bg-cyan-50/75 keep-all mt-0">
+  <p class="mb-1.5 text-left text-gray-700">
+    <%= fa_icon 'floppy-o' %>
+    <span class="ml-1">
+      <% if departure_info[:created_at] %>
+        <%= l(departure_info[:created_at], format: :short) %>
+      <% else %>
+        未保存
+      <% end %>
+    </span>
+  </p>
+  <h5 class="mb-1 text-3xl text-gray-800 zen-kaku-medium">
+    <%= departure_info[:name] %>
+  </h5>
+  <p class="mb-3 text-gray-700">
+    <%= departure_info[:address] %>
+  </p>
+</div>
