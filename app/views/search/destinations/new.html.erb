@@ -1,22 +1,7 @@
 <% content_for(:title, '目的地を選択') %>
+<h1 class="headline zen-kaku-medium">目的地条件</h1>
 <div class="basic-card zen-kaku-regular">
   <h1 class="mt-5 pl-2 mb-0.5 text-2xl text-gray-800 tracking-wider zen-kaku-medium">出発地</h1>
-  <div class="info-card keep-all mt-0">
-    <p class="mb-1.5 text-left text-gray-700">
-      <%= fa_icon 'floppy-o' %>
-      <span class="ml-1">
-        <% if @departure_info[:created_at] %>
-          <%= l(@departure_info[:created_at], format: :short) %>
-        <% else %>
-          未保存
-        <% end %>
-      </span>
-    </p>
-    <h5 class="mb-1 text-3xl text-gray-800 zen-kaku-medium">
-      <%= @departure_info[:name] %>
-    </h5>
-    <p class="mb-3 text-gray-700">
-      <%= @departure_info[:address] %>
-    </p>
-  </div>
+  <%= render 'departure', departure_info: @departure_info %>
+  <%= render 'form', search_destination: @search_destination %>
 </div>

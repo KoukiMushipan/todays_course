@@ -1,0 +1,7 @@
+<% content_for(:title, '目的地選択') %>
+<div class="text-4xl text-gray-800 tracking-wider zen-kaku-bold">
+  <% @nearby_results.each do |result| %>
+    <h1 class="p-4 text-green-600"><%= result[:name] %></h1>
+    <h1 class="p-8 text-blue-600"><%= result[:address] %></h1>
+  <% end %>
+</div>

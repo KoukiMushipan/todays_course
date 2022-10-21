@@ -1,18 +1,49 @@
 class Search::DestinationsController < ApplicationController
   def index
+    @nearby_results = session[:nearby_results]
+    if @nearby_results
+      @departure_info = session[:departure]
+    else
+      redirect_to new_search_destination_path, flash: {error: "条件を入力してください"}
+    end
   end
 
   def new
     departure = Departure.find_by(uuid: params[:departure])
     if departure
       @departure_info, session[:departure] = Array.new(2, departure.attributes_for_session)
+      @search_destination = SearchDestinationForm.new
     elsif session[:departure]
       @departure_info = session[:departure]
+      @search_destination = SearchDestinationForm.new
     else
       redirect_to new_search_departure_path, flash: {error: "出発地が設定されていません"}
     end
   end
 
   def create
+    @search_destination = SearchDestinationForm.new(search_destination_params)
+
+    if !@search_destination.valid?
+      @departure_info = session[:departure]
+      flash.now[:error] = '入力情報に誤りがあります'
+      return render :new, status: :unprocessable_entity
+    end
+
+    results = RequestNearbyService.new(session[:departure], @search_destination.radius, @search_destination.type).call
+    if !results
+      @departure_info = session[:departure]
+      flash.now[:error] = '目的地が見つかりませんでした'
+      return render :new, status: :unprocessable_entity
+    end
+
+    session[:nearby_results] = results
+    redirect_to search_destinations_path
+  end
+
+  private
+
+  def search_destination_params
+    params.require(:search_destination_form).permit(:radius, :type)
   end
 end
