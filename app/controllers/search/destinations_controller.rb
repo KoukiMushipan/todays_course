@@ -1,5 +1,11 @@
 class Search::DestinationsController < ApplicationController
   def index
+    @nearby_results = session[:nearby_results]
+    if @nearby_results
+      @departure_info = session[:departure]
+    else
+      redirect_to new_search_destination_path, flash: {error: "条件を入力してください"}
+    end
   end
 
   def new
@@ -24,20 +30,15 @@ class Search::DestinationsController < ApplicationController
       return render :new, status: :unprocessable_entity
     end
 
-    result = RequestNearbyService.new(session[:departure], @search_destination.radius, @search_destination.type).call
-    if !result
+    results = RequestNearbyService.new(session[:departure], @search_destination.radius, @search_destination.type).call
+    if !results
       @departure_info = session[:departure]
       flash.now[:error] = '目的地が見つかりませんでした'
       return render :new, status: :unprocessable_entity
     end
 
-    # if @search_destination.is_saved
-    #   destination = current_user.destinations.create!(is_saved: true, location: Location.create!(result))
-    #   redirect_to new_search_destination_path(destination: destination.uuid), flash: {success: "出発地を保存しました"}
-    # else
-    #   session[:destination] = result
-    #   redirect_to new_search_destination_path
-    # end
+    session[:nearby_results] = results
+    redirect_to search_destinations_path
   end
 
   private
