@@ -57,6 +57,9 @@ gem 'draper'
 # アイコン
 gem 'font-awesome-rails'
 
+# JSに変数を渡す
+gem 'gon'
+
 # 翻訳
 gem 'rails-i18n'
 
