@@ -1,8 +1,9 @@
 class Search::DestinationsController < ApplicationController
   def index
-    @nearby_results = session[:nearby_results]
-    if @nearby_results
+    @results = session[:results]
+    if @results
       @departure_info = session[:departure]
+      gon.searchInfo = {results: @results, departure: @departure_info}
     else
       redirect_to new_search_destination_path, flash: {error: "条件を入力してください"}
     end
@@ -37,7 +38,7 @@ class Search::DestinationsController < ApplicationController
       return render :new, status: :unprocessable_entity
     end
 
-    session[:nearby_results] = results
+    session[:results] = results
     redirect_to search_destinations_path
   end
 
