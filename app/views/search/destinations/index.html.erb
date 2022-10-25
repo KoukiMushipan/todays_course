@@ -1,7 +1,16 @@
 <% content_for(:title, '目的地選択') %>
-<div class="text-4xl text-gray-800 tracking-wider zen-kaku-bold">
-  <% @nearby_results.each do |result| %>
-    <h1 class="p-4 text-green-600"><%= result[:name] %></h1>
-    <h1 class="p-8 text-blue-600"><%= result[:address] %></h1>
-  <% end %>
+
+<div id="map"></div>
+
+<div class="swiper swiper-container-1" data-controller='swiper'>
+    <div class="swiper-wrapper">
+      <%= render partial: 'result', collection: @results %>
+    </div>
+      <div class="swiper-pagination swiper-pagination-1 !bottom-0"></div>
+    <div class="swiper-button-next swiper-button-next-1 !right-0.5 sm:!right-5 !text-cyan-600/80"></div>
+    <div class="swiper-button-prev swiper-button-prev-1 !left-0.5 sm:!left-5 !text-cyan-600/80"></div>
+  </div>
 </div>
+
+<%= include_gon %>
+<%= javascript_include_tag Settings.google.map_url + 'callback=showCandidates', defer: 'defer' %>
