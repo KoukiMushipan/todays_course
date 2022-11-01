@@ -2,6 +2,7 @@ window.showCandidates = () => {
   const departure = gon.searchInfo.departure;
   const center = { lat: departure.latitude, lng: departure.longitude }
   const results = gon.searchInfo.results;
+  const radius = gon.searchInfo.destination_terms.radius;
 
   const map = new google.maps.Map(document.getElementById('map'), {
     center,
@@ -9,6 +10,15 @@ window.showCandidates = () => {
     mapTypeControl: false,
     streetViewControl: false,
     fullscreenControl: false
+  });
+
+  new google.maps.Circle({
+    map,
+    center,
+    radius,
+    clickable: false,
+    fillColor: '#f0ffff',
+    strokeColor: '#87cefa'
   });
 
   const departureMarker = new google.maps.Marker({
