@@ -50,8 +50,8 @@ window.showCandidates = () => {
       openInfoWindow(location, marker)
     });
 
-    // marker.locationId = location.id
-    // return marker
+    marker.locationId = location.id
+    return marker
   };
 
   let infoWindow;
@@ -66,4 +66,17 @@ window.showCandidates = () => {
   }
 
   let markers = results.map((result) => setMarker(result));
+
+  const swiperWrapper = document.getElementsByClassName('swiper-wrapper')[0]
+  const activeSlideObservation = new MutationObserver(() => {
+    if (swiperWrapper.style.cssText.includes('transition-duration: 0ms;')) {
+      const activeSlideLocationId = document.getElementsByClassName('swiper-slide-active')[0].id.replace('js-result-', '')
+      const activeSlideMarker = markers.find((marker) => marker.locationId === parseInt(activeSlideLocationId));
+      const activeSlideLocation = results.find((location) => location.id === parseInt(activeSlideLocationId));
+      openInfoWindow(activeSlideLocation, activeSlideMarker);
+    }
+  });
+  activeSlideObservation.observe(swiperWrapper, {
+    attributes: true
+  });
 }
