@@ -3,7 +3,7 @@ class Search::DestinationsController < ApplicationController
     @results = session[:results]
     if @results
       @departure_info = session[:departure]
-      gon.searchInfo = {results: @results, departure: @departure_info, destination_terms: session[:destination_terms]}
+      gon.searchInfo = {results: @results, departure: @departure_info, search_term: session[:search_term]}
     else
       redirect_to new_search_destination_path, flash: {error: "条件を入力してください"}
     end
@@ -38,7 +38,7 @@ class Search::DestinationsController < ApplicationController
       return render :new, status: :unprocessable_entity
     end
 
-    session[:results], session[:destination_terms] = results, @search_term.attributes
+    session[:results], session[:search_term] = results, @search_term.attributes
     redirect_to search_destinations_path
   end
 
