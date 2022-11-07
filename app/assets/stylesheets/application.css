@@ -39,6 +39,10 @@
   word-break: keep-all;
 }
 
+.wrap-anywhere {
+  overflow-wrap: anywhere;
+}
+
 .nav-height {
   height: 8vh;
   z-index: 10;

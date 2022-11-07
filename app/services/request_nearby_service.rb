@@ -3,9 +3,7 @@ class RequestNearbyService
   include CalculateThreeLocations
 
   def initialize(location, radius, type)
-    @location = location
-    @radius = radius
-    @type = type
+    @location, @radius, @type = location, radius, type
   end
 
   def call
