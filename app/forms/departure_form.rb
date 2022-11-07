@@ -1,4 +1,4 @@
-class SearchDepartureForm
+class DepartureForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 

@@ -2,7 +2,7 @@ ja:
   activemodel:
     models:
     attributes:
-      search_departure_form:
+      departure_form:
         name: '名称'
         address: '住所'
         is_saved: '保存する'
