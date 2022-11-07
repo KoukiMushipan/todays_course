@@ -17,7 +17,7 @@ module CalculateThreeLocations
   end
 
   def create_radius_for_request(radius, index)
-    search_radius = radius / 3 * (index + 1)
+    search_radius = radius * 2 / 6 * (index + 1)
     search_radius > 500 ? search_radius : 500
   end
 end
