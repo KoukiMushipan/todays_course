@@ -60,7 +60,7 @@ window.showCandidates = () => {
       infoWindow.close();
     }
     infoWindow = new google.maps.InfoWindow({
-      content: `${location.name}<br><a href="/search/destinations/${location.id}">目的地に設定</a>`
+      content: `${location.name}<br><a href="/destinations/new?id=${location.id}">目的地に設定</a>`
     });
     infoWindow.open(map, marker);
   }

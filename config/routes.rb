@@ -15,4 +15,6 @@ Rails.application.routes.draw do
     resources :departures, only: %i[new create]
     resources :destinations, only: %i[index new create]
   end
+
+  resources :destinations, only: %i[new]
 end
