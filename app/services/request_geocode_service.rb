@@ -24,11 +24,13 @@ class RequestGeocodeService
 
   def parse_result(result)
     result = result[:results][0]
+    full_address = result[:formatted_address].split(' ')
+    full_address.shift
     {
       name: name,
       latitude: result[:geometry][:location][:lat],
       longitude: result[:geometry][:location][:lng],
-      address: address,
+      address: full_address.join(' '),
       place_id: result[:place_id]
     }
   end

@@ -5,14 +5,11 @@
     <%= render partial: 'shared/error_message', collection: search_departure.errors.full_messages_for(:name) %>
   </div>
 
-  <div class="my-5"
-  data-controller="geocode"
-  data-geocode-load-class="hidden"
-  data-geocode-url-value=<%= Settings.google.map_url %>>
+  <div class="my-5">
     <%= f.label :address %>
-    <%= f.text_field :address, class: 'normal-form', data: { geocode_target: 'form' }, required: true %>
-    <%= link_to '現在地取得', '#', class: 'text-blue-600 underline', data: { geocode_target: 'get' } %>
-    <p class="hidden" data-geocode-target="loading">読込中……</p>
+    <%= f.text_field :address, class: 'normal-form', id: 'js-address-form', required: true %>
+    <%= link_to '現在地取得', '#', class: 'text-blue-600 underline', id: 'js-get-current-location-button' %>
+    <p class="hidden" id="js-loading-text">読込中……</p>
     <%= render partial: 'shared/error_message', collection: search_departure.errors.full_messages_for(:address) %>
   </div>
 
