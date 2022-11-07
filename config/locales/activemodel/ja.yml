@@ -6,6 +6,6 @@ ja:
         name: '名称'
         address: '住所'
         is_saved: '保存する'
-      search_destination_form:
+      search_term_form:
         radius: '距離'
         type: '種類'
