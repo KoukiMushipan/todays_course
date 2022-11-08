@@ -50,7 +50,7 @@ window.showCandidates = () => {
       openInfoWindow(location, marker)
     });
 
-    marker.locationId = location.id
+    marker.locationUuid = location.uuid
     return marker
   };
 
@@ -60,7 +60,7 @@ window.showCandidates = () => {
       infoWindow.close();
     }
     infoWindow = new google.maps.InfoWindow({
-      content: `${location.name}<br><a href="/destinations/new?id=${location.id}">目的地に設定</a>`
+      content: `${location.name}<br><a href="/destinations/new?destination=${location.uuid}">目的地に設定</a>`
     });
     infoWindow.open(map, marker);
   }
@@ -70,9 +70,9 @@ window.showCandidates = () => {
   const swiperWrapper = document.getElementsByClassName('swiper-wrapper')[0]
   const activeSlideObservation = new MutationObserver(() => {
     if (swiperWrapper.style.cssText.includes('transition-duration: 0ms;')) {
-      const activeSlideLocationId = document.getElementsByClassName('swiper-slide-active')[0].id.replace('js-result-', '')
-      const activeSlideMarker = markers.find((marker) => marker.locationId === parseInt(activeSlideLocationId));
-      const activeSlideLocation = results.find((location) => location.id === parseInt(activeSlideLocationId));
+      const activeSlideLocationUuid = document.getElementsByClassName('swiper-slide-active')[0].id.replace('js-result-', '')
+      const activeSlideMarker = markers.find((marker) => marker.locationUuid === activeSlideLocationUuid);
+      const activeSlideLocation = results.find((location) => location.uuid === activeSlideLocationUuid);
       openInfoWindow(activeSlideLocation, activeSlideMarker);
     }
   });
