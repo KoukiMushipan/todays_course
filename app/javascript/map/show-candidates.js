@@ -2,7 +2,7 @@ window.showCandidates = () => {
   const departure = gon.searchInfo.departure;
   const center = { lat: departure.latitude, lng: departure.longitude }
   const results = gon.searchInfo.results;
-  const radius = gon.searchInfo.destination_terms.radius;
+  const radius = gon.searchInfo.search_term.radius;
 
   const map = new google.maps.Map(document.getElementById('map'), {
     center,
