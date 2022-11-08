@@ -1,7 +1,11 @@
 class Search::DestinationsController < ApplicationController
   def index
-    @results = session[:results]
-    if @results
+    return redirect_to new_search_departure_path, flash: {error: "出発地が設定されていません"} if !session[:departure]
+
+    return redirect_to new_search_destination_path, flash: {error: "条件を入力してください"} if !session[:search_term]
+
+    if session[:results]
+      @results = session[:results]
       @departure_info = session[:departure]
       gon.searchInfo = {results: @results, departure: @departure_info, search_term: session[:search_term]}
     else
@@ -23,17 +27,17 @@ class Search::DestinationsController < ApplicationController
   end
 
   def create
-    @search_term = SearchTermForm.new(search_term_params)
+    @departure_info = session[:departure]
+    return redirect_to new_search_departure_path, flash: {error: "出発地が設定されていません"} if !@departure_info
 
+    @search_term = SearchTermForm.new(search_term_params)
     if !@search_term.valid?
-      @departure_info = session[:departure]
       flash.now[:error] = '入力情報に誤りがあります'
       return render :new, status: :unprocessable_entity
     end
 
-    results = RequestNearbyService.new(session[:departure], @search_term.radius, @search_term.type).call
+    results = RequestNearbyService.new(@departure_info, @search_term.radius, @search_term.type).call
     if !results
-      @departure_info = session[:departure]
       flash.now[:error] = '目的地が見つかりませんでした'
       return render :new, status: :unprocessable_entity
     end
