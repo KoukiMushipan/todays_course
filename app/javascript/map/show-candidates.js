@@ -66,14 +66,14 @@ window.showCandidates = () => {
   }
 
   let markers = results.map((result) => setMarker(result));
-  openInfoWindow(map, markers[0]);
+  openInfoWindow(results[0], markers[0]);
 
   const swiperWrapper = document.getElementsByClassName('swiper-wrapper')[0]
   const activeSlideObservation = new MutationObserver(() => {
     if (swiperWrapper.style.cssText.includes('transition-duration: 0ms;')) {
       const activeSlideLocationUuid = document.getElementsByClassName('swiper-slide-active')[0].id.replace('js-result-', '')
       const activeSlideMarker = markers.find((marker) => marker.locationUuid === activeSlideLocationUuid);
-      const activeSlideLocation = results.find((location) => location.variable.uuid === activeSlideLocationUuid);
+      const activeSlideLocation = results.find((result) => result.variable.uuid === activeSlideLocationUuid);
       openInfoWindow(activeSlideLocation, activeSlideMarker);
     }
   });
