@@ -66,6 +66,7 @@ window.showCandidates = () => {
   }
 
   let markers = results.map((result) => setMarker(result));
+  openInfoWindow(map, markers[0]);
 
   const swiperWrapper = document.getElementsByClassName('swiper-wrapper')[0]
   const activeSlideObservation = new MutationObserver(() => {
