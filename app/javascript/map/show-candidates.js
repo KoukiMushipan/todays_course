@@ -36,8 +36,8 @@ window.showCandidates = () => {
 
   const setMarker = (location) => {
     const coordinatesMarker = new google.maps.LatLng({
-      lat: parseFloat(location.latitude),
-      lng: parseFloat(location.longitude)
+      lat: parseFloat(location.fixed.latitude),
+      lng: parseFloat(location.fixed.longitude)
     });
 
     const marker = new google.maps.Marker({
@@ -50,7 +50,7 @@ window.showCandidates = () => {
       openInfoWindow(location, marker)
     });
 
-    marker.locationUuid = location.uuid
+    marker.locationUuid = location.variable.uuid
     return marker
   };
 
@@ -60,7 +60,7 @@ window.showCandidates = () => {
       infoWindow.close();
     }
     infoWindow = new google.maps.InfoWindow({
-      content: `${location.name}<br><a href="/destinations/new?destination=${location.uuid}">目的地に設定</a>`
+      content: `${location.variable.name}<br><a href="/destinations/new?destination=${location.variable.uuid}">目的地に設定</a>`
     });
     infoWindow.open(map, marker);
   }
@@ -73,7 +73,7 @@ window.showCandidates = () => {
     if (swiperWrapper.style.cssText.includes('transition-duration: 0ms;')) {
       const activeSlideLocationUuid = document.getElementsByClassName('swiper-slide-active')[0].id.replace('js-result-', '')
       const activeSlideMarker = markers.find((marker) => marker.locationUuid === activeSlideLocationUuid);
-      const activeSlideLocation = results.find((location) => location.uuid === activeSlideLocationUuid);
+      const activeSlideLocation = results.find((location) => location.variable.uuid === activeSlideLocationUuid);
       openInfoWindow(activeSlideLocation, activeSlideMarker);
     }
   });

@@ -39,12 +39,18 @@ class RequestNearbyService
   def parse_results(results)
     results.map do |result|
       {
-        uuid: SecureRandom.uuid,
-        name: result[:name],
-        latitude: result[:geometry][:location][:lat],
-        longitude: result[:geometry][:location][:lng],
-        address: result[:vicinity],
-        place_id: result[:place_id]
+        variable:
+        {
+          uuid: SecureRandom.uuid,
+          name: result[:name],
+        },
+        fixed:
+        {
+          latitude: result[:geometry][:location][:lat],
+          longitude: result[:geometry][:location][:lng],
+          address: result[:vicinity],
+          place_id: result[:place_id]
+        }
       }
     end
   end

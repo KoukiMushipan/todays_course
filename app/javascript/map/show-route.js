@@ -16,14 +16,14 @@ window.showRoute = () => {
 
   const request = {
     origin: departure.address,
-    destination: destination.address,
+    destination: destination.fixed.address,
     travelMode: 'WALKING'
   };
 
   directionsService.route(request, function (result, status) {
     if (status == 'OK') {
-      result['routes'][0]['legs'][0]['start_address'] = departure['name'];
-      result['routes'][0]['legs'][0]['end_address'] = destination['name'];
+      result['routes'][0]['legs'][0]['start_address'] = departure.name;
+      result['routes'][0]['legs'][0]['end_address'] = destination.variable.name;
 
       directionsRenderer.setDirections(result);
 
