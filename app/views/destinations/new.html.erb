@@ -1,6 +1,9 @@
 <% content_for(:title, '目的地詳細') %>
+
 <div id="map"></div>
 <p class='zen-kaku-regular text-xl tracking-wider' id='js-show-distance'></p>
+
+<%= render 'form', {destination: @destination, destination_info: @destination_info} %>
 
 <%= include_gon %>
 <%= javascript_include_tag Settings.google.map_url + 'callback=showRoute', defer: 'defer' %>

@@ -16,5 +16,5 @@ Rails.application.routes.draw do
     resources :destinations, only: %i[index new create]
   end
 
-  resources :destinations, only: %i[new]
+  resources :destinations, only: %i[new create]
 end
