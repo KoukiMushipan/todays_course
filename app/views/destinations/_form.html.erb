@@ -6,7 +6,7 @@
   </div>
   <div class="my-5">
     <%= f.label :distance %>
-    <%= f.number_field :distance, id: 'js-get-distance', class: "normal-form" %>
+    <%= f.number_field :distance, class: "normal-form" %>
     <%= render partial: 'shared/error_message', collection: destination.errors.full_messages_for(:distance) %>
   </div>
   <div class="my-5">

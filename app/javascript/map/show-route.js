@@ -29,6 +29,8 @@ window.showRoute = () => {
 
       const distance = result['routes'][0]['legs'][0]['distance']['value'];
       document.getElementById('js-show-distance').textContent = `片道: ${distance}m`;
+      document.getElementById('destination_form_name').value = destination.variable.name;
+      document.getElementById('destination_form_distance').value = distance;
     }
   });
 }
