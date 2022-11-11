@@ -4,10 +4,10 @@ class DestinationsController < ApplicationController
 
     return redirect_to new_search_destination_path, flash: {error: "条件を入力してください"} if !session[:results]
 
-    @destination_info = session[:results].find {|result| result[:variable][:uuid] == params[:destination]}
-    if @destination_info
+    @result = session[:results].find {|result| result[:variable][:uuid] == params[:destination]}
+    if @result
       @destination = DestinationForm.new
-      gon.locationInfo = {departure: session[:departure], destination: @destination_info}
+      gon.locationInfo = {departure: session[:departure], destination: @result}
     else
       redirect_to search_destinations_path, flash: {error: "目的地が見つかりませんでした"}
     end
@@ -19,8 +19,8 @@ class DestinationsController < ApplicationController
 
     return redirect_to new_search_destination_path, flash: {error: "条件を入力してください"} if !session[:results]
 
-    @result = session[:results].find {|result| result[:variable][:uuid] == params[:destination]}
-    return redirect_to search_destinations_path, flash: {error: "目的地を選択してください"} if !@result
+    result = session[:results].find {|result| result[:variable][:uuid] == params[:destination]}
+    return redirect_to search_destinations_path, flash: {error: "目的地を選択してください"} if !result
 
     @destination = DestinationForm.new(destination_params)
     if !@destination.valid?
@@ -30,17 +30,17 @@ class DestinationsController < ApplicationController
 
     if @destination.is_saved && session[:departure][:uuid]
       @departure = Departure.find_by!(uuid: session[:departure][:uuid])
-      location = Location.create!(@result[:fixed].merge(name: @destination.name))
+      location = Location.create!(result[:fixed].merge(name: @destination.name))
       @destination_info = Destination.create!(departure: departure, location: location, distance: @destination.distance, is_saved: true).attributes_for_session
       session[:destination] = @destination_info
     elsif @destination.is_saved && !session[:departure][:uuid]
       @departure = current_user.departures.create!(is_saved: false, location: Location.create!(session[:departure]))
-      location = Location.create!(@result[:fixed].merge(name: @destination.name))
+      location = Location.create!(result[:fixed].merge(name: @destination.name))
       @destination_info = Destination.create!(departure: departure, location: location, distance: @destination.distance, is_saved: true).attributes_for_session
       session[:destination] = @destination_info
     else
       @destination_info = @destination.attributes.select {|k,v| k == 'name' || k == 'distance'}
-      @destination_info.merge!(@result[:fixed])
+      @destination_info.merge!(result[:fixed])
       session[:destination] = @destination_info
     end
 
