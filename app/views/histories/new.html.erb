@@ -1,0 +1,51 @@
+<%= turbo_frame_tag 'destination-form' do %>
+  <div class="info-card bg-cyan-50/75 keep-all mt-0">
+    <p class="mb-1.5 text-left text-gray-700">
+      <%= fa_icon 'floppy-o' %>
+      <span class="ml-1">
+        <% if @departure_info[:created_at] %>
+          <%= l(@departure_info[:created_at], format: :short) %>
+        <% else %>
+          未保存
+        <% end %>
+      </span>
+    </p>
+    <h5 class="mb-1 text-3xl text-gray-800 zen-kaku-medium">
+      <%= @departure_info[:name] %>
+    </h5>
+    <p class="mb-3 text-gray-700">
+      <%= @departure_info[:address] %>
+    </p>
+  </div>
+
+  <div class="info-card bg-teal-50/75 keep-all mt-0">
+    <p class="mb-1.5 text-left text-gray-700">
+      <%= fa_icon 'floppy-o' %>
+      <span class="ml-1">
+        <% if @destination_info[:created_at] %>
+          <%= l(@destination_info[:created_at], format: :short) %>
+        <% else %>
+          未保存
+        <% end %>
+      </span>
+    </p>
+    <h5 class="mb-1 text-3xl text-gray-800 zen-kaku-medium">
+      <%= @destination_info[:name] %>
+    </h5>
+    <p class="mb-3 text-gray-700">
+      <%= @destination_info[:address] %>
+    </p>
+  </div>
+
+  <div class="text-center my-5">
+    <%= turbo_frame_tag 'start-button-field' do %>
+      <%= link_to 'スタート(片道)', '#',
+      data: { turbo_method: :post },
+      class: 'orange-btn tracking-widest text-xl px-12 py-3 sm:mr-12 zen-kaku-medium mb-5 sm:mb-0 block sm:inline-block' %>
+
+      <%= link_to 'スタート(往復)', '#',
+      data: { turbo_method: :post },
+      class: 'orange-btn tracking-widest text-xl px-12 py-3 zen-kaku-medium block sm:inline-block' %>
+    <% end %>
+  </div>
+<% end %>

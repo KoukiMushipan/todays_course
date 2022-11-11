@@ -3,7 +3,9 @@
 <div id="map"></div>
 <p class='zen-kaku-regular text-xl tracking-wider' id='js-show-distance'></p>
 
-<%= render 'form', {destination: @destination, result: @result} %>
+<%= turbo_frame_tag 'destination-form' do %>
+  <%= render 'form', {destination: @destination, result: @result} %>
+<% end %>
 
 <%= include_gon %>
 <%= javascript_include_tag Settings.google.map_url + 'callback=showRoute', defer: 'defer' %>

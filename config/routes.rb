@@ -17,4 +17,5 @@ Rails.application.routes.draw do
   end
 
   resources :destinations, only: %i[new create]
+  resources :histories, only: %i[new]
 end
