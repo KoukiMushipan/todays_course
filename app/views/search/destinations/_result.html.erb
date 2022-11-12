@@ -1,9 +1,9 @@
-<div class="info-card pt-3 keep-all wrap-anywhere zen-kaku-regular swiper-slide !h-auto center-slide-card" id="js-result-<%= result[:id] %>">
+<div class="info-card pt-3 keep-all wrap-anywhere zen-kaku-regular swiper-slide !h-auto center-slide-card" id="js-result-<%= result[:variable][:uuid] %>">
   <div>
-    <h5 class="mb-1 text-3xl text-gray-800 zen-kaku-medium"><%= result[:name] %></h5>
-    <p class="mb-3 text-gray-700"><%= result[:address] %></p>
+    <h5 class="mb-1 text-3xl text-gray-800 zen-kaku-medium"><%= result[:variable][:name] %></h5>
+    <p class="mb-3 text-gray-700"><%= result[:fixed][:address] %></p>
     <div class="justify-center">
-      <%= link_to '決定', new_destination_path({id: result[:id]}),
+      <%= link_to '決定', new_destination_path({destination: result[:variable][:uuid]}),
       class: 'orange-btn px-6 inline-flex py-2 justify-center tracking-widest text-xl zen-kaku-medium' %>
     </div>
   </div>

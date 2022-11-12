@@ -1,0 +1,20 @@
+<%= form_with model: destination, url: destinations_path({destination: result[:variable][:uuid]}), class: "zen-kaku-medium" do |f| %>
+  <div class="my-5">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "normal-form" %>
+    <%= render partial: 'shared/error_message', collection: destination.errors.full_messages_for(:name) %>
+  </div>
+  <div class="my-5">
+    <%= f.label :distance %>
+    <%= f.number_field :distance, class: "normal-form" %>
+    <%= render partial: 'shared/error_message', collection: destination.errors.full_messages_for(:distance) %>
+  </div>
+  <div class="my-5">
+    <%= f.check_box :is_saved, class: "p-2 mb-1 mr-3 inline-block shadow rounded-lg border border-gray-300 bg-gray-50" %>
+    <%= f.label :is_saved %>
+    <%= render partial: 'shared/error_message', collection: destination.errors.full_messages_for(:is_saved) %>
+  </div>
+  <div class="text-right mb-5">
+    <%= f.submit '決定', class: 'orange-btn tracking-wider text-xl px-5 py-2.5 zen-kaku-regular' %>
+  </div>
+<% end %>

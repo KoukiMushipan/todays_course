@@ -1,0 +1,14 @@
+<% content_for(:title, 'スタート') %>
+
+<div id="map"></div>
+
+<%= turbo_frame_tag 'destination-form' do %>
+  <%= render 'destination', departure_info: @departure_info, destination_info: @destination_info %>
+
+  <%= turbo_frame_tag 'start-button-field' do %>
+    <%= render 'form' %>
+  <% end %>
+<% end %>
+
+<%= include_gon %>
+<%= javascript_include_tag Settings.google.map_url + 'callback=showRoute', defer: 'defer' %>
