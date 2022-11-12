@@ -1,10 +1,12 @@
 <% content_for(:title, '目的地詳細') %>
 
 <div id="map"></div>
-<p class='zen-kaku-regular text-xl tracking-wider' id='js-show-distance'></p>
 
 <%= turbo_frame_tag 'destination-form' do %>
-  <%= render 'form', {destination: @destination, result: @result} %>
+  <div id="js-input-area">
+    <p class='zen-kaku-regular text-xl tracking-wider' id='js-show-distance'></p>
+    <%= render 'form', {destination: @destination, result: @result} %>
+  </div>
 <% end %>
 
 <%= include_gon %>
