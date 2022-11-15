@@ -1,25 +1,20 @@
 class Search::DeparturesController < ApplicationController
   def new
-    @departure = DepartureForm.new
+    @departure_form = DepartureForm.new
     set_saved_departures_and_histories
   end
 
   def create
-    @departure = DepartureForm.new(departure_params)
-    if !@departure.valid?
+    @departure_form = DepartureForm.new(departure_params)
+    result = RequestGeocodeService.new(@departure_form).call
+
+    if result[:error]
       set_saved_departures_and_histories
-      flash.now[:error] = '入力情報に誤りがあります'
+      flash.now[:error] = result[:error]
       return render :new, status: :unprocessable_entity
     end
 
-    result = RequestGeocodeService.new(@departure.name, @departure.address).call
-    if !result
-      set_saved_departures_and_histories
-      flash.now[:error] = '位置情報の取得に失敗しました'
-      return render :new, status: :unprocessable_entity
-    end
-
-    if @departure.is_saved
+    if @departure_form.is_saved
       departure = current_user.departures.create!(is_saved: true, location: Location.create!(result))
       redirect_to new_search_destination_path(departure: departure.uuid), flash: {success: "出発地を保存しました"}
     else
