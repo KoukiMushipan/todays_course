@@ -14,13 +14,9 @@ class Search::DeparturesController < ApplicationController
       return render :new, status: :unprocessable_entity
     end
 
-    if @departure_form.is_saved
-      departure = current_user.departures.create!(is_saved: true, location: Location.create!(result))
-      redirect_to new_search_destination_path(departure: departure.uuid), flash: {success: "出発地を保存しました"}
-    else
-      session[:departure] = result
-      redirect_to new_search_destination_path
-    end
+    result_of_create_departure = CreateDepartureService.new(current_user, result, @departure_form.is_saved).call
+    session[:departure] = result_of_create_departure[:departure]
+    redirect_to new_search_destination_path, flash: {success: result_of_create_departure[:success]}
   end
 
   private
