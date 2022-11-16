@@ -16,10 +16,6 @@ class RequestGeocodeService
 
   attr_reader :departure_form
 
-  def departure_form_valid?
-    departure_form.valid?
-  end
-
   def request_geocode
     encode_address = {address: departure_form.address}.to_query
     url = Settings.google.geocode_url + encode_address

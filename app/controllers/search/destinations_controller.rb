@@ -25,14 +25,10 @@ class Search::DestinationsController < ApplicationController
     check_departure_session_and_set_departure_info
 
     @search_term_form = SearchTermForm.new(search_term_form_params)
-    if !@search_term_form.valid?
-      flash.now[:error] = '入力情報に誤りがあります'
-      return render :new, status: :unprocessable_entity
-    end
+    results = RequestNearbyService.new(@departure_info, @search_term_form).call
 
-    results = RequestNearbyService.new(@departure_info, @search_term_form.radius, @search_term_form.type).call
-    if !results
-      flash.now[:error] = '目的地が見つかりませんでした'
+    if results[:error]
+      flash.now[:error] = results[:error]
       return render :new, status: :unprocessable_entity
     end
 

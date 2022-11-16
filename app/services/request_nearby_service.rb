@@ -2,24 +2,26 @@ class RequestNearbyService
   include RequestApi
   include CalculateThreeLocations
 
-  def initialize(location, radius, type)
-    @location, @radius, @type = location, radius, type
+  def initialize(departure_info, search_term_form)
+    @departure_info, @search_term_form = departure_info, search_term_form
   end
 
   def call
+    return {error: '入力情報に誤りがあります'} if !search_term_form.valid?
+
     results = calculation
-    results ? parse_results(results) : results
+    results ? parse_results(results) : {error: '目的地が見つかりませんでした'}
   end
 
   private
 
-  attr_reader :location, :radius, :type
+  attr_reader :departure_info, :search_term_form
 
   def calculation
-    locations_for_request = create_locations_for_request(radius, location)
+    locations_for_request = create_locations_for_request(search_term_form.radius, departure_info)
 
     locations_for_request.each_with_index do |location_for_request, index|
-      radius_for_request = create_radius_for_request(radius, index)
+      radius_for_request = create_radius_for_request(search_term_form.radius, index)
       results = request_nearby(location_for_request, radius_for_request)
       return results[:results] if results[:status] == 'OK'
     end
@@ -27,7 +29,7 @@ class RequestNearbyService
   end
 
   def request_nearby(location_for_request, radius_for_request)
-    encode_parameters = {location: parse_location(location_for_request), radius: radius_for_request, type: type}.to_query
+    encode_parameters = {location: parse_location(location_for_request), radius: radius_for_request, type: search_term_form.type}.to_query
     url = Settings.google.nearby_url + encode_parameters
     send_request(url)
   end
