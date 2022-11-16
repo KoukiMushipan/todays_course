@@ -15,15 +15,12 @@ class Search::DestinationsController < ApplicationController
 
   def new
     departure = Departure.find_by(uuid: params[:departure])
-    if departure
-      @departure_info, session[:departure] = Array.new(2, departure.attributes_for_session)
-      @search_term = SearchTermForm.new
-    elsif session[:departure]
-      @departure_info = session[:departure]
-      @search_term = SearchTermForm.new
-    else
-      redirect_to new_search_departure_path, flash: {error: "出発地が設定されていません"}
-    end
+    session[:departure] = departure.attributes_for_session if departure
+
+    redirect_to new_search_departure_path, flash: {error: "出発地が設定されていません"} if session[:departure]
+
+    @departure_info = session[:departure]
+    @search_term = SearchTermForm.new
   end
 
   def create
