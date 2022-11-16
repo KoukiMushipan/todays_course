@@ -8,7 +8,7 @@ class Search::DeparturesController < ApplicationController
     @departure_form = DepartureForm.new(departure_form_params)
     result = RequestGeocodeService.new(@departure_form).call
 
-    if result[:error]
+    if result.include?(:error)
       set_saved_departures_and_histories
       flash.now[:error] = result[:error]
       return render :new, status: :unprocessable_entity

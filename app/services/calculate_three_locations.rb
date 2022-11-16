@@ -8,7 +8,7 @@ module CalculateThreeLocations
     [theta, theta + 120, theta + 240].shuffle
   end
 
-  def create_locations_for_request(radius, location)
+  def create_locations_for_request(location, radius)
     three_theta.map do |tt|
       latitude = (360 * radius) / (2 * PI * 6356752.314) * sin(tt * PI / 180.0) + location[:latitude]
       longitude = (360 * radius) / ((6378137.0 * cos(location[:latitude] * PI / 180)) * 2 * PI) * cos(tt * PI / 180.0) + location[:longitude]

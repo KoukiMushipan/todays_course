@@ -18,24 +18,21 @@ class RequestNearbyService
   attr_reader :departure_info, :search_term_form
 
   def calculation
-    locations_for_request = create_locations_for_request(search_term_form.radius, departure_info)
+    locations = create_locations_for_request(departure_info, search_term_form.radius)
 
-    locations_for_request.each_with_index do |location_for_request, index|
-      radius_for_request = create_radius_for_request(search_term_form.radius, index)
-      results = request_nearby(location_for_request, radius_for_request)
+    locations.each_with_index do |location, index|
+      radius = create_radius_for_request(search_term_form.radius, index)
+      results = request_nearby(location, radius)
       return results[:results] if results[:status] == 'OK'
     end
     false
   end
 
-  def request_nearby(location_for_request, radius_for_request)
-    encode_parameters = {location: parse_location(location_for_request), radius: radius_for_request, type: search_term_form.type}.to_query
+  def request_nearby(location_info, radius)
+    parse_location = "#{location_info[:latitude]},#{location_info[:longitude]}"
+    encode_parameters = {location: parse_location, radius: radius, type: search_term_form.type}.to_query
     url = Settings.google.nearby_url + encode_parameters
     send_request(url)
-  end
-
-  def parse_location(location_for_request)
-    "#{location_for_request[:latitude]},#{location_for_request[:longitude]}"
   end
 
   def parse_results(results)

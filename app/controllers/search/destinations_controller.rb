@@ -27,7 +27,7 @@ class Search::DestinationsController < ApplicationController
     @search_term_form = SearchTermForm.new(search_term_form_params)
     results = RequestNearbyService.new(@departure_info, @search_term_form).call
 
-    if results[:error]
+    if results.include?(:error)
       flash.now[:error] = results[:error]
       return render :new, status: :unprocessable_entity
     end
