@@ -4,7 +4,11 @@ class CreateDestinationService
   end
 
   def call
-    create_destination
+    if destination.is_saved
+      {destination: create_destination.attributes_for_session, success: '目的地を保存しました'}
+    else
+      {destination: destination.attributes_for_session(@result)}
+    end
   end
 
   private
@@ -15,7 +19,7 @@ class CreateDestinationService
     if departure_info[:uuid]
       user.departures.find_by!(uuid: departure_info[:uuid])
     else
-      user.departures.create!(location: Location.create!(departure_info), is_saved: false)
+      user.departures.create!(location: Location.create!(departure_info), is_saved: destination.is_saved)
     end
   end
 

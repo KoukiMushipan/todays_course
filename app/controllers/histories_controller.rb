@@ -1,6 +1,7 @@
 class HistoriesController < ApplicationController
   def new
     destination = current_user.destinations.find_by(uuid: params[:destination])
+    destination ||= current_user.destinations.find_by(uuid: session[:destination][:uuid])
 
     if destination
       @destination_info, session[:destination] = Array.new(2, destination.attributes_for_session)

@@ -10,18 +10,15 @@ class DestinationsController < ApplicationController
 
   def create
     @destination = DestinationForm.new(destination_params)
+
     if !@destination.valid?
       flash.now[:error] = '入力情報に誤りがあります'
       return render :new, status: :unprocessable_entity
     end
 
-    if @destination.is_saved
-      destination = CreateDestinationService.new(current_user, session[:departure], @destination, @result).call
-      redirect_to new_history_path(destination: destination.uuid), flash: {success: '目的地を保存しました'}
-    else
-      session[:destination] = @destination.attributes_for_session(@result)
-      redirect_to new_history_path
-    end
+    result_of_create_destination = CreateDestinationService.new(current_user, session[:departure], @destination, @result).call
+    session[:destination] = result_of_create_destination[:destination]
+    redirect_to new_history_path, flash: {success: result_of_create_destination[:success]}
   end
 
   private
