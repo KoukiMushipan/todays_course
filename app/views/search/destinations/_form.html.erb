@@ -1,14 +1,14 @@
-<%= form_with model: search_term, url: search_destinations_path, class: 'zen-kaku-medium' do |f| %>
+<%= form_with model: search_term_form, url: search_destinations_path, class: 'zen-kaku-medium' do |f| %>
   <div class="my-5">
     <%= f.label :radius, '距離(1000m~5000m)' %>
     <%= f.number_field :radius, class: 'normal-form tracking-widest', step: 100, min: 1000, max: 5000, required: true  %>
-    <%= render partial: 'shared/error_message', collection: search_term.errors.full_messages_for(:radius) %>
+    <%= render partial: 'shared/error_message', collection: search_term_form.errors.full_messages_for(:radius) %>
   </div>
 
   <div class="my-5">
     <%= f.label :type %>
     <%= f.select :type, Settings.google.place_type.to_h, {}, class: 'normal-form tracking-widest' %>
-    <%= render partial: 'shared/error_message', collection: search_term.errors.full_messages_for(:type) %>
+    <%= render partial: 'shared/error_message', collection: search_term_form.errors.full_messages_for(:type) %>
   </div>
 
   <div class="my-5 text-right">

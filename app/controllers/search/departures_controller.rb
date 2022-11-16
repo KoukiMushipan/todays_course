@@ -5,7 +5,7 @@ class Search::DeparturesController < ApplicationController
   end
 
   def create
-    @departure_form = DepartureForm.new(departure_params)
+    @departure_form = DepartureForm.new(departure_form_params)
     result = RequestGeocodeService.new(@departure_form).call
 
     if result[:error]
@@ -21,7 +21,7 @@ class Search::DeparturesController < ApplicationController
 
   private
 
-  def departure_params
+  def departure_form_params
     params.require(:departure_form).permit(:name, :address, :is_saved)
   end
 
