@@ -3,6 +3,8 @@
     <%= fa_icon 'clock-o'%>
     <span><%= l(history.start_time, format: :short) %></span>
     <span class="ml-1"><%= history.decorate.moving_time %></span>
+    <%= fa_icon 'road',  class: 'ml-1'%>
+    <span><%= history.moving_distance %>m</span>
   </p>
   <p class="mb-1.5 text-left text-gray-700">
     <%= fa_icon 'flag' %>
