@@ -9,7 +9,7 @@ class Search::DestinationsController < ApplicationController
   end
 
   def new
-    departure = Departure.find_by(uuid: params[:departure])
+    departure = current_user.departures.find_by(uuid: params[:departure])
     session[:departure] = departure.attributes_for_session if departure
     check_departure_session_and_set_departure_info
 
