@@ -34,17 +34,4 @@ class Search::DestinationsController < ApplicationController
   def search_term_form_params
     params.require(:search_term_form).permit(:radius, :type)
   end
-
-  def check_departure_session_and_set_departure_info
-    redirect_to new_search_departure_path, flash: {error: "出発地が設定されていません"} if !session[:departure]
-    @departure_info = session[:departure]
-  end
-
-  def check_search_term_session
-    redirect_to new_search_destination_path, flash: {error: "条件を入力してください"} if !session[:search_term]
-  end
-
-  def check_results_session
-    redirect_to new_search_destination_path, flash: {error: '目的地の検索が実行されていません'} if !session[:results]
-  end
 end
