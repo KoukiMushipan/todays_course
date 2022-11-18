@@ -21,4 +21,8 @@ google:
       '店舗': 'store',
       'スーパーマーケット': 'supermarket',
       '観光スポット': 'tourist_attraction',
-      }
+  }
+course_type: [
+  'one_way',
+  'round_trip'
+]
