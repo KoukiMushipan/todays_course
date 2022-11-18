@@ -27,6 +27,6 @@ class Search::DeparturesController < ApplicationController
 
   def set_saved_departures_and_histories
     @departures = current_user.departures.saved_list
-    @histories = current_user.histories.list
+    @histories = current_user.histories.finished_list
   end
 end
