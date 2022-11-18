@@ -45,7 +45,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_04_033138) do
     t.bigint "user_id", null: false
     t.bigint "destination_id", null: false
     t.datetime "start_time", null: false
-    t.datetime "end_time", null: false
+    t.datetime "end_time"
     t.integer "moving_distance", null: false
     t.string "uuid", null: false
     t.datetime "created_at", null: false
