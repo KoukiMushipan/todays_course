@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_course_params
-    redirect_to new_history_path_path, flash: {error: '片道か往復から選択してください'} if !Settings.course_type.include?(params[:course])
+    redirect_to new_history_path, flash: {error: '片道か往復から選択してください'} if !Settings.course_type.include?(params[:course])
   end
 
   def check_departure_session_and_set_departure_info
