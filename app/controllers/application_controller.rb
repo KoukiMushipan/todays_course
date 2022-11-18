@@ -20,13 +20,13 @@ class ApplicationController < ActionController::Base
   end
 
   def check_departure_session_and_set_departure_info
-    check_departure_session
     @departure_info = session[:departure]
+    check_departure_session
   end
 
   def check_destination_session_and_set_destination_info
-    check_destination_session
     @destination_info = session[:destination]
+    check_destination_session
   end
 
   def check_result_session_for_destination_and_set_result
