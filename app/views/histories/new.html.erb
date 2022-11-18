@@ -2,9 +2,9 @@
 
 <div id="map"></div>
 
-<%= turbo_frame_tag 'destination-form' do %>
+<%= turbo_frame_tag 'record-field' do %>
   <%= render 'destination', departure_info: @departure_info, destination_info: @destination_info %>
-  <%= turbo_frame_tag 'start-button-field' do %>
+  <%= turbo_frame_tag 'start-field' do %>
     <%= render 'start_button' %>
   <% end %>
 <% end %>

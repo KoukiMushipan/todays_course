@@ -2,12 +2,14 @@
 
 <div id="map"></div>
 
-<div id="js-input-area">
-  <p class='zen-kaku-regular text-xl tracking-wider' id='js-show-distance'></p>
-  <%= turbo_frame_tag 'destination-form' do %>
-    <%= render 'form', {destination: @destination, result: @result} %>
-  <% end %>
-</div>
+<%= turbo_frame_tag 'record-field' do %>
+  <div id="js-input-area">
+    <p class='zen-kaku-regular text-xl tracking-wider' id='js-show-distance'></p>
+    <div id="destination-form">
+      <%= render 'form', {destination_form: @destination_form, result: @result} %>
+    </div>
+  </div>
+<% end %>
 
 <%= include_gon %>
 <%= javascript_include_tag Settings.google.map_url + 'callback=showRoute', defer: 'defer' %>
