@@ -13,7 +13,7 @@ class DestinationsController < ApplicationController
 
     if !@destination_form.valid?
       flash.now[:error] = '入力情報に誤りがあります'
-      return render :create_failed, status: :unprocessable_entity
+      return render partial: 'create_failed', status: :unprocessable_entity
     end
 
     result_of_create_destination = CreateDestinationService.new(current_user, session[:departure], @destination_form, @result).call
