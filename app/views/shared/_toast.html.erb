@@ -1,12 +1,12 @@
 <%= turbo_frame_tag 'toast' do %>
   <% if flash[:success] %>
     <div data-controller="toast"
-        data-toast-type-value=<%= 'success' %>
+        data-toast-type-value="success"
         data-toast-message-value=<%= flash[:success] %>>
     </div>
   <% elsif flash[:error] %>
     <div data-controller="toast"
-        data-toast-type-value=<%= 'error' %>
+        data-toast-type-value="error"
         data-toast-message-value=<%= flash[:error] %>>
     </div>
   <% end %>
