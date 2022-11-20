@@ -4,7 +4,7 @@
 
 <%= turbo_frame_tag 'record-field' do %>
   <%= render 'destination', departure_info: @departure_info, destination_info: @destination_info %>
-  <%= turbo_frame_tag 'start-field' do %>
+  <%= turbo_frame_tag 'start-field', data: { turbo_action: :advance } do %>
     <%= render 'start_button' %>
   <% end %>
 <% end %>

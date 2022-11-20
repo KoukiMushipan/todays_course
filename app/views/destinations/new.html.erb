@@ -2,7 +2,7 @@
 
 <div id="map"></div>
 
-<%= turbo_frame_tag 'record-field' do %>
+<%= turbo_frame_tag 'record-field', data: { turbo_action: :advance } do %>
   <div id="js-input-area">
     <p class='zen-kaku-regular text-xl tracking-wider' id='js-show-distance'></p>
     <div id="destination-form">
