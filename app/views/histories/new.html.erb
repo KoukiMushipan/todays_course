@@ -3,8 +3,8 @@
 <div id="map"></div>
 
 <%= turbo_frame_tag 'record-field' do %> <%# destinations#newから遷移してきた時、差し替わるturbo_frame %>
-  <%= render 'destination', departure_info: @departure_info, destination_info: @destination_info %>
   <%= turbo_frame_tag 'start-field', data: { turbo_action: :advance } do %>
+    <%= render 'destination', departure_info: @departure_info, destination_info: @destination_info %>
     <%= render 'shared/toast' if is_turbo_frame_request? %> <%# destinations#createで保存するを選択した場合用 %>
     <div data-controller="delete" data-action="turbo:before-render@window->delete#oneWayDistance"></div> <%# destinations#newから遷移してきた時、片道の距離を削除する %>
     <%= render 'start_button' %>

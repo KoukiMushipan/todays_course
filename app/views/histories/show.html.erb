@@ -1,3 +1,11 @@
-<%= turbo_frame_tag 'start-field' do %>
-  <%= @history.attributes %>
+<% content_for(:title, (@history.end_time ? '履歴詳細' : '移動中')) %>
+
+<div id="map"></div>
+
+<%= turbo_frame_tag 'start-field' do %> <%# histories#newから遷移してきた時、差し替わるturbo_frame %>
+  <%= render 'shared/toast' if is_turbo_frame_request? %> <%# histories#createでスタートして遷移してきた用 %>
+  <%= render @history %>
 <% end %>
+
+<%= include_gon %>
+<%= javascript_include_tag Settings.google.map_url + 'callback=showRoute', defer: 'defer' %>

@@ -20,9 +20,11 @@ class CreateHistoryService
 
     case course_type
     when 'one_way'
-      user.histories.create!(destination: destination, moving_distance: destination.distance)
+      history = user.histories.create!(destination: destination, moving_distance: destination.distance)
+      {history: history, success: 'スタートしました(片道)'}
     when 'round_trip'
-      user.histories.create!(destination: destination, moving_distance: (destination.distance * 2))
+      history = user.histories.create!(destination: destination, moving_distance: (destination.distance * 2))
+      {history: history, success: 'スタートしました(往復)'}
     end
   end
 
