@@ -3,7 +3,7 @@ class HistoriesController < ApplicationController
   before_action :check_destination_session, only: %i[create]
   before_action :check_course_params, only: %i[create]
 
-  def new
+  def new # destinations#newから遷移の場合、turbo_frameリクエスト
     destination = current_user.destinations.find_by(uuid: params[:destination])
     session[:destination] = destination.attributes_for_session if destination
     return if check_destination_session_and_set_destination_info
