@@ -11,7 +11,7 @@ class Search::DestinationsController < ApplicationController
   def new
     departure = current_user.departures.find_by(uuid: params[:departure])
     session[:departure] = departure.attributes_for_session if departure
-    check_departure_session_and_set_departure_info
+    return if check_departure_session_and_set_departure_info
 
     @search_term_form = SearchTermForm.new
   end

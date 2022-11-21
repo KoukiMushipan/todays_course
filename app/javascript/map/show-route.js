@@ -37,11 +37,20 @@ window.showRoute = () => {
 
       directionsRenderer.setDirections(result);
 
-      if (document.getElementById('js-input-area')) {
-        const distance = result['routes'][0]['legs'][0]['distance']['value'];
-        document.getElementById('js-show-distance').textContent = `片道: ${distance}m`;
-        document.getElementById('destination_form_name').value = destinationName;
-        document.getElementById('destination_form_distance').value = distance;
+      const distance = result['routes'][0]['legs'][0]['distance']['value'];
+      const showDistance = document.getElementById('js-show-distance')
+      const destinationNameForm = document.getElementById('destination_form_name')
+      const destinationDistanceForm = document.getElementById('destination_form_distance')
+
+      if (showDistance) {
+        showDistance.textContent = `片道: ${distance}m`;
+      }
+      if (destinationNameForm) {
+        destinationNameForm.value = destinationName;
+      }
+
+      if (destinationDistanceForm) {
+        destinationDistanceForm.value = distance;
       }
     }
   });

@@ -24,5 +24,9 @@ google:
   }
 course_type: [
   'one_way',
-  'round_trip'
+  'round_trip',
+]
+turbo_frame_for_check_session: [
+  'record-field',
+  'start-field',
 ]
