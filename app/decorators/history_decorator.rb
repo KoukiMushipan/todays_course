@@ -11,6 +11,30 @@ class HistoryDecorator < ApplicationDecorator
   #   end
 
   def moving_time
-    "#{((object.end_time - object.start_time) / 60).floor}分"
+    "#{((end_time - start_time) / 60).floor}分"
+  end
+
+  def departure_uuid
+    destination.departure.uuid
+  end
+
+  def departure_name
+    destination.departure.location.name
+  end
+
+  def departure_address
+    destination.departure.location.address
+  end
+
+  def destination_uuid
+    destination.uuid
+  end
+
+  def destination_name
+    destination.location.name
+  end
+
+  def destination_address
+    destination.location.address
   end
 end
