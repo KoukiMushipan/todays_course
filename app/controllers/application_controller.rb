@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
 
   def check_departure_session
     if session[:departure].nil?
-      url = new_search_departure_path
+      url = new_departure_path
       flash_message = {error: '出発地が設定されていません'}
       required_none(url, flash_message)
     end

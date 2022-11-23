@@ -12,10 +12,11 @@ Rails.application.routes.draw do
   delete 'logout', to: 'user_sessions#destroy'
 
   namespace :search do
-    resources :departures, only: %i[new create]
+
     resources :destinations, only: %i[index new create]
   end
 
+  resources :departures, only: %i[new create]
   resources :destinations, only: %i[new create]
   resources :histories, only: %i[new create show update destroy]
 end

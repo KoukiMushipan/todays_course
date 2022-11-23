@@ -1,4 +1,4 @@
-class Search::DeparturesController < ApplicationController
+class DeparturesController < ApplicationController
   def new
     @departure_form = DepartureForm.new
     set_saved_departures_and_histories
