@@ -3,9 +3,10 @@
 <div id="map"></div>
 
 <p class='zen-kaku-regular text-xl tracking-wider' id='js-show-distance'></p>
+
 <%= turbo_frame_tag 'record-field', data: { turbo_action: :advance } do %>
-    <%= render 'shared/toast' if is_turbo_frame_request? %> <%# destinations#createでのバリデーションエラー用 %>
-    <%= render 'form', {destination_form: @destination_form, result: @result} %>
+  <%= render 'shared/toast' if is_turbo_frame_request? %> <%# destinations#createでのバリデーションエラー用 %>
+  <%= render 'form', {destination_form: @destination_form, result: @result} %>
 <% end %>
 
 <%= include_gon %>

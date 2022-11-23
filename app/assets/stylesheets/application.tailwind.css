@@ -24,6 +24,10 @@
     @apply shadow-md rounded-lg text-white cursor-pointer bg-orange-600 active:bg-orange-700;
   }
 
+  .border-orange-btn {
+    @apply shadow-md rounded-lg cursor-pointer border-2 border-orange-600 text-orange-600 bg-white active:bg-slate-200;
+  }
+
   .tabs {
     @apply shadow-xl mx-auto w-full sm:w-2/3 border-2 border-gray-300 rounded-b-md;
   }

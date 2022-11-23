@@ -1,0 +1,53 @@
+<div class="info-card keep-all zen-kaku-regular swiper-slide">
+  <div class="text-left mb-1 lg:mb-0 text-gray-700">
+    <p class="block lg:inline-block">
+      <%= fa_icon 'home' %>
+      <span><%= history.departure.location.name %></span>
+    </p>
+  </div>
+  <div class="text-gray-800 text-3xl zen-kaku-medium">
+    <h5 class="mr-0 lg:mr-5 block lg:inline-block">
+      <%= fa_icon 'flag' %>
+      <%= history.destination.location.name %>
+    </h5>
+    <h5 class="block lg:inline-block">
+      <%= fa_icon 'road' %>
+      <%= history.moving_distance %>m
+    </h5>
+  </div>
+  <p class="text-gray-700"><%= history.destination.location.address %></p>
+
+  <div class="mt-3 text-gray-800 text-3xl tracking-wider zen-kaku-bold">
+    <h5 class="block lg:inline-block">
+      <%= 'START: ' + l(history.start_time, format: :short) %>
+    </h5>
+
+    <% if history.end_time %>
+      <%= turbo_frame_tag 'goal-field' do %> <%# ゴールした時、差し替わるturbo_frame %>
+        <div class="mt-4 lg:mt-0 block lg:inline-block">
+          <h5 class="ml-0 pr-0 lg:pr-3 lg:ml-12 block lg:inline-block">
+            <%= "GOAL: " + l(history.end_time, format: :short) %>
+          </h5>
+        </div>
+
+        <% if request.fullpath == history_path(history.uuid) %>
+          <div class="mt-3 zen-kaku-regular text-xl underline">
+            <%= link_to 'ユーザーページに戻る', profile_path, data: { turbo: false } %>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <%= turbo_frame_tag 'goal-field' do %> <%# 未ゴールの際、表示 %>
+        <div class="mt-4 lg:mt-0 block lg:inline-block">
+          <%= link_to 'ゴール', history_path(history.uuid),
+          data: { turbo_method: :patch },
+          class: 'orange-btn tracking-widest text-xl px-12 py-3 lg:mx-12 zen-kaku-medium mb-5 lg:mb-0 block lg:inline-block' %>
+
+          <%= link_to 'やめる', history_path(history.uuid),
+          data: { turbo_method: :delete, turbo_confirm: "スタート記録は削除されます。\nよろしいですか？", turbo_frame: '_top' },
+          class: 'border-orange-btn tracking-widest text-xl px-12 py-3 zen-kaku-medium block lg:inline-block' %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
