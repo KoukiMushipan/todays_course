@@ -16,7 +16,7 @@ class DeparturesController < ApplicationController
 
     result_of_create_departure = CreateDepartureService.new(current_user, result, @departure_form.is_saved).call
     session[:departure] = result_of_create_departure[:departure]
-    redirect_to new_search_destination_path, flash: {success: result_of_create_departure[:success]}
+    redirect_to new_search_path, flash: {success: result_of_create_departure[:success]}
   end
 
   private

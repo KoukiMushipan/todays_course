@@ -10,7 +10,7 @@
     <%= departure.location.address %>
   </p>
   <div class="justify-center">
-    <%= link_to '決定', new_search_destination_path(departure: departure.uuid),
+    <%= link_to '決定', new_search_path(departure: departure.uuid),
     class: 'orange-btn inline-flex w-5/12 sm:w-1/6 py-2 justify-center tracking-widest text-xl zen-kaku-medium' %>
   </div>
 </div>
