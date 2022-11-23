@@ -11,11 +11,8 @@ Rails.application.routes.draw do
   post 'login', to: 'user_sessions#create'
   delete 'logout', to: 'user_sessions#destroy'
 
-  namespace :search do
-    resources :departures, only: %i[new create]
-    resources :destinations, only: %i[index new create]
-  end
-
+  resources :searches, only: %i[index new create]
+  resources :departures, only: %i[new create]
   resources :destinations, only: %i[new create]
   resources :histories, only: %i[new create show update destroy]
 end

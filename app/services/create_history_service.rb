@@ -17,7 +17,7 @@ class CreateHistoryService
     departure = user.departures.create!(location: location)
   end
 
-  def create_destination
+  def create_destination(departure)
     location = Location.create!(destination_info.select { |k, v| k != :distance })
     user.destinations.create!(location: location, departure: departure, distance: destination_info[:distance])
   end
@@ -25,13 +25,12 @@ class CreateHistoryService
   def prepare_location_flexibly
     if destination_info[:uuid]
       destination = user.destinations.find_by!(uuid: destination_info[:uuid])
-      destination.departure
     elsif departure_info[:uuid]
       departure = user.departures.find_by!(uuid: departure_info[:uuid])
-      create_destination
+      create_destination(departure)
     else
       departure = create_departure
-      create_destination
+      create_destination(departure)
     end
   end
 

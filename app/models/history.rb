@@ -8,7 +8,7 @@ class History < ApplicationRecord
   before_create -> { self.uuid = SecureRandom.uuid }
   before_create -> { self.start_time = DateTime.now if start_time.nil? }
 
-  scope :with_location, -> { includes(destination: [departure: :location], destination: :location) }
+  scope :with_location, -> { includes(destination: [:location, departure: :location]) }
   scope :finished, -> { where.not(end_time: nil) }
   scope :recent, -> { order(created_at: :desc) }
 

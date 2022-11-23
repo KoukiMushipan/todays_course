@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
 
   def check_departure_session
     if session[:departure].nil?
-      url = new_search_departure_path
+      url = new_departure_path
       flash_message = {error: '出発地が設定されていません'}
       required_none(url, flash_message)
     end
@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
 
   def check_search_term_session
     if session[:search_term].nil?
-      url = new_search_destination_path
+      url = new_search_path
       flash_message = {error: '条件を入力してください'}
       required_none(url, flash_message)
     end
@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
 
   def check_results_session
     if session[:results].nil?
-      url = new_search_destination_path
+      url = new_search_path
       flash_message = {error: '目的地の検索が実行されていません'}
       required_none(url, flash_message)
     end
@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
     @result = session[:results].find {|result| result[:variable][:uuid] == params[:destination]}
 
     if @result.nil?
-      url = search_destinations_path
+      url = searches_path
       flash_message = {error: '目的地を選択してください'}
       required_none(url, flash_message)
     end

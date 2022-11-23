@@ -1,4 +1,4 @@
-class Search::DestinationsController < ApplicationController
+class SearchesController < ApplicationController
   before_action :check_departure_session_and_set_departure_info, only: %i[index create]
   before_action :check_search_term_session, only: %i[index]
   before_action :check_results_session, only: %i[index]
@@ -26,7 +26,7 @@ class Search::DestinationsController < ApplicationController
     end
 
     session[:results], session[:search_term] = results, @search_term_form.attributes
-    redirect_to search_destinations_path
+    redirect_to searches_path
   end
 
   private
