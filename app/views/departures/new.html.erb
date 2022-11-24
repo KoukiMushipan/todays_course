@@ -25,25 +25,11 @@
   </div>
 
   <div class="tab-content relative" id="center-content">
-    <div class="swiper swiper-container-1" data-controller='swiper'>
-      <div class="swiper-wrapper">
-        <%= render @departures %>
-      </div>
-      <div class="swiper-pagination swiper-pagination-1 !bottom-0"></div>
-    </div>
-    <div class="swiper-button-next swiper-button-next-1 !right-0.5 sm:!right-5 !text-cyan-600/80"></div>
-    <div class="swiper-button-prev swiper-button-prev-1 !left-0.5 sm:!left-5 !text-cyan-600/80"></div>
+    <%= render @departures %>
   </div>
 
   <div class="tab-content relative" id="right-content">
-    <div class="swiper swiper-container-2">
-      <div class="swiper-wrapper">
-        <%= render partial: 'history', collection: @histories %>
-      </div>
-      <div class="swiper-pagination swiper-pagination-2 !bottom-0"></div>
-    </div>
-    <div class="swiper-button-next swiper-button-next-2 !right-0.5 sm:!right-5 !text-cyan-600/80"></div>
-    <div class="swiper-button-prev swiper-button-prev-2 !left-0.5 sm:!left-5 !text-cyan-600/80"></div>
+    <%= render partial: 'history', collection: @histories %>
   </div>
 </div>
 
