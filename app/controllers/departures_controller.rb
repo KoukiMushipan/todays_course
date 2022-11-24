@@ -1,6 +1,7 @@
 class DeparturesController < ApplicationController
   def index
-
+    @departures = current_user.departures.saved_list
+    @destinations = current_user.destinations.saved_list
   end
 
   def new

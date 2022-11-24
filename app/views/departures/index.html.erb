@@ -15,9 +15,9 @@
   </label>
 
   <div class="tab-content" id="left-content">
-    <%# render 'form', departure_form: @departure_form %>
+    <%= render @departures %>
   </div>
 
   <div class="tab-content relative" id="right-content">
-    <%# render 'form', departure_form: @departure_form %>
+    <%= render partial: 'destination', collection: @destinations %>
 </div>
