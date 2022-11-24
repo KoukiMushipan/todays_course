@@ -2,9 +2,9 @@
   <div>
     <h5 class="mb-1 text-3xl text-gray-800 zen-kaku-medium"><%= result[:variable][:name] %></h5>
     <p class="mb-3 text-gray-700"><%= result[:fixed][:address] %></p>
-    <div class="justify-center">
+    <div class="mt-4 mb-3">
       <%= link_to '決定', new_destination_path({destination: result[:variable][:uuid]}),
-      class: 'orange-btn px-6 inline-flex py-2 justify-center tracking-widest text-xl zen-kaku-medium' %>
+      class: 'orange-btn tracking-widest text-xl px-12 py-2 zen-kaku-medium' %>
     </div>
   </div>
 </div>
