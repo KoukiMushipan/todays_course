@@ -15,6 +15,7 @@
 
     <div>
       <%= link_to '出発', new_search_path(departure: departure.uuid),
+      data: { turbo_frame: '_top' },
       class: 'orange-btn tracking-widest text-xl px-12 py-2 zen-kaku-medium' %>
     </div>
 
