@@ -1,4 +1,6 @@
 class DeparturesController < ApplicationController
+  before_action :set_departure_and_location, only: %i[show edit update destroy]
+
   def index
     @departures = current_user.departures.saved_list
     @destinations = current_user.destinations.saved_list
@@ -24,14 +26,40 @@ class DeparturesController < ApplicationController
     redirect_to new_search_path, flash: {success: result_of_create_departure[:success]}
   end
 
+  def show; end
+
+  def edit; end
+
+  def update
+    if @location.update(location_params)
+      redirect_to departure_path(@departure.uuid)
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @departure.update!(is_saved: false)
+    render turbo_stream: turbo_stream.remove(@departure)
+  end
+
   private
+
+  def set_saved_departures_and_histories
+    @departures = current_user.departures.saved_list
+    @histories = current_user.histories.finished_list
+  end
+
+  def set_departure_and_location
+    @departure = current_user.departures.find_by!(uuid: params[:id])
+    @location = @departure.location
+  end
 
   def departure_form_params
     params.require(:departure_form).permit(:name, :address, :is_saved)
   end
 
-  def set_saved_departures_and_histories
-    @departures = current_user.departures.saved_list
-    @histories = current_user.histories.finished_list
+  def location_params
+    params.require(:location).permit(:name, :address)
   end
 end
