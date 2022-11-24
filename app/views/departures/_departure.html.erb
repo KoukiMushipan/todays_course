@@ -1,16 +1,31 @@
-<div class="info-card keep-all zen-kaku-regular swiper-slide">
+<div class="info-card pb-0 keep-all zen-kaku-regular swiper-slide">
   <p class="mb-1.5 text-left text-gray-700">
     <%= fa_icon 'floppy-o' %>
     <span class="ml-1"><%= l(departure.created_at, format: :short) %></span>
   </p>
+
   <h5 class="mb-1 text-3xl text-gray-800 zen-kaku-medium">
     <%= departure.location.name %>
   </h5>
+
   <p class="mb-3 text-gray-700">
     <%= departure.location.address %>
   </p>
-  <div class="justify-center">
+
+  <div>
     <%= link_to '出発', new_search_path(departure: departure.uuid),
-    class: 'orange-btn inline-flex w-5/12 sm:w-1/6 py-2 justify-center tracking-widest text-xl zen-kaku-medium' %>
+    class: 'orange-btn tracking-widest text-xl px-12 py-2 zen-kaku-medium' %>
+  </div>
+
+  <div data-controller="dropdown">
+    <%= render 'shared/dropdown' %>
+
+    <div class="mb-3 hidden" data-dropdown-target="menu">
+      <%= link_to '編集', '#',
+      class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular mr-4' %>
+      <%= link_to '削除', '#',
+      data: { turbo_method: :delete, turbo_confirm: "保存済みから削除します\nよろしいですか?"},
+      class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular border-red-600 text-red-600' %>
+    </div>
   </div>
 </div>

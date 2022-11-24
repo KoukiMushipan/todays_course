@@ -1,29 +1,46 @@
-<div class="info-card keep-all zen-kaku-regular swiper-slide">
+<div class="info-card pb-0 keep-all zen-kaku-regular swiper-slide">
   <div class="text-left mb-1 lg:mb-0 text-gray-700">
     <p class="mr-0 lg:mr-3 block lg:inline-block">
       <%= fa_icon 'floppy-o', class: "mr-1"%>
       <%= l(destination.created_at, format: :short) %>
     </p>
+
     <p class="block lg:inline-block">
       <%= fa_icon 'home' %>
       <%= destination.departure.location.name %>
     </p>
   </div>
+
   <div class="text-gray-800 text-3xl zen-kaku-medium">
     <h5 class="mr-0 lg:mr-5 block lg:inline-block">
       <%= fa_icon 'flag' %>
       <%= destination.location.name %>
     </h5>
+
     <h5 class="block sm:inline-block">
       <%= fa_icon 'road' %>
       <%= destination.distance %>m
     </h5>
   </div>
+
   <p class="mb-3 text-gray-700">
     <%= destination.location.address %>
   </p>
-  <div class="justify-center">
+
+  <div>
     <%= link_to '出発', new_history_path(destination: destination.uuid),
-    class: 'orange-btn inline-flex w-5/12 sm:w-1/6 py-2 justify-center tracking-widest text-xl zen-kaku-medium' %>
+    class: 'orange-btn tracking-widest text-xl px-12 py-2 zen-kaku-medium' %>
+  </div>
+
+  <div data-controller="dropdown">
+    <%= render 'shared/dropdown' %>
+
+    <div class="mb-3 hidden" data-dropdown-target="menu">
+      <%= link_to '編集', '#',
+      class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular mr-4' %>
+      <%= link_to '削除', '#',
+      data: { turbo_method: :delete, turbo_confirm: "保存済みから削除します\nよろしいですか?"},
+      class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular border-red-600 text-red-600' %>
+    </div>
   </div>
 </div>
