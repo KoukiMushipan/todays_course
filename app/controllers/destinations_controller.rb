@@ -10,7 +10,7 @@ class DestinationsController < ApplicationController
   end
 
   def create # turbo_frameリクエスト
-    @destination_form = DestinationForm.new(destination_params)
+    @destination_form = DestinationForm.new(destination_form_params)
 
     if !@destination_form.valid?
       flash.now[:error] = '入力情報に誤りがあります'
@@ -22,20 +22,23 @@ class DestinationsController < ApplicationController
     redirect_to new_history_path, flash: {success: result_of_create_destination[:success]}
   end
 
-  def show
+  def show; end
 
-  end
-
-  def edit
-
-  end
+  def edit; end
 
   def update
-
+    if @location.update(location_and_destination_params)
+      redirect_to destination_path(@destination.uuid), flash: {success: ' 目的地を更新しました'}
+    else
+      flash.now[:error] = '入力情報に誤りがあります'
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def destroy
-
+    @destination.update!(is_saved: false)
+    flash.now[:error] = '目的地を保存済みから削除しました'
+    render turbo_stream: turbo_stream.replace(@destination, partial: 'shared/toast')
   end
 
   private
@@ -45,7 +48,11 @@ class DestinationsController < ApplicationController
     @location = @destination.location
   end
 
-  def destination_params
+  def destination_form_params
     params.require(:destination_form).permit(:name, :distance, :is_saved)
+  end
+
+    def location_and_destination_params
+    params.require(:location).permit(:name, :address, destination_attributes: [:distance, :id])
   end
 end
