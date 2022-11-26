@@ -32,15 +32,17 @@ class DeparturesController < ApplicationController
 
   def update
     if @location.update(location_params)
-      redirect_to departure_path(@departure.uuid)
+      redirect_to departure_path(@departure.uuid), flash: {success: '出発地を更新しました'}
     else
+      flash.now[:error] = '入力情報に誤りがあります'
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @departure.update!(is_saved: false)
-    render turbo_stream: turbo_stream.remove(@departure)
+    flash.now[:error] = '出発地を保存済みから削除しました'
+    render turbo_stream: turbo_stream.replace(@departure, partial: 'shared/toast')
   end
 
   private

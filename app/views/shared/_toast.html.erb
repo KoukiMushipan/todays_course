@@ -1,4 +1,4 @@
-<% if flash[:success] || flash[:error] %>
+<% if flash? %>
   <% flash.each do |type, messages| %>
     <% if messages.class == Array %>
       <% messages.each do |message| %>

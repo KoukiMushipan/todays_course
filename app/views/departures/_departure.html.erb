@@ -1,5 +1,7 @@
 <div class="info-card pb-0 keep-all zen-kaku-regular">
-  <%= turbo_frame_tag departure do %>
+  <%= turbo_frame_tag departure do %> <%# departure#index, newにて、1つ1つに割り振る用 %>
+    <%= render 'shared/toast' if is_turbo_frame_request? %> <%# departure#update成功用 %>
+
     <p class="mb-1.5 text-left text-gray-700">
       <%= fa_icon 'floppy-o' %>
       <span class="ml-1"><%= l(departure.created_at, format: :short) %></span>
