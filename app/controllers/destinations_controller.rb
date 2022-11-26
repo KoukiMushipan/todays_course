@@ -2,6 +2,7 @@ class DestinationsController < ApplicationController
   before_action :check_departure_session, only: %i[new create]
   before_action :check_results_session, only: %i[new create]
   before_action :check_result_session_for_destination_and_set_result, only: %i[new create]
+  before_action :set_destination_and_location, only: %i[show edit update destroy]
 
   def new
     @destination_form = DestinationForm.new
@@ -21,7 +22,28 @@ class DestinationsController < ApplicationController
     redirect_to new_history_path, flash: {success: result_of_create_destination[:success]}
   end
 
+  def show
+
+  end
+
+  def edit
+
+  end
+
+  def update
+
+  end
+
+  def destroy
+
+  end
+
   private
+
+  def set_destination_and_location
+    @destination = current_user.destinations.find_by!(uuid: params[:id])
+    @location = @destination.location
+  end
 
   def destination_params
     params.require(:destination_form).permit(:name, :distance, :is_saved)

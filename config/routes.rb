@@ -13,6 +13,6 @@ Rails.application.routes.draw do
 
   resources :searches, only: %i[index new create]
   resources :departures
-  resources :destinations, only: %i[new create]
+  resources :destinations, only: %i[new create show edit update destroy]
   resources :histories, only: %i[new create show update destroy]
 end
