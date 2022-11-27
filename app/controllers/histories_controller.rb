@@ -31,7 +31,7 @@ class HistoriesController < ApplicationController
 
     else
       @history.update!(end_time: Time.zone.now)
-      redirect_to history_path(@history.uuid), status: :see_other
+      redirect_to history_path(@history.uuid), flash: {success: 'ゴールしました'}, status: :see_other
     end
   end
 
