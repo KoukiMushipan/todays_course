@@ -4,6 +4,7 @@ class History < ApplicationRecord
   has_one :departure, through: :destination
 
   validates :moving_distance, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 42195}
+  validate :end_time_check
 
   before_create -> { self.uuid = SecureRandom.uuid }
   before_create -> { self.start_time = Time.zone.now if start_time.nil? }
@@ -24,5 +25,11 @@ class History < ApplicationRecord
       one_day_histories.each {|history| total_moving_distance += history.moving_distance}
       total_moving_distance
     end
+  end
+
+  private
+
+  def end_time_check
+    errors.add(:end_time, "は開始時刻より遅い時間にしてください") if end_time && (start_time > end_time)
   end
 end
