@@ -3,6 +3,9 @@ class ProfilesController < ApplicationController
 
   def show
     @one_week_moving_distance = History.one_week_moving_distance(current_user)
+    @histories = current_user.histories.finished_list
+    @total_moving_time = 0
+    @histories.each {|history| @total_moving_time += ((history.end_time - history.start_time) / 60).to_i }
   end
 
   def edit; end
