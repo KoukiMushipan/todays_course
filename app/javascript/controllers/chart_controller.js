@@ -3,19 +3,27 @@ import { Chart } from "chart.js/auto"
 
 // Connects to data-controller="chart"
 export default class extends Controller {
-  static values = { date: Array, distance: Array }
+  static values = { distance: Array }
 
   initialize() {
     console.log('読み込んだよ'); // 開発用
 
+    const date = new Date()
+    date.setDate(date.getDate() + 1)
+    const dates = []
+    for (var i = 1; i <= 7; i++) {
+      date.setDate(date.getDate() - 1);
+      dates.unshift(`${date.getMonth() + 1}月${date.getDate()}日`);
+    }
+
     const ctx = document.getElementById('myChart');
 
     const data = {
-      labels: ['8月1日', '8月2日', '8月3日', '8月4日', '8月5日', '8月6日', '8月7日'],
+      labels: dates,
       datasets: [
         {
           label: '移動距離(m)',
-          data: [2500, 1000, 3000, 5000, 1800, 4000, 2500, 2100],
+          data: this.distanceValue,
           borderColor: 'rgba(8,145,178)',
           backgroundColor: 'rgba(234,88,12,1)'
         }

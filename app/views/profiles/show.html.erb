@@ -1,9 +1,9 @@
 <% content_for(:title, 'プロフィール') %>
 
-<h1 data-controller="chart">グラフ</h1>
-<div style="height: 50vh;">
-  <canvas id="myChart"></canvas>
+<div class="chart-area" data-controller="chart" data-chart-distance-value=<%= @one_week_moving_distance.to_s.delete(' ') %>>
+    <canvas id="myChart"></canvas>
 </div>
+
 
 
 <%# 開発用 %>
