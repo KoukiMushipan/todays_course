@@ -30,7 +30,7 @@ class HistoriesController < ApplicationController
     if @history.end_time
 
     else
-      @history.update!(end_time: DateTime.now)
+      @history.update!(end_time: Time.zone.now)
       redirect_to history_path(@history.uuid), status: :see_other
     end
   end

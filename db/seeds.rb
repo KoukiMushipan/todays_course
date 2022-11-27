@@ -53,11 +53,11 @@ unsaved_destination = user.destinations.create(location_id: family_mart_location
                                               is_saved: false)
 
 saved_history = user.histories.create(destination_id: saved_destination.id,
-                                      start_time:  DateTime.now,
-                                      end_time:  DateTime.now.since(1.hour),
+                                      start_time:  Time.zone.now,
+                                      end_time:  Time.zone.now.since(1.hour),
                                       moving_distance: 1000)
 
 unsaved_history = user.histories.create(destination_id: unsaved_destination.id,
-                                        start_time: DateTime.now.next_week,
-                                        end_time:  DateTime.now.next_week.since(30.minutes),
+                                        start_time: Time.zone.now.next_week,
+                                        end_time:  Time.zone.now.next_week.since(30.minutes),
                                         moving_distance: 1500)

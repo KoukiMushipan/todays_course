@@ -2,12 +2,12 @@
   <tbody>
     <tr>
       <td>
-        <%= link_to new_departure_path, class: 'block h-full relative', data: { turbo: false } do %>
+        <%= link_to new_departure_path, class: 'block h-full relative', data: { turbo_frame: '_top' } do %>
           <%= fa_icon 'search', class: 'nav-icon' %>
         <% end %>
       </td>
       <td class="border-x-2">
-        <%= link_to '#', class: 'block h-full relative' do %>
+        <%= link_to departures_path, class: 'block h-full relative', data: { turbo_frame: '_top' } do %>
           <%= fa_icon 'folder-open', class: 'nav-icon' %>
         <% end %>
       </td>

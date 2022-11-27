@@ -1,7 +1,9 @@
 class ProfilesController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
 
-  def show; end
+  def show
+    @one_week_moving_distance = History.one_week_moving_distance(current_user)
+  end
 
   def edit; end
 

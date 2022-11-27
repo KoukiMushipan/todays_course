@@ -1,4 +1,11 @@
 <% content_for(:title, 'プロフィール') %>
+
+<div class="chart-area" data-controller="chart" data-chart-distance-value=<%= @one_week_moving_distance.to_s.delete(' ') %>>
+    <canvas id="myChart"></canvas>
+</div>
+
+
+
 <%# 開発用 %>
 <div class="ml-10 text-3xl text-gray-800 tracking-wider zen-kaku-bold">
   <h1 class="my-5"><%= @user.name %></h1>

@@ -1,0 +1,15 @@
+<div class="mt-3 text-gray-800 text-3xl tracking-wider zen-kaku-bold">
+  <h5 class="block lg:inline-block">
+        <%= 'START: ' + l(history.start_time, format: :short) %>
+  </h5>
+
+  <div class="mt-4 mb-3">
+    <%= link_to 'ゴール', history_path(history.uuid),
+    data: { turbo_method: :patch },
+    class: 'orange-btn tracking-widest text-xl px-12 py-2.5 mx-4 sm:mr-12 sm:mx-0 zen-kaku-medium mb-5 sm:mb-0 block sm:inline-block' %>
+
+    <%= link_to 'やめる', history_path(history.uuid),
+    data: { turbo_method: :delete, turbo_confirm: "スタート記録は削除されます。\nよろしいですか？", turbo_frame: '_top' },
+    class: 'border-orange-btn tracking-widest text-xl px-12 py-2.5 mx-4 sm:mx-0 zen-kaku-medium block sm:inline-block' %>
+  </div>
+</div>

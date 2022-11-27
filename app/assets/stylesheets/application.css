@@ -78,16 +78,26 @@
   border: ridge 12px #cccccc;
 }
 
-@media screen and (min-width: 544px) {
-  #map {
-    height: 67vh;
-  }
-}
-
 .center-slide-card {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.chart-area {
+  height: 40vh;
+}
+
+@media screen and (min-width: 544px) {
+  #map {
+    height: 67vh;
+  }
+
+  .chart-area {
+    height: 60vh;
+    width: 80%;
+    margin: auto;
+  }
 }
 
 /* 開発用 */
