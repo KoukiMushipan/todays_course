@@ -1,45 +1,49 @@
 <div class="info-card pb-0 keep-all zen-kaku-regular">
-  <div class="text-left mb-1 lg:mb-0 text-gray-700">
-    <p class="mr-0 lg:mr-3 block lg:inline-block">
-      <%= fa_icon 'home' %>
-      <%= history.decorate.departure_name %>
-    </p>
+  <%= turbo_frame_tag history do %> <%# profile#showにて、1つ1つに割り振る用 %>
+    <%= render 'shared/toast' if is_turbo_frame_request? %> <%# history#update成功用 %>
 
-    <p class="block lg:inline-block">
-      <%= fa_icon 'clock-o' %>
-      <%= l(history.start_time, format: :short) %>
-      <span class="ml-1"><%= history.decorate.moving_time %></span>
-    </p>
-  </div>
+    <div class="text-left mb-1 lg:mb-0 text-gray-700">
+      <p class="mr-0 lg:mr-3 block lg:inline-block">
+        <%= fa_icon 'home' %>
+        <%= history.decorate.departure_name %>
+      </p>
 
-  <div class="text-gray-800 text-2xl lg:text-3xl zen-kaku-medium">
-    <h5 class="mr-0 lg:mr-5 block lg:inline-block">
-      <%= fa_icon 'flag' %>
-      <%= history.decorate.destination_name %>
-    </h5>
-    <h5 class="block lg:inline-block">
-      <%= fa_icon 'road' %>
-      <%= history.moving_distance %>m
-    </h5>
-  </div>
-
-  <p class="mb-3 text-gray-700"><%= history.decorate.destination_address %></p>
-
-  <div>
-    <%= link_to '出発', new_history_path(destination: history.decorate.destination_uuid),
-    data: { turbo_frame: '_top' },
-    class: 'orange-btn tracking-widest text-xl px-12 py-2 zen-kaku-medium' %>
-  </div>
-
-  <div data-controller="dropdown">
-    <%= render 'shared/dropdown' %>
-
-    <div class="mb-3 hidden" data-dropdown-target="menu">
-      <%= link_to '編集', '#',
-      class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular mr-4' %>
-      <%= link_to '削除', '#',
-      data: { turbo_method: :delete, turbo_confirm: "保存済みから削除します\nよろしいですか?"},
-      class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular border-red-600 text-red-600' %>
+      <p class="block lg:inline-block">
+        <%= fa_icon 'clock-o' %>
+        <%= l(history.start_time, format: :short) %>
+        <span class="ml-1"><%= history.decorate.moving_time %></span>
+      </p>
     </div>
-  </div>
+
+    <div class="text-gray-800 text-2xl lg:text-3xl zen-kaku-medium">
+      <h5 class="mr-0 lg:mr-5 block lg:inline-block">
+        <%= fa_icon 'flag' %>
+        <%= history.decorate.destination_name %>
+      </h5>
+      <h5 class="block lg:inline-block">
+        <%= fa_icon 'road' %>
+        <%= history.moving_distance %>m
+      </h5>
+    </div>
+
+    <p class="mb-3 text-gray-700"><%= history.decorate.destination_address %></p>
+
+    <div>
+      <%= link_to '出発', new_history_path(destination: history.decorate.destination_uuid),
+      data: { turbo_frame: '_top' },
+      class: 'orange-btn tracking-widest text-xl px-12 py-2 zen-kaku-medium' %>
+    </div>
+
+    <div data-controller="dropdown">
+      <%= render 'shared/dropdown' %>
+
+      <div class="mb-3 hidden" data-dropdown-target="menu">
+        <%= link_to '編集', edit_history_path(history.uuid),
+        class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular mr-4' %>
+        <%= link_to '削除', history_path(history.uuid),
+        data: { turbo_method: :delete, turbo_confirm: "保存済みから削除します\nよろしいですか?"},
+        class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular border-red-600 text-red-600' %>
+      </div>
+    </div>
+  <% end %>
 </div>

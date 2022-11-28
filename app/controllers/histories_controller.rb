@@ -2,7 +2,7 @@ class HistoriesController < ApplicationController
   before_action :check_course_params, only: %i[create]
   before_action :check_departure_session_and_set_departure_info, only: %i[create show]
   before_action :check_destination_session_and_set_destination_info, only: %i[create show]
-  before_action :set_history, only: %i[show update destroy]
+  before_action :set_history, only: %i[show edit update destroy one]
 
   def new # destinations#newから遷移の場合、turbo_frameリクエスト
     destination = current_user.destinations.find_by(uuid: params[:destination])
@@ -26,19 +26,27 @@ class HistoriesController < ApplicationController
     gon.locationInfo = {departure: @departure_info, destination: @destination_info}
   end
 
-  def update
-    if @history.end_time
+  def edit; end
 
-    else
+  def update
+    if !@history.end_time
       @history.update!(end_time: Time.zone.now)
-      redirect_to history_path(@history.uuid), flash: {success: 'ゴールしました'}, status: :see_other
+      return redirect_to history_path(@history.uuid), flash: {success: 'ゴールしました'}, status: :see_other
+    end
+
+    if @history.update(history_params)
+      redirect_to one_history_path(@history.uuid), flash: {success: '履歴を更新しました'}
+    else
+      flash.now[:error] = '入力情報に誤りがあります'
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     if @history.end_time
       @history.destroy!
-      redirect_to profile_path, status: :see_other
+      flash.now[:error] = '履歴を削除しました'
+      render turbo_stream: turbo_stream.replace(@history, partial: 'shared/toast')
     else
       destination = @history.destination
       @history.destroy!
@@ -46,9 +54,15 @@ class HistoriesController < ApplicationController
     end
   end
 
+  def one; end
+
   private
 
   def set_history
     @history = current_user.histories.find_by!(uuid: params[:id])
+  end
+
+  def history_params
+    params.require(:history).permit(:start_time, :end_time, :moving_distance)
   end
 end

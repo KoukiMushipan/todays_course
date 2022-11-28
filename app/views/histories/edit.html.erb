@@ -1,0 +1,30 @@
+<div class="basic-card zen-kaku-regular">
+  <%= turbo_frame_tag @history do %> <%# profile#showから履歴カードを入れ替える用 %>
+    <%= render 'shared/toast' if is_turbo_frame_request? %> <%# history#updateのバリデーションエラー用 %>
+
+    <%= form_with model: @history, url: history_path(@history.uuid), class: 'zen-kaku-medium' do |f| %>
+      <div class="my-5 text-left">
+        <%= f.label :start_time %>
+        <%= f.datetime_field :start_time, value: @history.start_time.strftime('%Y-%m-%d %H:%M'), class: 'normal-form' %>
+        <%= render partial: 'shared/error_message', collection: @history.errors.full_messages_for(:start_time) %>
+      </div>
+
+      <div class="my-5 text-left">
+        <%= f.label :end_time %>
+        <%= f.datetime_field :end_time, value: @history.end_time.strftime('%Y-%m-%d %H:%M'), class: 'normal-form' %>
+        <%= render partial: 'shared/error_message', collection: @history.errors.full_messages_for(:end_time) %>
+      </div>
+
+      <div class="my-5 text-left">
+        <%= f.label :moving_distance %>
+        <%= f.number_field :moving_distance, class: 'normal-form', required: true %>
+        <%= render partial: 'shared/error_message', collection: @history.errors.full_messages_for(:moving_distance) %>
+      </div>
+
+      <div class="my-5 text-right zen-kaku-regular text-xl tracking-wider">
+        <%= link_to '取消', one_history_path(@history.uuid), class: 'border-orange-btn px-5 py-2' %>
+        <%= f.submit '決定', class: 'orange-btn px-5 py-2.5' %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
