@@ -1,19 +1,6 @@
 class ApplicationController < ActionController::Base
   helper_method %i(is_turbo_frame_request?)
 
-  def is_turbo_frame_request? # viewでturbo_frameのリクエストであるか判別するためにhelper_method化
-    return turbo_frame_request? # viewでは使えないメソッド
-  end
-
-  def required_none(url, flash_message)
-    if turbo_frame_request?
-      flash.now[flash_message.keys[0]] = flash_message.values[0]
-      render partial: 'errors/required_none', status: :unprocessable_entity, locals: {url: url, flash_message: flash_message}
-    else
-      redirect_to url, flash: flash_message
-    end
-  end
-
   def check_departure_session
     if session[:departure].nil?
       url = new_departure_path
@@ -72,5 +59,20 @@ class ApplicationController < ActionController::Base
   def check_destination_session_and_set_destination_info
     @destination_info = session[:destination]
     check_destination_session
+  end
+
+  private
+
+  def is_turbo_frame_request? # viewでturbo_frameのリクエストであるか判別するためにhelper_method化
+    return turbo_frame_request? # viewでは使えないメソッド
+  end
+
+  def required_none(url, flash_message)
+    if turbo_frame_request?
+      flash.now[flash_message.keys[0]] = flash_message.values[0]
+      render partial: 'errors/required_none', status: :unprocessable_entity, locals: {url: url, flash_message: flash_message}
+    else
+      redirect_to url, flash: flash_message
+    end
   end
 end
