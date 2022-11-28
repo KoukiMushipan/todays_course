@@ -1,4 +1,4 @@
-<div class="info-card keep-all zen-kaku-regular swiper-slide">
+<div class="info-card keep-all zen-kaku-regular">
   <p class="text-left text-gray-700">
     <%= fa_icon 'clock-o'%>
     <span><%= l(history.start_time, format: :short) %></span>
@@ -10,7 +10,7 @@
     <%= fa_icon 'flag' %>
     <span><%= history.decorate.destination_name %></span>
   </p>
-  <h5 class="mb-1 text-3xl text-gray-800 zen-kaku-medium"><%= history.decorate.departure_name %></h5>
+  <h5 class="mb-1 text-2xl lg:text-3xl text-gray-800 zen-kaku-medium"><%= history.decorate.departure_name %></h5>
   <p class="mb-3 text-gray-700"><%= history.decorate.departure_address %></p>
   <div class="mt-4 mb-3">
     <%= link_to '出発', new_search_path(departure: history.decorate.departure_uuid),

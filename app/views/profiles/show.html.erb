@@ -1,10 +1,49 @@
 <% content_for(:title, 'プロフィール') %>
 
-<div class="chart-area" data-controller="chart" data-chart-distance-value=<%= @one_week_moving_distance.to_s.delete(' ') %>>
-    <canvas id="myChart"></canvas>
+<div class="basic-card">
+  <div class="chart-area" data-controller="chart" data-chart-distance-value=<%= @one_week_moving_distance.to_s.delete(' ') %>>
+      <canvas id="myChart"></canvas>
+  </div>
+
+  <div class="info-card">
+    <p class="text-xl tracking-widest zen-kaku-medium underline decoration-cyan-600">
+      <%= "#{@user.name}さん" %>
+    </p>
+
+    <div class="mt-3 text-gray-800 text-2xl lg:text-3xl tracking-wider zen-kaku-medium">
+      <h5 class="block lg:inline-block ml-0 lg:ml-4 underline decoration-double decoration-sky-600">
+        <%= "総移動時間: #{@total_moving_time}分" %>
+      </h5>
+
+      <h5 class="block lg:inline-block mt-1 lg:mt-0 underline decoration-double decoration-teal-600">
+        <%= "総移動距離: #{@histories.sum(:moving_distance)}m" %>
+      </h5>
+    </div>
+  </div>
 </div>
 
 
+<div class="tabs mt-4">
+  <input id="left" type="radio" name="tab-radio-button" checked>
+  <label class="tab-item w-1/2 zen-kaku-medium text-xl tracking-widest" for="left">
+    <%= fa_icon 'history', class: 'text-2xl' %>
+    履歴
+  </label>
+
+  <input id="right" type="radio" name="tab-radio-button">
+  <label class="tab-item w-1/2 zen-kaku-medium text-xl tracking-widest" for="right">
+    <%= fa_icon 'user', class: 'text-2xl' %>
+    ユーザー設定
+  </label>
+
+  <div class="tab-content" id="left-content">
+    <%= render partial: 'history', collection: @histories %>
+  </div>
+
+  <div class="tab-content relative" id="right-content">
+    <%# render partial: 'destination', collection: @destinations %>
+  </div>
+</div>
 
 <%# 開発用 %>
 <div class="ml-10 text-3xl text-gray-800 tracking-wider zen-kaku-bold">

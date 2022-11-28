@@ -95,13 +95,13 @@
 
   .chart-area {
     height: 60vh;
-    width: 80%;
+    width: 66.66%;
     margin: auto;
   }
 }
 
 /* 開発用 */
-turbo-frame {
+/* turbo-frame {
   border: 1px red solid;
   display: block;
 }
@@ -118,4 +118,4 @@ turbo-frame::before {
   background-color: white;
   padding: 4px;
   border: 1px red solid;
-}
+} */

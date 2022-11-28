@@ -1,11 +1,11 @@
-<div class="info-card keep-all zen-kaku-regular swiper-slide">
+<div class="info-card keep-all zen-kaku-regular">
   <div class="text-left mb-1 lg:mb-0 text-gray-700">
     <p class="block lg:inline-block">
       <%= fa_icon 'home' %>
       <span><%= history.departure.location.name %></span>
     </p>
   </div>
-  <div class="text-gray-800 text-3xl zen-kaku-medium">
+  <div class="text-gray-800 text-2xl lg:text-3xl zen-kaku-medium">
     <h5 class="mr-0 lg:mr-5 block lg:inline-block">
       <%= fa_icon 'flag' %>
       <%= history.destination.location.name %>
@@ -19,6 +19,7 @@
 
   <% if history.end_time %>
     <%= turbo_frame_tag 'goal-field' do %> <%# ゴールした時、差し替わるturbo_frame %>
+      <%= render 'shared/toast' if is_turbo_frame_request? %> <%# ゴールした時用 %>
       <%= render 'time', history: history %>
     <% end %>
   <% else %>
