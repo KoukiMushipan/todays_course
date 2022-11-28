@@ -2,7 +2,7 @@
   <div class="text-left mb-1 lg:mb-0 text-gray-700">
     <p class="mr-0 lg:mr-3 block lg:inline-block">
       <%= fa_icon 'home' %>
-      <%= history.departure.location.name %>
+      <%= history.decorate.departure_name %>
     </p>
 
     <p class="block lg:inline-block">
@@ -15,7 +15,7 @@
   <div class="text-gray-800 text-2xl lg:text-3xl zen-kaku-medium">
     <h5 class="mr-0 lg:mr-5 block lg:inline-block">
       <%= fa_icon 'flag' %>
-      <%= history.destination.location.name %>
+      <%= history.decorate.destination_name %>
     </h5>
     <h5 class="block lg:inline-block">
       <%= fa_icon 'road' %>
@@ -23,10 +23,10 @@
     </h5>
   </div>
 
-  <p class="mb-3 text-gray-700"><%= history.destination.location.address %></p>
+  <p class="mb-3 text-gray-700"><%= history.decorate.destination_address %></p>
 
   <div>
-    <%= link_to '出発', new_history_path(destination: history.destination.uuid),
+    <%= link_to '出発', new_history_path(destination: history.decorate.destination_uuid),
     data: { turbo_frame: '_top' },
     class: 'orange-btn tracking-widest text-xl px-12 py-2 zen-kaku-medium' %>
   </div>
