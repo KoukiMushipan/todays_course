@@ -12,7 +12,7 @@
 
     <div class="mt-3 text-gray-800 text-2xl lg:text-3xl tracking-wider zen-kaku-medium">
       <h5 class="block lg:inline-block ml-0 lg:ml-4 underline decoration-double decoration-sky-600">
-        <%= "総移動時間: #{@total_moving_time}分" %>
+        <%= "総移動時間: #{@histories.sum {|history| history.decorate.moving_time}}分" %>
       </h5>
 
       <h5 class="block lg:inline-block mt-1 lg:mt-0 underline decoration-double decoration-teal-600">
@@ -41,30 +41,6 @@
   </div>
 
   <div class="tab-content relative" id="right-content">
-    <%# render partial: 'destination', collection: @destinations %>
+    <%= render 'profile' %>
   </div>
-</div>
-
-<%# 開発用 %>
-<div class="ml-10 text-3xl text-gray-800 tracking-wider zen-kaku-bold">
-  <h1 class="my-5"><%= @user.name %></h1>
-  <h1 class="my-5"><%= @user.email %></h1>
-
-  <%= link_to '編集', edit_profile_path, class: 'zen-kaku-bold my-5 block text-green-600 underline' %>
-  <%= link_to 'ログアウト', logout_path, data: { turbo_method: :delete, turbo_confirm: 'ログアウトしますか？' }, class: 'zen-kaku-bold my-5 block text-red-600 underline' %>
-  <%= link_to 'ユーザー削除', profile_path, data: { turbo_method: :delete, turbo_confirm: "データは全て削除されます。\n削除しますか？" }, class: 'zen-kaku-bold my-5 block text-red-900 underline' %>
-</div>
-
-<div class="text-3xl text-gray-700 tracking-wider zen-kaku-bold ml-10">
-  <h1>session[:departure]</h1>
-  <h1 class="text-xl zen-kaku-regular mb-5"><%= session[:departure] %></h1>
-
-  <h1>session[:search_term]</h1>
-  <h1 class="text-xl zen-kaku-regular mb-5"><%= session[:search_term] %></h1>
-
-  <h1>session[:results]</h1>
-  <h1 class="text-xl zen-kaku-regular mb-5"><%= session[:results] %></h1>
-
-  <h1>session[:destination]</h1>
-  <h1 class="text-xl zen-kaku-regular mb-5"><%= session[:destination] %></h1>
 </div>

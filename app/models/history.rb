@@ -21,10 +21,8 @@ class History < ApplicationRecord
     one_week_histories = user.histories.where(start_time: Time.zone.today.ago(6.days)..Time.zone.today.end_of_day)
     week = (0..6).to_a.map {|i| Time.zone.now - i.days}
     week.reverse.map do |day|
-      one_day_histories = one_week_histories.where(start_time: day.all_day) # SQLが走ってしまう
-      total_moving_distance = 0
-      one_day_histories.each {|history| total_moving_distance += history.moving_distance}
-      total_moving_distance
+      one_day_histories = one_week_histories.find_all{ |hitory| day.all_day.cover?(hitory.start_time) }
+      one_day_histories.sum { |history| history.moving_distance }
     end
   end
 

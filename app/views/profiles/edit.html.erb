@@ -1,5 +1,23 @@
-<% content_for(:title, 'プロフィール編集') %>
-<h1 class="headline zen-kaku-medium">ユーザー情報編集</h1>
-<div class="basic-card">
-  <%= render 'form', user: @user %>
+<div class="basic-card zen-kaku-regular">
+  <%= turbo_frame_tag 'profile' do %> <%# profile#showと入れ替わる用 %>
+    <%= render 'shared/toast' if is_turbo_frame_request? %> <%# profile#updateのバリデーションエラー用 %>
+
+    <%= form_with model: @user, url: profile_path, class: 'zen-kaku-medium' do |f| %>
+      <div class="my-5 text-left">
+        <%= f.label :name %>
+        <%= f.text_field :name, class: 'normal-form', required: true %>
+        <%= render partial: 'shared/error_message', collection: @user.errors.full_messages_for(:name) %>
+      </div>
+
+      <div class="my-5 text-left">
+        <%= f.label :email %>
+        <%= f.email_field :email, class: 'normal-form', required: true %>
+        <%= render partial: 'shared/error_message', collection: @user.errors.full_messages_for(:email) %>
+      </div>
+
+      <div class="my-5 text-right">
+        <%= f.submit '更新', class: 'orange-btn tracking-wider text-xl px-5 py-2.5 zen-kaku-regular' %>
+      </div>
+    <% end %>
+  <% end %>
 </div>
