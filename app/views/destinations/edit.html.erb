@@ -1,32 +1,34 @@
 <div class="basic-card zen-kaku-regular">
   <%= turbo_frame_tag @destination do %> <%# departure#indexから出発地カードを入れ替える用 %>
-    <%= render 'shared/toast' if is_turbo_frame_request? %> <%# destination#updateのバリデーションエラー用 %>
+    <div class="info-card pb-0">
+      <%= render 'shared/toast' if is_turbo_frame_request? %> <%# destination#updateのバリデーションエラー用 %>
 
-    <%= form_with model: @location, url: destination_path, class: 'zen-kaku-medium' do |f| %>
-      <div class="my-5 text-left">
-        <%= f.label :name %>
-        <%= f.text_field :name, class: 'normal-form' %>
-        <%= render partial: 'shared/error_message', collection: @location.errors.full_messages_for(:name) %>
-      </div>
-
-      <div class="my-5 text-left">
-        <%= f.label :address %>
-        <%= f.text_field :address, class: 'normal-form', id: 'js-address-form', required: true %>
-        <%= render partial: 'shared/error_message', collection: @location.errors.full_messages_for(:address) %>
-      </div>
-
-      <%= f.fields_for :destination do |destination| %>
+      <%= form_with model: @location, url: destination_path, class: 'zen-kaku-medium' do |f| %>
         <div class="my-5 text-left">
-        <%= destination.label :distance %>
-        <%= destination.number_field :distance, class: 'normal-form' %>
-        <%= render partial: 'shared/error_message', collection: @destination.errors.full_messages_for(:distance) %>
-      </div>
-      <% end %>
+          <%= f.label :name %>
+          <%= f.text_field :name, class: 'normal-form' %>
+          <%= render partial: 'shared/error_message', collection: @location.errors.full_messages_for(:name) %>
+        </div>
 
-      <div class="my-5 text-right zen-kaku-regular text-xl tracking-wider">
-        <%= link_to '取消', destination_path(@destination.uuid), class: 'border-orange-btn px-5 py-2' %>
-        <%= f.submit '決定', class: 'orange-btn px-5 py-2.5' %>
-      </div>
-    <% end %>
+        <div class="my-5 text-left">
+          <%= f.label :address %>
+          <%= f.text_field :address, class: 'normal-form', id: 'js-address-form', required: true %>
+          <%= render partial: 'shared/error_message', collection: @location.errors.full_messages_for(:address) %>
+        </div>
+
+        <%= f.fields_for :destination do |destination| %>
+          <div class="my-5 text-left">
+          <%= destination.label :distance %>
+          <%= destination.number_field :distance, class: 'normal-form' %>
+          <%= render partial: 'shared/error_message', collection: @destination.errors.full_messages_for(:distance) %>
+        </div>
+        <% end %>
+
+        <div class="my-5 text-right zen-kaku-regular text-xl tracking-wider">
+          <%= link_to '取消', destination_path(@destination.uuid), class: 'border-orange-btn px-5 py-2' %>
+          <%= f.submit '更新', class: 'orange-btn px-5 py-2.5' %>
+        </div>
+      <% end %>
+    </div>
   <% end %>
 </div>

@@ -1,17 +1,11 @@
 class ApplicationController < ActionController::Base
+  before_action :require_login
+  before_action :check_not_finished
+
   helper_method %i(is_turbo_frame_request?)
 
-  def is_turbo_frame_request? # viewでturbo_frameのリクエストであるか判別するためにhelper_method化
-    return turbo_frame_request? # viewでは使えないメソッド
-  end
-
-  def required_none(url, flash_message)
-    if turbo_frame_request?
-      flash.now[flash_message.keys[0]] = flash_message.values[0]
-      render partial: 'errors/required_none', status: :unprocessable_entity, locals: {url: url, flash_message: flash_message}
-    else
-      redirect_to url, flash: flash_message
-    end
+  def not_authenticated
+    redirect_to login_path, flash: {error: 'ログインしてください'}
   end
 
   def check_departure_session
@@ -54,6 +48,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def check_not_finished
+    @not_finished_history = current_user.histories.not_finished&.first
+    if @not_finished_history
+      flash.now[:notice] = 'まだゴールしていません'
+    end
+  end
+
   def check_result_session_for_destination_and_set_result
     @result = session[:results].find {|result| result[:variable][:uuid] == params[:destination]}
 
@@ -72,5 +73,20 @@ class ApplicationController < ActionController::Base
   def check_destination_session_and_set_destination_info
     @destination_info = session[:destination]
     check_destination_session
+  end
+
+  private
+
+  def is_turbo_frame_request? # viewでturbo_frameのリクエストであるか判別するためにhelper_method化
+    return turbo_frame_request? # viewでは使えないメソッド
+  end
+
+  def required_none(url, flash_message)
+    if turbo_frame_request?
+      flash.now[flash_message.keys[0]] = flash_message.values[0]
+      render partial: 'errors/required_none', status: :unprocessable_entity, locals: {url: url, flash_message: flash_message}
+    else
+      redirect_to url, flash: flash_message
+    end
   end
 end

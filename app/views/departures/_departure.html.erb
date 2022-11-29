@@ -1,5 +1,5 @@
-<div class="info-card pb-0 keep-all zen-kaku-regular">
-  <%= turbo_frame_tag departure do %> <%# departure#index, newにて、1つ1つに割り振る用 %>
+<%= turbo_frame_tag departure do %> <%# departure#index, newにて、1つ1つに割り振る用 %>
+  <div class="info-card pb-0 keep-all zen-kaku-regular">
     <%= render 'shared/toast' if is_turbo_frame_request? %> <%# departure#update成功用 %>
 
     <p class="mb-1.5 text-left text-gray-700">
@@ -32,5 +32,5 @@
         class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular border-red-600 text-red-600' %>
       </div>
     </div>
-  <% end %>
-</div>
+  </div>
+<% end %>

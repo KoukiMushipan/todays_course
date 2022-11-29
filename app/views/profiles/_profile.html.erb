@@ -1,0 +1,21 @@
+<%= turbo_frame_tag 'profile' do %> <%# profile#editと入れ替わる用 %>
+  <%= render 'shared/toast' if is_turbo_frame_request? %> <%# profile#update成功用 %>
+
+  <div class="zen-kaku-medium text-xl lg:text-2xl p-2 flex justify-center text-center">
+    <%= link_to '編集', edit_profile_path, class: 'text-green-600 underline w-2/5' %>
+
+    <%= link_to 'ログアウト', logout_path,
+    data: { turbo_method: :delete, turbo_frame: '_top', turbo_confirm: 'ログアウトしますか？' },
+    class: 'text-red-600 underline w-2/5' %>
+  </div>
+
+  <div data-controller="dropdown">
+    <%= render 'shared/dropdown' %>
+
+    <div class="mb-3 hidden text-center" data-dropdown-target="menu">
+      <%= link_to 'ユーザー削除', profile_path,
+      data: { turbo_method: :delete, turbo_frame: '_top', turbo_confirm: "データは全て削除され、戻すことはできません。\n削除しますか？" },
+      class: 'zen-kaku-medium block text-red-900 underline inline' %>
+    </div>
+  </div>
+<% end %>

@@ -6,7 +6,10 @@ Rails.application.routes.draw do
 
   get 'signup', to: 'users#new'
   resources :users, only: %i[create]
-  resource :profile, only: %i[show edit update destroy]
+  resource :profile, only: %i[show edit update destroy] do
+    get 'cancel'
+  end
+
   get 'login', to: 'user_sessions#new'
   post 'login', to: 'user_sessions#create'
   delete 'logout', to: 'user_sessions#destroy'
@@ -15,6 +18,6 @@ Rails.application.routes.draw do
   resources :departures
   resources :destinations, only: %i[new create show edit update destroy]
   resources :histories, only: %i[new create show edit update destroy] do
-    get 'one', on: :member
+    get 'cancel', on: :member
   end
 end

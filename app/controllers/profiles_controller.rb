@@ -12,17 +12,20 @@ class ProfilesController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to profile_path, flash: {success: 'ユーザー情報を更新しました'}
+      flash.now[:success] = 'ユーザー情報を更新しました'
+      render turbo_stream: turbo_stream.replace('profile', partial: 'profile')
     else
-      flash.now[:error] = 'ユーザー情報の更新に失敗しました'
+      flash.now[:error] = '入力情報に誤りがあります'
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @user.destroy!
-    redirect_to login_path, status: :see_other, flash: {success: 'ユーザーを削除しました'}
+    redirect_to signup_path, status: :see_other, flash: {success: 'ユーザーを削除しました'}
   end
+
+  def cancel; end
 
   private
 

@@ -11,7 +11,7 @@ class HistoryDecorator < ApplicationDecorator
   #   end
 
   def moving_time
-    "#{((end_time - start_time) / 60).floor}分"
+    ((end_time - start_time) / 60).floor
   end
 
   def departure_uuid

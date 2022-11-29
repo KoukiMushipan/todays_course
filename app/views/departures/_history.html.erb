@@ -2,7 +2,7 @@
   <p class="text-left text-gray-700">
     <%= fa_icon 'clock-o'%>
     <span><%= l(history.start_time, format: :short) %></span>
-    <span class="ml-1"><%= history.decorate.moving_time %></span>
+    <span class="ml-1"><%= history.decorate.moving_time %>分</span>
     <%= fa_icon 'road',  class: 'ml-1'%>
     <span><%= history.moving_distance %>m</span>
   </p>
