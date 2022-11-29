@@ -10,6 +10,7 @@ class History < ApplicationRecord
   before_create -> { self.start_time = Time.zone.now if start_time.nil? }
 
   scope :with_location, -> { includes(destination: [:location, departure: :location]) }
+  scope :not_finished, -> { where(end_time: nil) }
   scope :finished, -> { where.not(end_time: nil) }
   scope :recent, -> { order(start_time: :desc) }
 

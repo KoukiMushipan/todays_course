@@ -1,11 +1,10 @@
-<%= turbo_frame_tag 'flash' do %>
-  <% if flash[:notice] %>
-    <div class="bg-blue-100 border-b border-blue-500 text-blue-700 px-4 py-3 text-lg">
-      <p class="zen-kaku-medium"><%= notice %></p>
-    </div>
-  <% elsif flash[:alert] %>
-    <div class="bg-red-100 border-b border-red-500 text-red-700 px-4 py-3 text-lg">
-      <p class="zen-kaku-medium"><%= alert %></p>
-    </div>
-  <% end %>
+<% if flash[:notice] %>
+  <div class="bg-blue-100 border-b border-blue-500 text-blue-700 px-4 py-3 text-lg">
+    <p class="zen-kaku-medium inline-block"><%= notice %></p>
+    <%= link_to 'こちら', history_path(@not_finished_history.uuid), class: 'zen-kaku-regular underline ml-2' if @not_finished_history %>
+  </div>
+<% elsif flash[:alert] %>
+  <div class="bg-red-100 border-b border-red-500 text-red-700 px-4 py-3 text-lg">
+    <p class="zen-kaku-medium"><%= alert %></p>
+  </div>
 <% end %>

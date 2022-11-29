@@ -1,5 +1,12 @@
 class ApplicationController < ActionController::Base
+  before_action :require_login
+  before_action :check_not_finished
+
   helper_method %i(is_turbo_frame_request?)
+
+  def not_authenticated
+    redirect_to login_path, flash: {error: 'ログインしてください'}
+  end
 
   def check_departure_session
     if session[:departure].nil?
@@ -38,6 +45,13 @@ class ApplicationController < ActionController::Base
       url = new_history_path
       flash_message = {error: '片道か往復から選択してください'}
       required_none(url, flash_message)
+    end
+  end
+
+  def check_not_finished
+    @not_finished_history = current_user.histories.not_finished&.first
+    if @not_finished_history
+      flash.now[:notice] = 'まだゴールしていません'
     end
   end
 
