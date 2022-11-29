@@ -9,7 +9,7 @@ class RequestGeocodeService
     return {error: '入力情報に誤りがあります'} if !departure_form.valid?
 
     result = request_geocode
-    result[:status] == 'OK' ? parse_result(result) : {error: '位置情報の取得に失敗しました'}
+    check_result(result) ? parse_result(result) : {error: '位置情報の取得に失敗しました'}
   end
 
   private
@@ -22,16 +22,23 @@ class RequestGeocodeService
     send_request(url)
   end
 
-  def parse_result(result)
-    result = result[:results][0]
-    full_address = result[:formatted_address].split(' ')
+  def parse_address(result)
+    full_address = result[:results][0][:formatted_address].split(' ')
     full_address.shift
+    full_address.join(' ')
+  end
+
+  def check_result(result)
+    result[:status] == 'OK' && parse_address(result).present?
+  end
+
+  def parse_result(result)
     {
       name: departure_form.name,
-      latitude: result[:geometry][:location][:lat],
-      longitude: result[:geometry][:location][:lng],
-      address: full_address.join(' '),
-      place_id: result[:place_id]
+      latitude: result[:results][0][:geometry][:location][:lat],
+      longitude: result[:results][0][:geometry][:location][:lng],
+      address: parse_address(result),
+      place_id: result[:results][0][:place_id]
     }
   end
 end
