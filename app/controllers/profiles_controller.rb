@@ -25,6 +25,8 @@ class ProfilesController < ApplicationController
     redirect_to signup_path, status: :see_other, flash: {success: 'ユーザーを削除しました'}
   end
 
+  def cancel; end
+
   private
 
   def user_params

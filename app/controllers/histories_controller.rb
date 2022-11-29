@@ -2,7 +2,7 @@ class HistoriesController < ApplicationController
   before_action :check_course_params, only: %i[create]
   before_action :check_departure_session_and_set_departure_info, only: %i[create show]
   before_action :check_destination_session_and_set_destination_info, only: %i[create show]
-  before_action :set_history, only: %i[show edit update destroy one]
+  before_action :set_history, only: %i[show edit update destroy cancel]
 
   def new # destinations#newから遷移の場合、turbo_frameリクエスト
     destination = current_user.destinations.find_by(uuid: params[:destination])
@@ -35,7 +35,7 @@ class HistoriesController < ApplicationController
     end
 
     if @history.update(history_params)
-      redirect_to one_history_path(@history.uuid), flash: {success: '履歴を更新しました'}
+      redirect_to cancel_history_path(@history.uuid), flash: {success: '履歴を更新しました'}
     else
       flash.now[:error] = '入力情報に誤りがあります'
       render :edit, status: :unprocessable_entity
@@ -54,7 +54,7 @@ class HistoriesController < ApplicationController
     end
   end
 
-  def one; end
+  def cancel; end
 
   private
 

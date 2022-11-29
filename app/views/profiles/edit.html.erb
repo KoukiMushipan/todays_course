@@ -15,8 +15,9 @@
         <%= render partial: 'shared/error_message', collection: @user.errors.full_messages_for(:email) %>
       </div>
 
-      <div class="my-5 text-right">
-        <%= f.submit '更新', class: 'orange-btn tracking-wider text-xl px-5 py-2.5 zen-kaku-regular' %>
+      <div class="my-5 text-right zen-kaku-regular text-xl tracking-wider">
+        <%= link_to '取消', cancel_profile_path, class: 'border-orange-btn px-5 py-2' %>
+        <%= f.submit '更新', class: 'orange-btn px-5 py-2.5' %>
       </div>
     <% end %>
   <% end %>
