@@ -15,7 +15,7 @@
     <div class="mb-3 hidden text-center" data-dropdown-target="menu">
       <%= link_to 'ユーザー削除', profile_path,
       data: { turbo_method: :delete, turbo_frame: '_top', turbo_confirm: "データは全て削除され、戻すことはできません。\n削除しますか？" },
-      class: 'zen-kaku-medium block text-red-900 underline' %>
+      class: 'zen-kaku-medium block text-red-900 underline inline' %>
     </div>
   </div>
 <% end %>
