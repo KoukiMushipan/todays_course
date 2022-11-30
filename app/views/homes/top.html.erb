@@ -11,7 +11,7 @@
       ウォーキング始めてみたはいいけど<br>今日はどこへいこう
     </h1>
 
-    <%= link_to 'ログインせずに目的地を探してみる', '#', class: 'zen-kaku-regular lg:zen-kaku-medium underline decoration-orange-600 text-xl lg:text-2xl' %>
+    <%= link_to 'ログインせずに目的地を探してみる', new_gest_path, class: 'zen-kaku-regular lg:zen-kaku-medium underline decoration-orange-600 text-xl lg:text-2xl' %>
   </div>
   <%= image_tag 'man_in_distress.png', class: 'w-1/3 lg:w-1/12' %>
 </div>
@@ -35,12 +35,12 @@
 </div>
 
 <div class="my-12 text-center flex flex-col lg:block">
-  <%= link_to 'まずは試してみる', '#',
+  <%= link_to 'まずは試してみる', new_gest_path,
   class: 'orange-btn inline-block zen-kaku-medium tracking-widest text-xl py-3 lg:px-8 mx-10 lg:mx-0' %>
 
   <p class="inline-block zen-kaku-bold tracking-tighter text-2xl my-2 lg:my-0 mx-0 lg:mx-4">OR</p>
 
-  <%= link_to '新規登録してみる', '#',
+  <%= link_to '新規登録してみる', signup_path,
   class: 'orange-btn inline-block zen-kaku-medium tracking-widest text-xl py-3 lg:px-8 mx-10 lg:mx-0' %>
 </div>
 
