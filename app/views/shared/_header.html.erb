@@ -1,0 +1,20 @@
+<nav class="fixed top-0 w-full bg-cyan-600 text-gray-100 drop-shadow-xl z-10 px-2 sm:px-8">
+  <div class="flex items-center justify-between tracking-tighter lg:tracking-wider">
+    <%= link_to "Today's Course", top_path,
+    class: 'text-2xl lg:text-3xl zen-kaku-bold py-4' %>
+
+    <div class="text-lg lg:text-xl zen-kaku-medium mt-1">
+      <% if request.fullpath != signup_path && !(request.post? && request.fullpath == users_path) %>
+        <%= link_to '新規登録', signup_path,
+        class: 'mx-0.5 lg:mx-1.5',
+        data: { turbo_frame: '_top' } %>
+      <% end %>
+
+      <% if request.fullpath != login_path && !(request.post? && request.fullpath == login_path) %>
+        <%= link_to 'ログイン', login_path,
+        class: 'mx-0.5 lg:mx-1.5',
+        data: { turbo_frame: '_top' } %>
+      <% end %>
+    </div>
+  </div>
+</nav>

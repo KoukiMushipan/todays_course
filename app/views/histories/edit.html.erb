@@ -6,13 +6,13 @@
       <%= form_with model: @history, url: history_path(@history.uuid), class: 'zen-kaku-medium' do |f| %>
         <div class="my-5 text-left">
           <%= f.label :start_time %>
-          <%= f.datetime_field :start_time, value: @history.start_time.strftime('%Y-%m-%d %H:%M'), class: 'normal-form' %>
+          <%= f.datetime_field :start_time, value: @history.start_time.strftime('%Y-%m-%d %H:%M'), class: 'normal-form', required: true %>
           <%= render partial: 'shared/error_message', collection: @history.errors.full_messages_for(:start_time) %>
         </div>
 
         <div class="my-5 text-left">
           <%= f.label :end_time %>
-          <%= f.datetime_field :end_time, value: @history.end_time.strftime('%Y-%m-%d %H:%M'), class: 'normal-form' %>
+          <%= f.datetime_field :end_time, value: @history.end_time.strftime('%Y-%m-%d %H:%M'), class: 'normal-form', required: true%>
           <%= render partial: 'shared/error_message', collection: @history.errors.full_messages_for(:end_time) %>
         </div>
 

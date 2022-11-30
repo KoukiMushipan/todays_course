@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+  get 'top', to: 'homes#top'
+
+  resources :gests, only: %i[index new]
 
   get 'signup', to: 'users#new'
   resources :users, only: %i[create]
@@ -16,6 +19,7 @@ Rails.application.routes.draw do
 
   resources :searches, only: %i[index new create]
   resources :departures
+  root 'departures#new'
   resources :destinations, only: %i[new create show edit update destroy]
   resources :histories, only: %i[new create show edit update destroy] do
     get 'cancel', on: :member

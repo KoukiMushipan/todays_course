@@ -1,0 +1,25 @@
+<%= form_with model: gest_form, url: gests_path, method: :get, class: 'zen-kaku-medium' do |f| %>
+  <div class="my-5">
+    <%= f.label :address %>
+    <%= f.text_field :address, class: 'normal-form', id: 'js-address-form', required: true %>
+    <%= link_to '現在地取得', '#', class: 'text-blue-600 underline', id: 'js-get-current-location-button' %>
+    <p class="hidden" id="js-loading-text">読込中……</p>
+    <%= render partial: 'shared/error_message', collection: gest_form.errors.full_messages_for(:address) %>
+  </div>
+
+  <div class="my-5">
+    <%= f.label :radius, '距離(1000m~5000m)' %>
+    <%= f.number_field :radius, class: 'normal-form tracking-widest', step: 100, min: 1000, max: 5000, required: true %>
+    <%= render partial: 'shared/error_message', collection: gest_form.errors.full_messages_for(:radius) %>
+  </div>
+
+  <div class="my-5">
+    <%= f.label :type %>
+    <%= f.select :type, Settings.google.place_type.to_h, {}, class: 'normal-form tracking-widest', required: true %>
+    <%= render partial: 'shared/error_message', collection: gest_form.errors.full_messages_for(:type) %>
+  </div>
+
+  <div class="my-5 text-right">
+    <%= f.submit '決定', class: 'orange-btn tracking-wider text-xl px-5 py-2.5 zen-kaku-regular' %>
+  </div>
+<% end %>

@@ -7,7 +7,7 @@
 
   <div class="my-5">
     <%= f.label :type %>
-    <%= f.select :type, Settings.google.place_type.to_h, {}, class: 'normal-form tracking-widest' %>
+    <%= f.select :type, Settings.google.place_type.to_h, {}, class: 'normal-form tracking-widest', required: true %>
     <%= render partial: 'shared/error_message', collection: search_term_form.errors.full_messages_for(:type) %>
   </div>
 

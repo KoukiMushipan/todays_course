@@ -21,11 +21,9 @@
   </head>
 
   <body>
-    <%= render 'shared/flash' %>
-    <%= render 'shared/toast' %>
-    <main class="container mx-auto mt-4 pb-20 px-3 sm:px-0">
+    <%= render 'shared/header' %>
+    <main>
       <%= yield %>
     </main>
-    <%= render 'shared/navigation_bar' %>
   </body>
 </html>
