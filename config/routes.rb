@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+  get 'top', to: 'homes#top'
 
   get 'signup', to: 'users#new'
   resources :users, only: %i[create]

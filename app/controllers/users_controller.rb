@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  layout 'gest', only: %i[new create]
+
   skip_before_action :require_login, only: %i[new create]
   skip_before_action :check_not_finished, only: %i[new create]
 
