@@ -3,4 +3,4 @@ google:
   geocode_url: 'https://maps.googleapis.com/maps/api/geocode/json?key=<%= ENV['GOOGLE_API_KEY'] %>&language=ja&region=JP&'
   nearby_url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=<%= ENV['GOOGLE_API_KEY'] %>&language=ja&'
 redis:
-  servers_url: ''
+  servers_url: '<%= ENV['REDIS_URL'] %>'
