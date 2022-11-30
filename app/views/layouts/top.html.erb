@@ -8,7 +8,7 @@
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 
-    <%= favicon_link_tag('favicon.ico') %>
+    <%= favicon_link_tag('favicon.png') %>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,11 +21,9 @@
   </head>
 
   <body>
-    <%= render 'shared/flash' %>
-    <%= render 'shared/toast' %>
-    <main class="container mx-auto mt-4 pb-20 px-3 sm:px-0">
+    <%= render 'shared/header' %>
+    <main>
       <%= yield %>
     </main>
-    <%= render 'shared/navigation_bar' %>
   </body>
 </html>

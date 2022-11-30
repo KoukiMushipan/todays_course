@@ -1,5 +1,5 @@
 class HomesController < ApplicationController
-  layout 'gest', only: %i[top]
+  layout 'top', only: %i[top]
 
   skip_before_action :require_login
   skip_before_action :check_not_finished
