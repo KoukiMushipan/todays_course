@@ -1,4 +1,30 @@
-<div>
-  <h1 class="font-bold text-4xl">Gests#index</h1>
-  <p>Find me in app/views/gests/index.html.erb</p>
+<% content_for(:title, '検索結果') %>
+
+<div id="map"></div>
+
+<div class="swiper swiper-container-1" data-controller='swiper'>
+    <div class="swiper-wrapper">
+      <%= render partial: 'result', collection: @results %>
+    </div>
+      <div class="swiper-pagination swiper-pagination-1 !bottom-0"></div>
+    <div class="swiper-button-next swiper-button-next-1 !right-0.5 sm:!right-5 !text-cyan-600/80"></div>
+    <div class="swiper-button-prev swiper-button-prev-1 !left-0.5 sm:!left-5 !text-cyan-600/80"></div>
+  </div>
 </div>
+
+<div class="info-card pt-3 flex flex-col lg:flex-row justify-center items-center mt-4 mb-6 text-left">
+
+  <div class="flex lg:mr-12 mb-2 lg:mb-0">
+    <%= link_to '新規登録', signup_path, class: 'orange-btn inline-block zen-kaku-medium tracking-widest text-xl lg:text-2xl py-2.5 lg:py-3 px-5 lg:px-6', data: { turbo_frame: '_top' } %>
+    <h1 class="mt-2 lg:mt-3 text-gray-800 tracking-tight lg:tracking-wider zen-kaku-regular text-2xl lg:text-3xl ml-1">をして</h1>
+  </div>
+
+  <div class="text-gray-800 text-center tracking-tighter lg:tracking-wider zen-kaku-regular text-xl lg:text-3xl">
+    <h1 class="underline decoration-cyan-600">細かい距離や道順の確認、</h1>
+    <h1 class="underline decoration-cyan-600 mt-1">出発地・目的地の保存、</h1>
+    <h1 class="underline decoration-cyan-600 mt-1">時間や移動距離の記録をしよう</h1>
+  </div>
+</div>
+
+<%= include_gon %>
+<%= javascript_include_tag Settings.google.map_url + 'callback=showCandidates', defer: 'defer' %>

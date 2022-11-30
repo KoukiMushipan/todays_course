@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # root "articles#index"
   get 'top', to: 'homes#top'
 
-  resources :gests, only: %i[index new create]
+  resources :gests, only: %i[index new]
 
   get 'signup', to: 'users#new'
   resources :users, only: %i[create]

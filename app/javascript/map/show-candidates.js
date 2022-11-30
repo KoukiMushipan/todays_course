@@ -3,6 +3,7 @@ window.showCandidates = () => {
   const center = { lat: departure.latitude, lng: departure.longitude }
   const results = gon.searchInfo.results;
   const radius = gon.searchInfo.search_term.radius;
+  const path = location.pathname;
 
   const map = new google.maps.Map(document.getElementById('map'), {
     center,
@@ -59,9 +60,18 @@ window.showCandidates = () => {
     if (infoWindow) {
       infoWindow.close();
     }
+
+    let content;
+    if (path.includes('gest')) {
+      content = location.variable.name;
+    } else {
+      content = `${location.variable.name}<br><a href="/destinations/new?destination=${location.variable.uuid}">目的地に設定</a>`;
+    }
+
     infoWindow = new google.maps.InfoWindow({
-      content: `${location.variable.name}<br><a href="/destinations/new?destination=${location.variable.uuid}">目的地に設定</a>`
+      content
     });
+
     infoWindow.open(map, marker);
   }
 
