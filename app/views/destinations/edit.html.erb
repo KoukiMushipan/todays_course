@@ -6,7 +6,7 @@
       <%= form_with model: @location, url: destination_path, class: 'zen-kaku-medium' do |f| %>
         <div class="my-5 text-left">
           <%= f.label :name %>
-          <%= f.text_field :name, class: 'normal-form' %>
+          <%= f.text_field :name, class: 'normal-form', required: true %>
           <%= render partial: 'shared/error_message', collection: @location.errors.full_messages_for(:name) %>
         </div>
 
@@ -19,7 +19,7 @@
         <%= f.fields_for :destination do |destination| %>
           <div class="my-5 text-left">
           <%= destination.label :distance %>
-          <%= destination.number_field :distance, class: 'normal-form' %>
+          <%= destination.number_field :distance, class: 'normal-form', required: true %>
           <%= render partial: 'shared/error_message', collection: @destination.errors.full_messages_for(:distance) %>
         </div>
         <% end %>

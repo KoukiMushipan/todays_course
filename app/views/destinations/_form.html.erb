@@ -1,12 +1,12 @@
 <%= form_with model: destination_form, url: destinations_path({destination: result[:variable][:uuid]}), class: "zen-kaku-medium" do |f| %>
   <div class="my-5">
     <%= f.label :name %>
-    <%= f.text_field :name, class: "normal-form" %>
+    <%= f.text_field :name, class: 'normal-form', required: true %>
     <%= render partial: 'shared/error_message', collection: destination_form.errors.full_messages_for(:name) %>
   </div>
   <div class="my-5">
     <%= f.label :distance %>
-    <%= f.number_field :distance, class: "normal-form" %>
+    <%= f.number_field :distance, class: 'normal-form', required: true %>
     <%= render partial: 'shared/error_message', collection: destination_form.errors.full_messages_for(:distance) %>
   </div>
   <div class="my-5">

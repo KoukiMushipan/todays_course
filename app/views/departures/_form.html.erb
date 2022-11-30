@@ -1,7 +1,7 @@
 <%= form_with model: departure_form, url: departures_path, class: 'zen-kaku-medium' do |f| %>
   <div class="my-5">
     <%= f.label :name %>
-    <%= f.text_field :name, class: 'normal-form' %>
+    <%= f.text_field :name, class: 'normal-form', required: true %>
     <%= render partial: 'shared/error_message', collection: departure_form.errors.full_messages_for(:name) %>
   </div>
 
@@ -14,7 +14,7 @@
   </div>
 
   <div class="my-5">
-    <%= f.check_box :is_saved, class: "p-2 mb-1 mr-3 inline-block shadow rounded-lg border border-gray-300 bg-gray-50" %>
+    <%= f.check_box :is_saved, class: 'p-2 mb-1 mr-3 inline-block shadow rounded-lg border border-gray-300 bg-gray-50' %>
     <%= f.label :is_saved %>
     <%= render partial: 'shared/error_message', collection: departure_form.errors.full_messages_for(:is_saved) %>
   </div>
