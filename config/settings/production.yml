@@ -1,0 +1,6 @@
+google:
+  map_url: 'https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&'
+  geocode_url: 'https://maps.googleapis.com/maps/api/geocode/json?key=<%= ENV['GOOGLE_API_KEY'] %>&language=ja&region=JP&'
+  nearby_url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=<%= ENV['GOOGLE_API_KEY'] %>&language=ja&'
+redis:
+  servers_url: ''
