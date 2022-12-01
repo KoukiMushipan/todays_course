@@ -1,21 +1,24 @@
 <div class="info-card keep-all zen-kaku-regular">
   <div class="text-left mb-1 lg:mb-0 text-gray-700">
-    <p class="block lg:inline-block">
+    <p class="block lg:inline-block tracking-tighter">
       <%= fa_icon 'home' %>
-      <span><%= history.departure.location.name %></span>
+      <%= history.departure.location.name %>
     </p>
   </div>
+
   <div class="text-gray-800 text-2xl lg:text-3xl zen-kaku-medium">
-    <h5 class="mr-0 lg:mr-5 block lg:inline-block">
+    <h5 class="mr-0 lg:mr-5 block lg:inline-block tracking-tighter">
       <%= fa_icon 'flag' %>
       <%= history.destination.location.name %>
     </h5>
+
     <h5 class="block lg:inline-block">
       <%= fa_icon 'road' %>
       <%= history.moving_distance %>m
     </h5>
   </div>
-  <p class="text-gray-700"><%= history.destination.location.address %></p>
+
+  <p class="text-gray-700 tracking-tighter"><%= history.destination.location.address %></p>
 
   <% if history.end_time %>
     <%= turbo_frame_tag 'goal-field' do %> <%# ゴールした時、差し替わるturbo_frame %>

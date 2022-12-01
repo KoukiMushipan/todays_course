@@ -12,13 +12,13 @@
 
         <div class="my-5 text-left">
           <%= f.label :end_time %>
-          <%= f.datetime_field :end_time, value: @history.end_time.strftime('%Y-%m-%d %H:%M'), class: 'normal-form', required: true%>
+          <%= f.datetime_field :end_time, value: @history.end_time.strftime('%Y-%m-%d %H:%M'), class: 'normal-form text-left', required: true%>
           <%= render partial: 'shared/error_message', collection: @history.errors.full_messages_for(:end_time) %>
         </div>
 
         <div class="my-5 text-left">
           <%= f.label :moving_distance %>
-          <%= f.number_field :moving_distance, class: 'normal-form', required: true %>
+          <%= f.number_field :moving_distance, class: 'normal-form text-left', required: true %>
           <%= render partial: 'shared/error_message', collection: @history.errors.full_messages_for(:moving_distance) %>
         </div>
 
