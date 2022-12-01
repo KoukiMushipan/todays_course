@@ -32,6 +32,7 @@
 
     <div>
       <%= link_to '出発', new_history_path(destination: destination.uuid),
+      data: { turbo_frame: '_top' },
       class: 'orange-btn tracking-widest text-xl px-12 py-2 zen-kaku-medium' %>
     </div>
 
