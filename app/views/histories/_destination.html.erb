@@ -10,20 +10,24 @@
         <% end %>
       </span>
     </p>
-    <p class="block lg:inline-block">
+
+    <p class="block lg:inline-block tracking-tighter">
       <%= fa_icon 'home' %>
       <span><%= departure_info[:name] %></span>
     </p>
   </div>
+
   <div class="text-gray-800 text-2xl lg:text-3xl zen-kaku-medium">
-    <h5 class="mr-0 lg:mr-5 block lg:inline-block">
+    <h5 class="mr-0 lg:mr-5 block lg:inline-block tracking-tighter">
       <%= fa_icon 'flag' %>
       <%= destination_info[:name] %>
     </h5>
+
     <h5 class="block sm:inline-block">
       <%= fa_icon 'road' %>
       <%= destination_info[:distance] %>m
     </h5>
   </div>
-  <p class="text-gray-700"><%= destination_info[:address] %></p>
+
+  <p class="text-gray-700 tracking-tighter"><%= destination_info[:address] %></p>
 </div>

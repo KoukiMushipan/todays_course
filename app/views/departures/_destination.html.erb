@@ -8,14 +8,14 @@
         <%= l(destination.created_at, format: :short) %>
       </p>
 
-      <p class="block lg:inline-block">
+      <p class="block lg:inline-block tracking-tighter">
         <%= fa_icon 'home' %>
         <%= destination.departure.location.name %>
       </p>
     </div>
 
     <div class="text-gray-800 text-2xl lg:text-3xl zen-kaku-medium">
-      <h5 class="mr-0 lg:mr-5 block lg:inline-block">
+      <h5 class="mr-0 lg:mr-5 block lg:inline-block tracking-tighter">
         <%= fa_icon 'flag' %>
         <%= destination.location.name %>
       </h5>
@@ -26,7 +26,7 @@
       </h5>
     </div>
 
-    <p class="mb-3 text-gray-700">
+    <p class="mb-3 text-gray-700 tracking-tighter">
       <%= destination.location.address %>
     </p>
 

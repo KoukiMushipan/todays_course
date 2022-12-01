@@ -2,7 +2,7 @@
   <div class="info-card pb-0 keep-all zen-kaku-regular">
     <%= render 'shared/toast' if is_turbo_frame_request? %> <%# history#update成功用 %>
 
-    <div class="text-left mb-1 lg:mb-0 text-gray-700">
+    <div class="text-left mb-1 lg:mb-0 text-gray-700 tracking-tighter">
       <p class="mr-0 lg:mr-3 block lg:inline-block">
         <%= fa_icon 'home' %>
         <%= history.decorate.departure_name %>
@@ -26,7 +26,9 @@
       </h5>
     </div>
 
-    <p class="mb-3 text-gray-700"><%= history.decorate.destination_address %></p>
+    <p class="mb-3 text-gray-700 tracking-tighter">
+      <%= history.decorate.destination_address %>
+    </p>
 
     <div>
       <%= link_to '出発', new_history_path(destination: history.decorate.destination_uuid),

@@ -1,17 +1,25 @@
 <div class="info-card keep-all zen-kaku-regular">
   <p class="text-left text-gray-700">
     <%= fa_icon 'clock-o'%>
-    <span><%= l(history.start_time, format: :short) %></span>
+    <%= l(history.start_time, format: :short) %>
     <span class="ml-1"><%= history.decorate.moving_time %>分</span>
     <%= fa_icon 'road',  class: 'ml-1'%>
-    <span><%= history.moving_distance %>m</span>
+    <%= history.moving_distance %>m
   </p>
-  <p class="mb-1.5 text-left text-gray-700">
+
+  <p class="mb-1.5 text-left text-gray-700 tracking-tighter">
     <%= fa_icon 'flag' %>
     <span><%= history.decorate.destination_name %></span>
   </p>
-  <h5 class="mb-1 text-2xl lg:text-3xl text-gray-800 zen-kaku-medium"><%= history.decorate.departure_name %></h5>
-  <p class="mb-3 text-gray-700"><%= history.decorate.departure_address %></p>
+
+  <h5 class="mb-1 text-2xl lg:text-3xl text-gray-800 zen-kaku-medium tracking-tighter">
+    <%= history.decorate.departure_name %>
+  </h5>
+
+  <p class="mb-3 text-gray-700 tracking-tighter">
+    <%= history.decorate.departure_address %>
+  </p>
+
   <div class="mt-4 mb-3">
     <%= link_to '出発', new_search_path(departure: history.decorate.departure_uuid),
     class: 'orange-btn tracking-widest text-xl px-12 py-2 zen-kaku-medium' %>
