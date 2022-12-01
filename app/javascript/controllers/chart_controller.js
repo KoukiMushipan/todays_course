@@ -6,8 +6,6 @@ export default class extends Controller {
   static values = { distance: Array }
 
   initialize() {
-    console.log('読み込んだよ'); // 開発用
-
     const date = new Date()
     date.setDate(date.getDate() + 1)
     const dates = []
