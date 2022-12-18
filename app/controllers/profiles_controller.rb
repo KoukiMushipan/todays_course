@@ -2,7 +2,7 @@ class ProfilesController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
 
   def show
-    @one_week_moving_distance = History.one_week_moving_distance(current_user)
+    @one_week_moving_distances = History.one_week_moving_distances(current_user)
     @histories = current_user.histories.finished_list
     @total_moving_time = 0
     @histories.each {|history| @total_moving_time += ((history.end_time - history.start_time) / 60).to_i }

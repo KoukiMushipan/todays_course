@@ -17,7 +17,7 @@ class History < ApplicationRecord
   scope :list, -> { with_location.recent }
   scope :finished_list, -> { finished.with_location.recent }
 
-  def self.one_week_moving_distance(user)
+  def self.one_week_moving_distances(user)
     one_week_histories = user.histories.where(start_time: Time.zone.today.ago(6.days)..Time.zone.today.end_of_day)
     week = (0..6).to_a.map {|i| Time.zone.now - i.days}
     week.reverse.map do |day|
