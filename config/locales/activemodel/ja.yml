@@ -8,6 +8,7 @@ ja:
         is_saved: '保存する'
       destination_form:
         name: '名称'
+        description: '詳細'
         distance: '片道の距離'
         is_saved: '保存する'
       search_term_form:

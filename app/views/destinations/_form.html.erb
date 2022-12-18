@@ -5,6 +5,11 @@
     <%= render partial: 'shared/error_message', collection: destination_form.errors.full_messages_for(:name) %>
   </div>
   <div class="my-5">
+    <%= f.label :description %>
+    <%= f.text_area :description, class: 'normal-form h-32', placeholder: '空白でも可' %>
+    <%= render partial: 'shared/error_message', collection: destination_form.errors.full_messages_for(:description) %>
+  </div>
+  <div class="my-5">
     <%= f.label :distance %>
     <%= f.number_field :distance, class: 'normal-form', required: true %>
     <%= render partial: 'shared/error_message', collection: destination_form.errors.full_messages_for(:distance) %>

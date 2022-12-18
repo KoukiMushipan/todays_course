@@ -49,7 +49,7 @@ class DestinationsController < ApplicationController
   end
 
   def destination_form_params
-    params.require(:destination_form).permit(:name, :distance, :is_saved)
+    params.require(:destination_form).permit(:name, :description, :distance, :is_saved)
   end
 
     def location_and_destination_params
