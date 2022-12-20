@@ -18,9 +18,9 @@
 
         <%= f.fields_for :destination do |destination| %>
           <div class="my-5">
-            <%= destination.label :description %>
-            <%= destination.text_area :description, class: 'normal-form h-32', placeholder: '空白でも可' %>
-            <%= render partial: 'shared/error_message', collection: @destination.errors.full_messages_for(:description) %>
+            <%= destination.label :comment %>
+            <%= destination.text_area :comment, class: 'normal-form h-32', placeholder: '空白でも可' %>
+            <%= render partial: 'shared/error_message', collection: @destination.errors.full_messages_for(:comment) %>
           </div>
 
           <div class="my-5">

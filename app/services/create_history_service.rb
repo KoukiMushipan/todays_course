@@ -19,7 +19,7 @@ class CreateHistoryService
 
   def create_destination(departure)
     location = Location.create!(destination_info.select { |k, v| Location.attribute_names.map{|l| l.to_sym}.include?(k) })
-    user.destinations.create!(location: location, departure: departure, description: destination_info[:description], distance: destination_info[:distance])
+    user.destinations.create!(location: location, departure: departure, comment: destination_info[:comment], distance: destination_info[:distance])
   end
 
   def prepare_location_flexibly

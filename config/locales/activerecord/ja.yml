@@ -21,7 +21,7 @@ ja:
       departure:
         is_saved: '保存'
       destination:
-        description: '詳細'
+        comment: 'コメント'
         distance: '片道の距離'
         is_saved: '保存'
       history:

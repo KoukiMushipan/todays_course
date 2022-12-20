@@ -33,7 +33,7 @@ class CreateDestinationService
     location = create_location
     user.destinations.create!(departure: departure,
                               location: location,
-                              description: destination_form.description,
+                              comment: destination_form.comment,
                               distance: destination_form.distance,
                               is_saved: destination_form.is_saved)
   end

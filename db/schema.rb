@@ -35,7 +35,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_18_122821) do
     t.string "uuid", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "description"
+    t.string "comment"
+    t.boolean "is_published_comment", default: false, null: false
     t.index ["departure_id"], name: "index_destinations_on_departure_id"
     t.index ["location_id"], name: "index_destinations_on_location_id"
     t.index ["user_id"], name: "index_destinations_on_user_id"
