@@ -26,9 +26,18 @@
       </h5>
     </div>
 
-    <p class="mb-3 text-gray-700 tracking-tighter">
+    <p class="text-gray-700 tracking-tighter">
       <%= destination.location.address %>
     </p>
+
+    <div class="text-gray-800 tracking-tighter mt-0.5 mb-3">
+      <% if destination.description %>
+        <p>
+          <%= fa_icon 'commenting' %>
+          <%= destination.description %>
+        </p>
+      <% end %>
+    </div>
 
     <div>
       <%= link_to '出発', new_history_path(destination: destination.uuid),

@@ -53,6 +53,6 @@ class DestinationsController < ApplicationController
   end
 
     def location_and_destination_params
-    params.require(:location).permit(:name, :address, destination_attributes: [:distance, :id])
+    params.require(:location).permit(:name, :address, destination_attributes: [:description, :distance, :id])
   end
 end
