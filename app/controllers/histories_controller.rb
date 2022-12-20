@@ -63,6 +63,6 @@ class HistoriesController < ApplicationController
   end
 
   def history_params
-    params.require(:history).permit(:start_time, :end_time, :moving_distance)
+    params.require(:history).permit(:start_time, :end_time, :comment, :moving_distance)
   end
 end

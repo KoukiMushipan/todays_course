@@ -3,11 +3,14 @@ class History < ApplicationRecord
   belongs_to :destination
   has_one :departure, through: :destination
 
+  validates :comment, length: { maximum: 255 }
   validates :moving_distance, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 42195}
   validate :end_time_check
 
   before_create -> { self.uuid = SecureRandom.uuid }
   before_create -> { self.start_time = Time.zone.now if start_time.nil? }
+  before_create -> { self.comment = nil if comment.blank? }
+  before_update -> { self.comment = nil if comment.blank? }
 
   scope :with_location, -> { includes(destination: [:location, departure: :location]) }
   scope :not_finished, -> { where(end_time: nil) }
