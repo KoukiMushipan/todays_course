@@ -30,4 +30,11 @@
   </div>
 
   <p class="text-gray-700 tracking-tighter"><%= destination_info[:address] %></p>
+
+  <% if !destination_info[:comment].blank? %>
+    <p class="text-gray-800 tracking-tighter">
+      <%= fa_icon 'commenting' %>
+      <%= destination_info[:comment] %>
+    </p>
+  <% end %>
 </div>

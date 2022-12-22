@@ -22,6 +22,7 @@ class Destination < ApplicationRecord
     {
       uuid: uuid,
       distance: distance,
+      comment: comment,
       name: location.name,
       latitude: location.latitude,
       longitude: location.longitude,
