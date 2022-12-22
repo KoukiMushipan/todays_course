@@ -49,9 +49,10 @@
       <%= render 'shared/dropdown' %>
 
       <div class="mb-3 hidden" data-dropdown-target="menu">
-        <%= link_to '編集', edit_history_path(history.uuid),
+        <%= link_to '編集', edit_history_path(history.uuid, route: 'profile_page'),
         class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular mr-4' %>
-        <%= link_to '削除', history_path(history.uuid),
+
+        <%= link_to '削除', history_path(history.uuid, route: 'profile_page'),
         data: { turbo_method: :delete, turbo_confirm: "保存済みから削除します\nよろしいですか?"},
         class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular border-red-600 text-red-600' %>
       </div>

@@ -3,8 +3,10 @@
 <div id="map"></div>
 
 <%= turbo_frame_tag 'start-field' do %> <%# histories#newから遷移してきた時、差し替わるturbo_frame %>
-  <%= render 'shared/toast' if is_turbo_frame_request? %> <%# histories#createでスタートして遷移してきた用 %>
-  <%= render @history %>
+  <%= turbo_frame_tag @history do %>
+    <%= render 'shared/toast' if is_turbo_frame_request? && @history.end_time.nil? %> <%# histories#createでスタートして遷移してきた用 %>
+    <%= render @history %>
+  <% end %>
 <% end %>
 
 <%= include_gon %>

@@ -3,6 +3,7 @@ class HistoriesController < ApplicationController
   before_action :check_departure_session_and_set_departure_info, only: %i[create show]
   before_action :check_destination_session_and_set_destination_info, only: %i[create show]
   before_action :set_history, only: %i[show edit update destroy cancel]
+  before_action :set_route, only: %i[edit update destroy cancel]
 
   def new # destinations#newから遷移の場合、turbo_frameリクエスト
     destination = current_user.destinations.find_by(uuid: params[:destination])
@@ -35,7 +36,11 @@ class HistoriesController < ApplicationController
     end
 
     if @history.update(history_params)
-      redirect_to cancel_history_path(@history.uuid), flash: {success: '履歴を更新しました'}
+      flash.now[:success] = '履歴を更新しました'
+      case @route
+      when 'moving_page' then render :show
+      when 'profile_page' then render :cancel
+      end
     else
       flash.now[:error] = '入力情報に誤りがあります'
       render :edit, status: :unprocessable_entity
@@ -43,23 +48,38 @@ class HistoriesController < ApplicationController
   end
 
   def destroy
+    destination = @history.destination
+
     if @history.end_time
       @history.destroy!
-      flash.now[:error] = '履歴を削除しました'
-      render turbo_stream: turbo_stream.replace(@history, partial: 'shared/toast')
+      case @route
+      when 'moving_page'
+        redirect_to new_history_path(destination: destination.uuid), flash: {success: '履歴を削除しました'}, status: :see_other
+      when 'profile_page'
+        flash.now[:success] = '履歴を削除しました'
+        render turbo_stream: turbo_stream.replace(@history, partial: 'shared/toast')
+      end
     else
-      destination = @history.destination
       @history.destroy!
       redirect_to new_history_path(destination: destination.uuid), status: :see_other
     end
   end
 
-  def cancel; end
+  def cancel
+    case @route
+    when 'moving_page' then render :show
+    when 'profile_page' then render :cancel
+    end
+  end
 
   private
 
   def set_history
     @history = current_user.histories.find_by!(uuid: params[:id])
+  end
+
+  def set_route
+    @route = params[:route]
   end
 
   def history_params

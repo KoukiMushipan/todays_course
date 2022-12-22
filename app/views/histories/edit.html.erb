@@ -3,7 +3,7 @@
     <div class="info-card pb-0">
       <%= render 'shared/toast' if is_turbo_frame_request? %> <%# history#updateのバリデーションエラー用 %>
 
-      <%= form_with model: @history, url: history_path(@history.uuid), class: 'zen-kaku-medium text-left' do |f| %>
+      <%= form_with model: @history, url: history_path(@history.uuid, route: @route), class: 'zen-kaku-medium text-left' do |f| %>
         <div class="my-5">
           <%= f.label :start_time %>
           <%= f.datetime_field :start_time, value: @history.start_time.strftime('%Y-%m-%d %H:%M'), class: 'normal-form', required: true %>
@@ -29,7 +29,7 @@
         </div>
 
         <div class="my-5 text-right zen-kaku-regular text-xl tracking-wider">
-          <%= link_to '取消', cancel_history_path(@history.uuid), class: 'border-orange-btn px-5 py-2' %>
+          <%= link_to '取消', cancel_history_path(@history.uuid, route: @route), class: 'border-orange-btn px-5 py-2' %>
           <%= f.submit '決定', class: 'orange-btn px-5 py-2.5' %>
         </div>
       <% end %>

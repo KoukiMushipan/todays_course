@@ -20,10 +20,30 @@
 
   <p class="text-gray-700 tracking-tighter"><%= history.destination.location.address %></p>
 
+  <% if history.comment %>
+    <p class="text-gray-800 tracking-tighter">
+      <%= fa_icon 'commenting' %>
+      <%= history.comment %>
+    </p>
+  <% end %>
+
   <% if history.end_time %>
     <%= turbo_frame_tag 'goal-field' do %> <%# ゴールした時、差し替わるturbo_frame %>
       <%= render 'shared/toast' if is_turbo_frame_request? %> <%# ゴールした時用 %>
       <%= render 'time', history: history %>
+      <div data-controller="dropdown">
+        <%= render 'shared/dropdown' %>
+
+        <div class="mb-3 hidden" data-dropdown-target="menu">
+          <%= link_to '編集', edit_history_path(history.uuid, route: 'moving_page'),
+          data: { turbo_frame: "history_#{history.id}" },
+          class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular mr-4' %>
+
+          <%= link_to '削除', history_path(history.uuid, route: 'moving_page'),
+          data: { turbo_frame: '_top', turbo_method: :delete, turbo_confirm: "保存済みから削除します\nよろしいですか?"},
+          class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular border-red-600 text-red-600' %>
+        </div>
+      </div>
     <% end %>
   <% else %>
     <%= turbo_frame_tag 'goal-field' do %> <%# 未ゴールの際、表示 %>
