@@ -44,7 +44,7 @@ window.showCandidates = () => {
     const marker = new google.maps.Marker({
       position: coordinatesMarker,
       map,
-      icon: 'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
+      icon: '/orange-marker.png'
     });
 
     marker.addListener('click', () => {
