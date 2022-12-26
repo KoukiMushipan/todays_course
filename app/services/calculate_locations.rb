@@ -8,10 +8,18 @@ module CalculateLocations
     [theta, theta + 120, theta + 240].shuffle
   end
 
+  def calculate_latitude(latitude, radius, theta)
+    (360 * radius) / (2 * PI * 6356752.314) * sin(theta * PI / 180.0) + latitude
+  end
+
+  def calculate_longitude(latitude, longitude, radius, theta)
+    (360 * radius) / ((6378137.0 * cos(latitude * PI / 180)) * 2 * PI) * cos(theta * PI / 180.0) + longitude
+  end
+
   def three_locations_for_nearby_request(location, radius)
     three_theta.map do |tt|
-      latitude = (360 * radius) / (2 * PI * 6356752.314) * sin(tt * PI / 180.0) + location[:latitude]
-      longitude = (360 * radius) / ((6378137.0 * cos(location[:latitude] * PI / 180)) * 2 * PI) * cos(tt * PI / 180.0) + location[:longitude]
+      latitude = calculate_latitude(location[:latitude], radius, tt)
+      longitude = calculate_longitude(location[:latitude], location[:longitude], radius, tt)
       {latitude: latitude, longitude: longitude}
     end
   end
