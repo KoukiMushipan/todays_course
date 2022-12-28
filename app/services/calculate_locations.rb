@@ -16,6 +16,16 @@ module CalculateLocations
     (360 * radius) / ((6378137.0 * cos(latitude * PI / 180)) * 2 * PI) * cos(theta * PI / 180.0) + longitude
   end
 
+  def search_range(latitude, longitude, radius)
+    south_latitude = calculate_latitude(latitude, radius, 270)
+    north_latitude = calculate_latitude(latitude, radius, 90)
+
+    west_longitude = calculate_longitude(latitude, longitude, radius, 180)
+    east_longitude = calculate_longitude(latitude, longitude, radius, 0)
+
+    {latitude: south_latitude..north_latitude, longitude: west_longitude..east_longitude}
+  end
+
   def three_locations_for_nearby_request(location, radius)
     three_theta.map do |tt|
       latitude = calculate_latitude(location[:latitude], radius, tt)

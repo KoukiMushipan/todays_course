@@ -2,15 +2,17 @@
 
 <div id="map"></div>
 
-<div class="swiper swiper-container-1" data-controller='swiper'>
-    <div class="swiper-wrapper">
-      <%= render partial: 'result', collection: @results %>
+<% [@results,  @commented_destinations_info].each_with_index do |candidate, i| %>
+  <div class="swiper swiper-container-<%= i %>" data-controller='swiper'>
+      <div class="swiper-wrapper">
+        <%= render partial: 'candidate', collection: candidate %>
+      </div>
+        <div class="swiper-pagination swiper-pagination-<%= i %> !bottom-0"></div>
+      <div class="swiper-button-next swiper-button-next-<%= i %> !right-0.5 sm:!right-5 !text-cyan-600/80"></div>
+      <div class="swiper-button-prev swiper-button-prev-<%= i %> !left-0.5 sm:!left-5 !text-cyan-600/80"></div>
     </div>
-      <div class="swiper-pagination swiper-pagination-1 !bottom-0"></div>
-    <div class="swiper-button-next swiper-button-next-1 !right-0.5 sm:!right-5 !text-cyan-600/80"></div>
-    <div class="swiper-button-prev swiper-button-prev-1 !left-0.5 sm:!left-5 !text-cyan-600/80"></div>
   </div>
-</div>
+<% end %>
 
 <%= include_gon %>
 <%= javascript_include_tag Settings.google.map_url + 'callback=showCandidates', defer: 'defer' %>

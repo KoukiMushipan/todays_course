@@ -1,11 +1,19 @@
 class SearchesController < ApplicationController
   before_action :check_departure_session_and_set_departure_info, only: %i[index create]
   before_action :check_search_term_session, only: %i[index]
-  before_action :check_results_session, only: %i[index]
+  before_action :check_candidates_session, only: %i[index]
 
   def index
     @results = session[:results]
-    gon.searchInfo = {results: @results, departure: @departure_info, search_term: session[:search_term]}
+
+    departure_location = Location.new(latitude: @departure_info[:latitude], longitude: @departure_info[:longitude])
+    @commented_destinations_info = departure_location.search_nearby_published_comment_info(session[:search_term]["radius"] + 1000)
+    session[:commented_destinations] = @commented_destinations_info
+
+    arr = @commented_destinations_info.map {|d| d[:fixed][:place_id]}
+    @results.delete_if {|result| arr.include?(result[:fixed][:place_id])}
+
+    gon.searchInfo = {results: @results, commented_destinations: @commented_destinations_info, departure: @departure_info, search_term: session[:search_term]}
   end
 
   def new

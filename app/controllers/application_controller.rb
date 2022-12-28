@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_departure_session
-    if session[:departure].nil?
+    if !session[:departure].present?
       url = new_departure_path
       flash_message = {error: '出発地が設定されていません'}
       required_none(url, flash_message)
@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_destination_session
-    if session[:destination].nil?
+    if !session[:destination].present?
       url = new_destination_path
       flash_message = {error: '目的地が設定されていません'}
       required_none(url, flash_message)
@@ -25,15 +25,15 @@ class ApplicationController < ActionController::Base
   end
 
   def check_search_term_session
-    if session[:search_term].nil?
+    if !session[:search_term].present?
       url = new_search_path
       flash_message = {error: '条件を入力してください'}
       required_none(url, flash_message)
     end
   end
 
-  def check_results_session
-    if session[:results].nil?
+  def check_candidates_session
+    if !session[:results].present? && !session[:commented_destinations].present?
       url = new_search_path
       flash_message = {error: '目的地の検索が実行されていません'}
       required_none(url, flash_message)
@@ -55,10 +55,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def check_result_session_for_destination_and_set_result
-    @result = session[:results].find {|result| result[:variable][:uuid] == params[:destination]}
+  def check_candidate_session_for_destination_and_set_candidate
+    @candidate = session[:results].find {|result| result[:variable][:uuid] == params[:destination]}
+    @candidate ||= session[:commented_destinations].find {|destination| destination[:variable][:uuid] == params[:destination]}
 
-    if @result.nil?
+    if !@candidate.present?
       url = searches_path
       flash_message = {error: '目的地を選択してください'}
       required_none(url, flash_message)
