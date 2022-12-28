@@ -26,6 +26,7 @@ class Destination < ApplicationRecord
       uuid: uuid,
       distance: distance,
       comment: comment,
+      is_published_comment: is_published_comment,
       name: location.name,
       latitude: location.latitude,
       longitude: location.longitude,

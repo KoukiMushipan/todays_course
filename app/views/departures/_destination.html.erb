@@ -33,6 +33,12 @@
     <div class="text-gray-800 tracking-tighter mt-0.5 mb-3">
       <% if destination.comment %>
         <p>
+          <% if destination.is_published_comment %>
+            <%= fa_icon 'eye' %>
+          <% else %>
+            <%= fa_icon 'eye-slash' %>
+          <% end %>
+
           <%= fa_icon 'commenting' %>
           <%= destination.comment %>
         </p>
