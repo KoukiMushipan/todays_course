@@ -24,6 +24,12 @@
           </div>
 
           <div class="my-5">
+            <%= destination.check_box :is_published_comment, class: "p-2 mb-1 mr-3 inline-block shadow rounded-lg border border-gray-300 bg-gray-50" %>
+            <%= destination.label :is_published_comment %>
+            <%= render partial: 'shared/error_message', collection: @destination.errors.full_messages_for(:is_published_comment) %>
+          </div>
+
+          <div class="my-5">
             <%= destination.label :distance %>
             <%= destination.number_field :distance, class: 'normal-form', required: true %>
             <%= render partial: 'shared/error_message', collection: @destination.errors.full_messages_for(:distance) %>

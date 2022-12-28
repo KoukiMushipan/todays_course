@@ -11,6 +11,7 @@ ja:
         comment: 'コメント'
         distance: '片道の距離'
         is_saved: '保存する'
+        is_published_comment: 'コメントを公開する'
       search_term_form:
         radius: '距離'
         type: '種類'

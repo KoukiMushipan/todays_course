@@ -34,6 +34,7 @@ class CreateDestinationService
     user.destinations.create!(departure: departure,
                               location: location,
                               comment: destination_form.comment,
+                              is_published_comment: destination_form.is_published_comment,
                               distance: destination_form.distance,
                               is_saved: destination_form.is_saved)
   end
