@@ -12,27 +12,25 @@ class Location < ApplicationRecord
   validates :address, presence: true, length: { maximum: 255 }
 
   def search_nearby_published_comment_info(radius)
-    locations = search_nearby_published_comment(radius)
-    locations_info = locations.map {|location| location.attributes_for_show_comment}
-
-    duplication = locations_info.group_by {|location_info| location_info[:fixed][:place_id]}.select { |k, v| v.size > 1 }
-    locations_info.uniq! {|d| d[:fixed][:place_id]}
-
-    duplication.each do |k, v|
-      comments = v.map {|d| d[:fixed][:comment]}
-      locations_info.find {|d| k == d[:fixed][:place_id]}[:fixed][:comment] = comments
+    locations_info = search_nearby_published_comment(radius).map do |location|
+      info = location.attributes_for_map
+      info[:fixed][:comment] = location.destination.comment
+      info
     end
 
+    wrap_comments(locations_info)
     locations_info.sample(20)
   end
 
-  def search_nearby_published_comment(radius)
-    published_comment_locations = Location.joins(:destination).where(destination: {is_published_comment: true}).where.not(destination: {comment: true})
-    nearby_locations = published_comment_locations.where(search_range(latitude, longitude, radius))
-    nearby_locations.includes(:destination)
+  def search_nearby_own_info(radius, user)
+    search_nearby_own(radius, user).map do |location|
+      info = location.attributes_for_map
+      info[:fixed][:created_at] = location.destination.created_at
+      info
+    end
   end
 
-  def attributes_for_show_comment
+  def attributes_for_map
     {
     variable:
       {
@@ -45,8 +43,33 @@ class Location < ApplicationRecord
         longitude: longitude,
         address: address,
         place_id: place_id,
-        comment: destination.comment,
       }
     }
+  end
+
+  private
+
+  def wrap_comments(locations_info)
+    duplication = locations_info.group_by {|location_info| location_info[:fixed][:place_id]}.select { |k, v| v.size > 1 }
+    locations_info.uniq! {|d| d[:fixed][:place_id]}
+
+    duplication.each do |k, v|
+      comments = v.map {|d| d[:fixed][:comment]}
+      locations_info.find {|d| k == d[:fixed][:place_id]}[:fixed][:comment] = comments
+    end
+  end
+
+  def search_nearby_published_comment(radius)
+    published_comment_locations = Location.joins(:destination).where(destination: {is_published_comment: true}).where.not(destination: {comment: true})
+    search_nearby_destinations(published_comment_locations, radius)
+  end
+
+  def search_nearby_own(radius, user)
+    own_destinations = Location.joins(:destination).where(destination: {user: user})
+    search_nearby_destinations(own_destinations, radius).sample(20)
+  end
+
+  def search_nearby_destinations(locations, radius)
+    locations.where(search_range(latitude, longitude, radius)).includes(:destination)
   end
 end

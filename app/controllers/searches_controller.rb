@@ -5,15 +5,19 @@ class SearchesController < ApplicationController
 
   def index
     @results = session[:results]
-
     departure_location = Location.new(latitude: @departure_info[:latitude], longitude: @departure_info[:longitude])
+
     @commented_destinations_info = departure_location.search_nearby_published_comment_info(session[:search_term]["radius"] + 1000)
     session[:commented_destinations] = @commented_destinations_info
+    @my_destinations_info = departure_location.search_nearby_own_info(session[:search_term]["radius"] + 1000, current_user)
 
-    arr = @commented_destinations_info.map {|d| d[:fixed][:place_id]}
-    @results.delete_if {|result| arr.include?(result[:fixed][:place_id])}
+    place_id_arr = []
+    [@my_destinations_info, @commented_destinations_info, @results].each do |r|
+      r.delete_if {|result| place_id_arr.include?(result[:fixed][:place_id])}
+      place_id_arr += r.map {|d| d[:fixed][:place_id]}
+    end
 
-    gon.searchInfo = {results: @results, commented_destinations: @commented_destinations_info, departure: @departure_info, search_term: session[:search_term]}
+    gon.searchInfo = {results: @results, commented_destinations: @commented_destinations_info, my_destinations_info: @my_destinations_info, departure: @departure_info, search_term: session[:search_term]}
   end
 
   def new

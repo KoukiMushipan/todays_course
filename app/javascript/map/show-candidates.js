@@ -1,8 +1,9 @@
 window.showCandidates = () => {
   const departure = gon.searchInfo.departure;
-  const center = { lat: departure.latitude, lng: departure.longitude }
+  const center = { lat: departure.latitude, lng: departure.longitude };
   const results = gon.searchInfo.results;
-  const commented_destinations = gon.searchInfo.commented_destinations
+  const commentedDestinations = gon.searchInfo.commented_destinations;
+  const myDestinationsInfo = gon.searchInfo.my_destinations_info;
   const radius = gon.searchInfo.search_term.radius;
   const path = location.pathname;
 
@@ -86,8 +87,9 @@ window.showCandidates = () => {
 
   let markers = []
   markers[0] = results.map((result) => setMarker(result, 'orange')); // resultsの一つ一つにマーカーを作成
-  markers[1] = commented_destinations.map((commented_destination) => setMarker(commented_destination, 'teal')); // commented_destinationsの一つ一つにマーカーを作成
-  let candidates = [results, commented_destinations]
+  markers[1] = commentedDestinations.map((commentedDestination) => setMarker(commentedDestination, 'teal')); // commentedDestinationsの一つ一つにマーカーを作成
+  markers[2] = myDestinationsInfo.map((myDestinationInfo) => setMarker(myDestinationInfo, 'cyan')); // myDestinationsInfoの一つ一つにマーカーを作成
+  let candidates = [results, commentedDestinations, myDestinationsInfo]
 
   for (let i = 0; i < document.getElementsByClassName('swiper-wrapper').length; i++) { // slideとinfo windowが連動するための記述
     const swiperWrapper = document.getElementsByClassName('swiper-wrapper')[i]

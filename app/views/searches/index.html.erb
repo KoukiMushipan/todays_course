@@ -2,7 +2,7 @@
 
 <div id="map"></div>
 
-<% [@results,  @commented_destinations_info].each_with_index do |candidate, i| %>
+<% [@results,  @commented_destinations_info, @my_destinations_info].each_with_index do |candidate, i| %>
   <div class="swiper swiper-container-<%= i %>" data-controller='swiper'>
       <div class="swiper-wrapper">
         <%= render partial: 'candidate', collection: candidate %>

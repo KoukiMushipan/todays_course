@@ -1,12 +1,36 @@
-<div class="info-card pt-3 keep-all wrap-anywhere zen-kaku-regular swiper-slide !h-auto center-slide-card" id="js-result-<%= candidate[:variable][:uuid] %>">
+<div class="info-card keep-all wrap-anywhere zen-kaku-regular swiper-slide !h-auto center-slide-card" id="js-result-<%= candidate[:variable][:uuid] %>">
   <div>
+
+    <% if candidate[:fixed][:created_at] %>
+      <div class="mb-0.5 lg:mb-0 text-gray-700">
+        <p>
+          <%= fa_icon 'floppy-o', class: "mr-1"%>
+          <%= l(candidate[:fixed][:created_at], format: :short) %>
+        </p>
+      </div>
+    <% else %>
+      <div class="pt-3">
+      </div>
+    <% end %>
+
+
     <h5 class="mb-1 text-2xl lg:text-3xl text-gray-800 zen-kaku-medium tracking-tighter">
       <%= candidate[:variable][:name] %>
     </h5>
 
-    <p class="mb-3 text-gray-700 tracking-tighter">
+    <p class="text-gray-700 tracking-tighter">
       <%= candidate[:fixed][:address] %>
     </p>
+
+    <div class="text-gray-800 tracking-tighter mt-0.5 mb-3">
+      <% if candidate[:fixed][:comment] %>
+        <p>
+          <%= fa_icon 'eye' %>
+          <%= fa_icon 'commenting' %>
+          <%= candidate[:fixed][:comment] %>
+        </p>
+      <% end %>
+    </div>
 
     <div class="mt-4 mb-3">
       <%= link_to '決定', new_destination_path({destination: candidate[:variable][:uuid]}),
