@@ -15,6 +15,7 @@ class Location < ApplicationRecord
     radius += 1000
     locations_info = search_nearby_published_comment(radius, user).map do |location|
       info = location.attributes_for_map
+      info[:variable][:uuid] = SecureRandom.uuid
       info[:fixed][:comment] = location.destination.comment
       info
     end
@@ -27,6 +28,7 @@ class Location < ApplicationRecord
     radius += 1000
     search_nearby_own(radius, user).map do |location|
       info = location.attributes_for_map
+      info[:variable][:uuid] = location.destination.uuid
       info[:fixed][:created_at] = location.destination.created_at
       info[:fixed][:comment] = location.destination.comment
       info[:fixed][:is_published_comment] = location.destination.is_published_comment
@@ -38,7 +40,6 @@ class Location < ApplicationRecord
     {
     variable:
       {
-        uuid: SecureRandom.uuid,
         name: name,
       },
     fixed:
@@ -64,12 +65,15 @@ class Location < ApplicationRecord
   end
 
   def search_nearby_published_comment(radius, user)
-    published_comment_locations = Location.joins(:destination).where.not(destination: {comment: nil}).where.not(destination: {user: user}).where(destination: {is_published_comment: true})
+    published_comment_locations = Location.joins(:destination)
+                                          .where.not(destination: {comment: nil})
+                                          .where.not(destination: {user: user})
+                                          .where(destination: {is_published_comment: true, is_saved: true})
     search_nearby_destinations(published_comment_locations, radius).sample(20)
   end
 
   def search_nearby_own(radius, user)
-    own_destinations = Location.joins(:destination).where(destination: {user: user})
+    own_destinations = Location.joins(:destination).where(destination: {user: user, is_saved: true})
     search_nearby_destinations(own_destinations, radius).sample(20)
   end
 

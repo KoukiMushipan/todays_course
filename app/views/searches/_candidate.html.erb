@@ -27,8 +27,13 @@
     </div>
 
     <div class="mt-4 mb-3">
-      <%= link_to '決定', new_destination_path({destination: candidate[:variable][:uuid]}),
-      class: 'orange-btn tracking-widest text-xl px-12 py-2 zen-kaku-medium' %>
+      <% if candidate[:fixed][:created_at] %>
+        <%= link_to '決定', new_history_path({destination: candidate[:variable][:uuid]}),
+        class: 'orange-btn tracking-widest text-xl px-12 py-2 zen-kaku-medium' %>
+      <% else %>
+        <%= link_to '決定', new_destination_path({destination: candidate[:variable][:uuid]}),
+        class: 'orange-btn tracking-widest text-xl px-12 py-2 zen-kaku-medium' %>
+      <% end %>
     </div>
   </div>
 </div>
