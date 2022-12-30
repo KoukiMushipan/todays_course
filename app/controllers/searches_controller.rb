@@ -7,9 +7,9 @@ class SearchesController < ApplicationController
     @results = session[:results]
     departure_location = Location.new(latitude: @departure_info[:latitude], longitude: @departure_info[:longitude])
 
-    @commented_destinations_info = departure_location.search_nearby_published_comment_info(session[:search_term]["radius"] + 1000)
-    session[:commented_destinations] = @commented_destinations_info
-    @my_destinations_info = departure_location.search_nearby_own_info(session[:search_term]["radius"] + 1000, current_user)
+    @commented_destinations_info = departure_location.search_nearby_published_comment_info(session[:search_term]["radius"], current_user)
+    @my_destinations_info = departure_location.search_nearby_own_info(session[:search_term]["radius"], current_user)
+    session[:commented_destinations], session[:my_destinations_info] = @commented_destinations_info, @my_destinations_info
 
     place_id_arr = []
     [@my_destinations_info, @commented_destinations_info, @results].each do |r|

@@ -11,18 +11,20 @@ class Location < ApplicationRecord
   validates :longitude, presence: true
   validates :address, presence: true, length: { maximum: 255 }
 
-  def search_nearby_published_comment_info(radius)
-    locations_info = search_nearby_published_comment(radius).map do |location|
+  def search_nearby_published_comment_info(radius, user)
+    radius += 1000
+    locations_info = search_nearby_published_comment(radius, user).map do |location|
       info = location.attributes_for_map
       info[:fixed][:comment] = location.destination.comment
       info
     end
 
     wrap_comments(locations_info)
-    locations_info.sample(20)
+    locations_info
   end
 
   def search_nearby_own_info(radius, user)
+    radius += 1000
     search_nearby_own(radius, user).map do |location|
       info = location.attributes_for_map
       info[:fixed][:created_at] = location.destination.created_at
@@ -59,9 +61,9 @@ class Location < ApplicationRecord
     end
   end
 
-  def search_nearby_published_comment(radius)
-    published_comment_locations = Location.joins(:destination).where(destination: {is_published_comment: true}).where.not(destination: {comment: true})
-    search_nearby_destinations(published_comment_locations, radius)
+  def search_nearby_published_comment(radius, user)
+    published_comment_locations = Location.joins(:destination).where.not(destination: {comment: nil}).where.not(destination: {user: user}).where(destination: {is_published_comment: true})
+    search_nearby_destinations(published_comment_locations, radius).sample(20)
   end
 
   def search_nearby_own(radius, user)

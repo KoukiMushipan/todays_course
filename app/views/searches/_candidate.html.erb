@@ -23,13 +23,7 @@
     </p>
 
     <div class="text-gray-800 tracking-tighter mt-0.5 mb-3">
-      <% if candidate[:fixed][:comment] %>
-        <p>
-          <%= fa_icon 'eye' %>
-          <%= fa_icon 'commenting' %>
-          <%= candidate[:fixed][:comment] %>
-        </p>
-      <% end %>
+      <%= render 'comment', comment: candidate[:fixed][:comment] %>
     </div>
 
     <div class="mt-4 mb-3">

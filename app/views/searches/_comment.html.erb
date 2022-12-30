@@ -1,0 +1,21 @@
+<% if comment.instance_of?(Array) %>
+  <div class="flex justify-center items-center">
+    <p>
+      <%= fa_icon 'eye' %>
+      <%= fa_icon 'commenting' %>
+    </p>
+    <div>
+      <% comment.each do |c| %>
+        <p>
+          <%= "・#{c}" %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+<% elsif comment.instance_of?(String) %>
+  <p>
+    <%= fa_icon 'eye' %>
+    <%= fa_icon 'commenting' %>
+    <%= comment %>
+  </p>
+<% end %>
