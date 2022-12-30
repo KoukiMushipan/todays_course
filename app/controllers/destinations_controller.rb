@@ -3,6 +3,7 @@ class DestinationsController < ApplicationController
   before_action :check_candidates_session, only: %i[new create]
   before_action :check_candidate_session_for_destination_and_set_candidate, only: %i[new create]
   before_action :set_destination_and_location, only: %i[show edit update destroy]
+  before_action :set_route, only: %i[edit update destroy]
 
   def new
     @destination_form = DestinationForm.new
@@ -22,13 +23,21 @@ class DestinationsController < ApplicationController
     redirect_to new_history_path, flash: {success: result_of_create_destination[:success]}
   end
 
-  def show; end
+  def show
+    case @route
+    when 'moving_page' then redirect_to new_history_path(destination: @destination.uuid)
+    when 'saved_page' then render :show
+    end
+  end
 
   def edit; end
 
   def update
     if @location.update(location_and_destination_params)
-      redirect_to destination_path(@destination.uuid), flash: {success: ' 目的地を更新しました'}
+      case @route
+      when 'moving_page' then redirect_to new_history_path(destination: @destination.uuid)
+      when 'saved_page' then redirect_to destination_path(@destination.uuid), flash: {success: ' 目的地を更新しました'}
+      end
     else
       flash.now[:error] = '入力情報に誤りがあります'
       render :edit, status: :unprocessable_entity
@@ -36,12 +45,23 @@ class DestinationsController < ApplicationController
   end
 
   def destroy
-    @destination.update!(is_saved: false)
-    flash.now[:error] = '目的地を保存済みから削除しました'
-    render turbo_stream: turbo_stream.replace(@destination, partial: 'shared/toast')
+    case @route
+    when 'moving_page'
+      @destination.destroy!
+      flash.now[:error] = '保存済みから削除しました'
+      redirect_to searches_path, status: :see_other
+    when 'saved_page'
+      @destination.update!(is_saved: false)
+      flash.now[:error] = '目的地を保存済みから削除しました'
+      render turbo_stream: turbo_stream.replace("destination_#{@destination.uuid}", partial: 'shared/toast')
+    end
   end
 
   private
+
+  def set_route
+    @route = params[:route]
+  end
 
   def set_destination_and_location
     @destination = current_user.destinations.find_by!(uuid: params[:id])

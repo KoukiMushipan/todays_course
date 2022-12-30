@@ -1,4 +1,4 @@
-<%= turbo_frame_tag destination do %> <%# departure#indexにて、1つ1つに割り振る用 %>
+<%= turbo_frame_tag "destination_#{destination.uuid}" do %> <%# departure#indexにて、1つ1つに割り振る用 %>
   <div class="info-card pb-0 keep-all zen-kaku-regular">
     <%= render 'shared/toast' if is_turbo_frame_request? %> <%# destination#update成功用 %>
 
@@ -55,9 +55,9 @@
       <%= render 'shared/dropdown' %>
 
       <div class="mb-3 hidden" data-dropdown-target="menu">
-        <%= link_to '編集', edit_destination_path(destination.uuid),
+        <%= link_to '編集', edit_destination_path(destination.uuid, route: 'saved_page'),
         class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular mr-4' %>
-        <%= link_to '削除', destination_path(destination.uuid),
+        <%= link_to '削除', destination_path(destination.uuid, route: 'saved_page'),
         data: { turbo_method: :delete, turbo_confirm: "保存済みから削除します\nよろしいですか?"},
         class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular border-red-600 text-red-600' %>
       </div>
