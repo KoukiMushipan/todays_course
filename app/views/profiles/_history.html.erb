@@ -1,4 +1,4 @@
-<%= turbo_frame_tag history do %> <%# profile#showにて、1つ1つに割り振る用 %>
+<%= turbo_frame_tag "history_#{history.uuid}" do %> <%# profile#showにて、1つ1つに割り振る用 %>
   <div class="info-card pb-0 keep-all zen-kaku-regular">
     <%= render 'shared/toast' if is_turbo_frame_request? %> <%# history#update成功用 %>
 

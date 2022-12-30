@@ -1,5 +1,5 @@
 <div class="basic-card zen-kaku-regular">
-  <%= turbo_frame_tag @history do %> <%# profile#showから履歴カードを入れ替える用 %>
+  <%= turbo_frame_tag "history_#{@history.uuid}" do %> <%# profile#showから履歴カードを入れ替える用 %>
     <div class="info-card pb-0">
       <%= render 'shared/toast' if is_turbo_frame_request? %> <%# history#updateのバリデーションエラー用 %>
 

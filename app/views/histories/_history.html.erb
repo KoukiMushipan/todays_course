@@ -37,7 +37,7 @@
 
         <div class="mb-3 hidden" data-dropdown-target="menu">
           <%= link_to '編集', edit_history_path(history.uuid, route: 'moving_page'),
-          data: { turbo_frame: "history_#{history.id}" },
+          data: { turbo_frame: "history_#{history.uuid}" },
           class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular mr-4' %>
 
           <%= link_to '削除', history_path(history.uuid, route: 'moving_page'),

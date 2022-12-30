@@ -57,7 +57,7 @@ class HistoriesController < ApplicationController
         redirect_to new_history_path(destination: destination.uuid), flash: {success: '履歴を削除しました'}, status: :see_other
       when 'profile_page'
         flash.now[:success] = '履歴を削除しました'
-        render turbo_stream: turbo_stream.replace(@history, partial: 'shared/toast')
+        render turbo_stream: turbo_stream.replace("history_#{@history.uuid}", partial: 'shared/toast')
       end
     else
       @history.destroy!
