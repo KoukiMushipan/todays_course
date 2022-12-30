@@ -28,6 +28,8 @@ class Location < ApplicationRecord
     search_nearby_own(radius, user).map do |location|
       info = location.attributes_for_map
       info[:fixed][:created_at] = location.destination.created_at
+      info[:fixed][:comment] = location.destination.comment
+      info[:fixed][:is_published_comment] = location.destination.is_published_comment
       info
     end
   end

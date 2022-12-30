@@ -1,7 +1,11 @@
 <% if comment.instance_of?(Array) %>
   <div class="flex justify-center items-center">
     <p>
-      <%= fa_icon 'eye' %>
+      <% if is_published_comment.nil? || is_published_comment %>
+        <%= fa_icon 'eye' %>
+      <% else %>
+        <%= fa_icon 'eye-slash' %>
+      <% end %>
       <%= fa_icon 'commenting' %>
     </p>
     <div>
@@ -14,8 +18,11 @@
   </div>
 <% elsif comment.instance_of?(String) %>
   <p>
-    <%= fa_icon 'eye' %>
-    <%= fa_icon 'commenting' %>
+    <% if is_published_comment.nil? || is_published_comment %>
+      <%= fa_icon 'eye' %>
+    <% else %>
+      <%= fa_icon 'eye-slash' %>
+    <% end %>
     <%= comment %>
   </p>
 <% end %>
