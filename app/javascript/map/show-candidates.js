@@ -94,7 +94,7 @@ window.showCandidates = () => {
   for (let i = 0; i < document.getElementsByClassName('swiper-wrapper').length; i++) { // slideとinfo windowが連動するための記述
     const swiperWrapper = document.getElementsByClassName('swiper-wrapper')[i]
     const activeSlideObservation = new MutationObserver(() => {
-      if (swiperWrapper.style.cssText.includes('transition-duration: 0ms;')) {
+      if (swiperWrapper.style.cssText.includes('transition-duration: 0ms;') && document.getElementsByClassName('swiper-slide-active')[i]) {
         const activeSlideLocationUuid = document.getElementsByClassName('swiper-slide-active')[i].id.replace('js-result-', '')
         const activeSlideMarker = markers[i].find((marker) => marker.locationUuid === activeSlideLocationUuid);
         const activeSlideLocation = candidates[i].find((result) => result.variable.uuid === activeSlideLocationUuid);
