@@ -1,5 +1,5 @@
 <div class="basic-card zen-kaku-regular">
-  <%= turbo_frame_tag @departure do %> <%# departure#index, newから出発地カードを入れ替える用 %>
+  <%= turbo_frame_tag "departure_#{@departure.uuid}" do %> <%# departure#index, newから出発地カードを入れ替える用 %>
     <%= render 'shared/toast' if is_turbo_frame_request? %> <%# departure#updateのバリデーションエラー用 %>
 
     <div class="info-card pb-0">

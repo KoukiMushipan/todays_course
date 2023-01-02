@@ -1,6 +1,6 @@
 class RequestNearbyService
   include RequestApi
-  include CalculateThreeLocations
+  include CalculateLocations
 
   def initialize(departure_info, search_term_form)
     @departure_info, @search_term_form = departure_info, search_term_form
@@ -18,10 +18,10 @@ class RequestNearbyService
   attr_reader :departure_info, :search_term_form
 
   def calculation
-    locations = create_locations_for_request(departure_info, search_term_form.radius)
+    locations = three_locations_for_nearby_request(departure_info, search_term_form.radius)
 
     locations.each_with_index do |location, index|
-      radius = create_radius_for_request(search_term_form.radius, index)
+      radius = radius_for_nearby_request(search_term_form.radius, index)
       results = request_nearby(location, radius)
       return results[:results] if results[:status] == 'OK'
     end

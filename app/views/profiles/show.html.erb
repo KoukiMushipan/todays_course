@@ -1,7 +1,7 @@
 <% content_for(:title, 'プロフィール') %>
 
 <div class="basic-card">
-  <div class="chart-area" data-controller="chart" data-chart-distance-value=<%= @one_week_moving_distance.to_s.delete(' ') %>>
+  <div class="chart-area" data-controller="chart" data-chart-distance-value=<%= @one_week_moving_distances.to_s.delete(' ') %>>
       <canvas id="myChart"></canvas>
   </div>
 

@@ -32,6 +32,10 @@
     @apply shadow-xl mx-auto w-full sm:w-2/3 border-2 border-gray-300 rounded-b-md;
   }
 
+  .tabs-for-slide {
+    @apply shadow-xl mx-auto border-2 border-gray-300 rounded-b-md my-6 pb-4;
+  }
+
   .tab-item {
     @apply border-b-2 border-cyan-600 bg-gray-200 text-gray-800 text-center float-left py-2 text-lg tracking-wider;
   }
@@ -49,6 +53,10 @@
   }
 
   .tabs input:checked + .tab-item {
+    @apply bg-cyan-600 text-gray-100;
+  }
+
+  .tabs-for-slide input:checked+.tab-item {
     @apply bg-cyan-600 text-gray-100;
   }
 }

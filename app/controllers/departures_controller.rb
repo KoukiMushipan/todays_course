@@ -42,7 +42,7 @@ class DeparturesController < ApplicationController
   def destroy
     @departure.update!(is_saved: false)
     flash.now[:error] = '出発地を保存済みから削除しました'
-    render turbo_stream: turbo_stream.replace(@departure, partial: 'shared/toast')
+    render turbo_stream: turbo_stream.replace("departure_#{@departure.uuid}", partial: 'shared/toast')
   end
 
   private

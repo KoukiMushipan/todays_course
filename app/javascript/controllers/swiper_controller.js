@@ -5,7 +5,7 @@ Swiper.use([Navigation, Pagination, Keyboard, EffectCreative])
 export default class extends Controller {
   connect() {
     const swiperList = document.getElementsByClassName('swiper')
-    for (let i = 1; i <= swiperList.length; i++) {
+    for (let i = 0; i < swiperList.length; i++) {
       new Swiper(`.swiper-container-${i}`, {
         loop: true,
         grabCursor: true,

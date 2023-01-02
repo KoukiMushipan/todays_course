@@ -21,9 +21,12 @@ ja:
       departure:
         is_saved: '保存'
       destination:
+        comment: 'コメント'
         distance: '片道の距離'
         is_saved: '保存'
+        is_published_comment: 'コメントを公開'
       history:
         start_time: '開始時刻'
         end_time: '終了時刻'
+        comment: 'コメント'
         moving_distance: '移動距離'

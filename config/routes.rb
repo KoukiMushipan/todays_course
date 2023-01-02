@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   get 'top', to: 'homes#top'
+  get 'terms', to: 'homes#terms'
 
   resources :gests, only: %i[index new]
 

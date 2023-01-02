@@ -6,7 +6,7 @@
 
 <%= turbo_frame_tag 'record-field', data: { turbo_action: :advance } do %>
   <%= render 'shared/toast' if is_turbo_frame_request? %> <%# destinations#createでのバリデーションエラー用 %>
-  <%= render 'form', {destination_form: @destination_form, result: @result} %>
+  <%= render 'form', {destination_form: @destination_form, candidate: @candidate} %>
 <% end %>
 
 <%= include_gon %>

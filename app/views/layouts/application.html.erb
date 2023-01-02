@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W3ZKVMCD2X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-W3ZKVMCD2X');
+    </script>
+
     <title><%= page_title(yield(:title)) %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
@@ -8,7 +17,8 @@
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 
-    <%= favicon_link_tag('favicon.png') %>
+    <%= display_meta_tags(default_meta_tags) %>
+    <meta name=”robots” content=”noindex”>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -1,33 +1,65 @@
-<div class="info-card keep-all zen-kaku-regular">
-  <div class="text-left mb-1 lg:mb-0 text-gray-700">
-    <p class="mr-0 lg:mr-3 block lg:inline-block">
-      <%= fa_icon 'floppy-o' %>
-      <span class="ml-1">
-        <% if destination_info[:created_at] %>
-          <%= l(destination_info[:created_at], format: :short) %>
+<%= turbo_frame_tag "destination_#{destination_info[:uuid]}" do %>
+  <div class="info-card pb-0 keep-all zen-kaku-regular">
+    <div class="text-left mb-1 lg:mb-0 text-gray-700">
+      <p class="mr-0 lg:mr-3 block lg:inline-block">
+        <%= fa_icon 'floppy-o' %>
+        <span class="ml-1">
+          <% if destination_info[:created_at] %>
+            <%= l(destination_info[:created_at], format: :short) %>
+          <% else %>
+            未保存
+          <% end %>
+        </span>
+      </p>
+
+      <p class="block lg:inline-block tracking-tighter">
+        <%= fa_icon 'home' %>
+        <span><%= departure_info[:name] %></span>
+      </p>
+    </div>
+
+    <div class="text-gray-800 text-2xl lg:text-3xl zen-kaku-medium">
+      <h5 class="mr-0 lg:mr-5 block lg:inline-block tracking-tighter">
+        <%= fa_icon 'flag' %>
+        <%= destination_info[:name] %>
+      </h5>
+
+      <h5 class="block sm:inline-block">
+        <%= fa_icon 'road' %>
+        <%= destination_info[:distance] %>m
+      </h5>
+    </div>
+
+    <p class="text-gray-700 tracking-tighter"><%= destination_info[:address] %></p>
+
+    <% if !destination_info[:comment].blank? && destination_info[:uuid] %>
+      <p class="text-gray-800 tracking-tighter">
+        <% if destination_info[:is_published_comment] %>
+          <%= fa_icon 'eye' %>
         <% else %>
-          未保存
+          <%= fa_icon 'eye-slash' %>
         <% end %>
-      </span>
-    </p>
 
-    <p class="block lg:inline-block tracking-tighter">
-      <%= fa_icon 'home' %>
-      <span><%= departure_info[:name] %></span>
-    </p>
+        <%= fa_icon 'commenting' %>
+        <%= destination_info[:comment] %>
+      </p>
+    <% end %>
+
+    <% if destination_info[:uuid] %>
+      <div data-controller="dropdown">
+        <%= render 'shared/dropdown' %>
+
+        <div class="mb-3 hidden" data-dropdown-target="menu">
+          <%= link_to '編集', edit_destination_path(destination_info[:uuid], route: 'moving_page'),
+          class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular mr-4' %>
+
+          <%= link_to '削除', destination_path(destination_info[:uuid], route: 'moving_page'),
+          data: { turbo_method: :delete, turbo_frame: '_top', turbo_confirm: "保存を取り消します\nよろしいですか?"},
+          class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular border-red-600 text-red-600' %>
+        </div>
+      </div>
+    <% else %>
+      <div class="mb-3"></div>
+    <% end %>
   </div>
-
-  <div class="text-gray-800 text-2xl lg:text-3xl zen-kaku-medium">
-    <h5 class="mr-0 lg:mr-5 block lg:inline-block tracking-tighter">
-      <%= fa_icon 'flag' %>
-      <%= destination_info[:name] %>
-    </h5>
-
-    <h5 class="block sm:inline-block">
-      <%= fa_icon 'road' %>
-      <%= destination_info[:distance] %>m
-    </h5>
-  </div>
-
-  <p class="text-gray-700 tracking-tighter"><%= destination_info[:address] %></p>
-</div>
+<% end %>
