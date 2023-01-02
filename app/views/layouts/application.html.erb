@@ -17,8 +17,8 @@
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 
-    <%= favicon_link_tag('favicon.png') %>
-    <%= favicon_link_tag('favicon-180.png', {rel: 'apple-touch-icon', sizes: '180x180', type: 'image/png'}) %>
+    <%= display_meta_tags(default_meta_tags) %>
+    <meta name=”robots” content=”noindex”>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
