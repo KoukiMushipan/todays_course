@@ -60,17 +60,20 @@ gem 'font-awesome-rails'
 # JSに変数を渡す
 gem 'gon'
 
+# メタタグ
+gem 'meta-tags'
+
 # 翻訳
 gem 'rails-i18n'
 
 # session
 gem 'redis-actionpack'
 
-# ユーザー関連
-gem 'sorcery'
-
 # サイトマップ作成
 gem 'sitemap_generator'
+
+# ユーザー関連
+gem 'sorcery'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
