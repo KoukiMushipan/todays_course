@@ -91,7 +91,16 @@ window.showCandidates = () => {
   markers[2] = myDestinationsInfo.map((myDestinationInfo) => setMarker(myDestinationInfo, 'cyan')); // myDestinationsInfoの一つ一つにマーカーを作成
   let candidates = [results, commentedDestinations, myDestinationsInfo]
 
+  let skip_numbers = [] // スライドが1つもないタブがあっても正常に動作するようにするための記述
+  for (let i = 0; i < document.getElementsByClassName('swiper-wrapper').length; i++) {
+    if (document.getElementsByClassName('swiper-wrapper')[i].childNodes.length <= 1) {
+      document.getElementsByClassName('swiper-wrapper')[i].classList.add('swiper-slide-active')
+      skip_numbers.push(i)
+    }
+  }
+
   for (let i = 0; i < document.getElementsByClassName('swiper-wrapper').length; i++) { // slideとinfo windowが連動するための記述
+    if (skip_numbers.includes(i)) { continue };
     const swiperWrapper = document.getElementsByClassName('swiper-wrapper')[i]
     const activeSlideObservation = new MutationObserver(() => {
       if (swiperWrapper.style.cssText.includes('transition-duration: 0ms;') && document.getElementsByClassName('swiper-slide-active')[i]) {
