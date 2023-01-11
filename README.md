@@ -46,4 +46,4 @@
 [figma](https://www.figma.com/file/zZFuu4m03POTcWlakN3ncr/%E7%9B%AE%E7%9A%84%E5%9C%B0%E6%8F%90%E4%BE%9B?node-id=0%3A1)  
 
 ## ■ ER図
-[drawio](https://drive.google.com/file/d/1s9AuKd6pgaBMZ19uqSfruTbidaO05VXp/view)  
+[drawio](https://drive.google.com/file/d/1kMJbdveefXvT_H-062xvEpDcPG2MfcNk/view?usp=sharing)  
