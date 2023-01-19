@@ -89,4 +89,10 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+
+  # リントチェック
+  gem 'rubocop', require: false
+
+  # リントチェック拡張
+  gem 'rubocop-rails', require: false
 end
