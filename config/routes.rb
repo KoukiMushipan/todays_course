@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get 'top', to: 'homes#top'
   get 'terms', to: 'homes#terms'
 
-  resources :gests, only: %i[index new]
+  resources :guests, only: %i[index new]
 
   get 'signup', to: 'users#new'
   resources :users, only: %i[create]

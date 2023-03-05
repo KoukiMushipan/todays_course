@@ -1,9 +1,9 @@
 window.showCandidates = () => {
-  const departure = gon.searchInfo.departure;
+  const departure = gon.searchInfo.departure_info;
   const center = { lat: departure.latitude, lng: departure.longitude };
   const results = gon.searchInfo.results;
-  const commentedDestinations = gon.searchInfo.commented_destinations;
-  const myDestinationsInfo = gon.searchInfo.my_destinations_info;
+  const commentedInfo = gon.searchInfo.nearby_commented_info;
+  const myDestinationsInfo = gon.searchInfo.nearby_own_info;
   const radius = gon.searchInfo.search_term.radius;
   const path = location.pathname;
 
@@ -64,7 +64,7 @@ window.showCandidates = () => {
     }
 
     let content;
-    if (path.includes('gest')) {
+    if (path.includes('guest')) {
       content = location.variable.name;
     } else {
       content = `${location.variable.name}<br><a href="/destinations/new?destination=${location.variable.uuid}">目的地に設定</a>`;
@@ -87,9 +87,9 @@ window.showCandidates = () => {
 
   let markers = []
   markers[0] = results.map((result) => setMarker(result, 'orange')); // resultsの一つ一つにマーカーを作成
-  markers[1] = commentedDestinations.map((commentedDestination) => setMarker(commentedDestination, 'teal')); // commentedDestinationsの一つ一つにマーカーを作成
+  markers[1] = commentedInfo.map((commentedDestination) => setMarker(commentedDestination, 'teal')); // commentedInfoの一つ一つにマーカーを作成
   markers[2] = myDestinationsInfo.map((myDestinationInfo) => setMarker(myDestinationInfo, 'cyan')); // myDestinationsInfoの一つ一つにマーカーを作成
-  let candidates = [results, commentedDestinations, myDestinationsInfo]
+  let candidates = [results, commentedInfo, myDestinationsInfo]
 
   let skip_numbers = [] // スライドが1つもないタブがあっても正常に動作するようにするための記述
   for (let i = 0; i < document.getElementsByClassName('swiper-wrapper').length; i++) {

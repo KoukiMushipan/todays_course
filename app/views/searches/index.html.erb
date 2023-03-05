@@ -27,11 +27,11 @@
   </div>
 
   <div class="tab-content relative" id="center-content">
-    <%= render 'candidates', candidates: @commented_destinations_info, number: 1 %>
+    <%= render 'candidates', candidates: @nearby_commented_info, number: 1 %>
   </div>
 
   <div class="tab-content relative" id="right-content">
-    <%= render 'candidates', candidates: @my_destinations_info, number: 2 %>
+    <%= render 'candidates', candidates: @nearby_own_info, number: 2 %>
   </div>
 </div>
 

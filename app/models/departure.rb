@@ -15,13 +15,13 @@ class Departure < ApplicationRecord
 
   def attributes_for_session
     {
-      uuid: uuid,
+      uuid:,
       name: location.name,
       latitude: location.latitude,
       longitude: location.longitude,
       address: location.address,
       place_id: location.place_id,
-      created_at: created_at
+      created_at:
     }
   end
 end

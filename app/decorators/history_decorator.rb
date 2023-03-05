@@ -1,5 +1,6 @@
 class HistoryDecorator < ApplicationDecorator
   delegate_all
+  delegate :uuid, to: :destination, prefix: :destination
 
   # Define presentation-specific methods here. Helpers are accessed through
   # `helpers` (aka `h`). You can override attributes, for example:
@@ -24,10 +25,6 @@ class HistoryDecorator < ApplicationDecorator
 
   def departure_address
     destination.departure.location.address
-  end
-
-  def destination_uuid
-    destination.uuid
   end
 
   def destination_name

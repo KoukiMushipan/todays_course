@@ -6,10 +6,10 @@ class RequestGeocodeService
   end
 
   def call
-    return {error: '入力情報に誤りがあります'} if !departure_form.valid?
+    return { error: '入力情報に誤りがあります' } unless departure_form.valid?
 
     result = request_geocode
-    check_result(result) ? parse_result(result) : {error: '位置情報の取得に失敗しました'}
+    check_result(result) ? parse_result(result) : { error: '位置情報の取得に失敗しました' }
   end
 
   private
@@ -17,13 +17,13 @@ class RequestGeocodeService
   attr_reader :departure_form
 
   def request_geocode
-    encode_address = {address: departure_form.address}.to_query
+    encode_address = { address: departure_form.address }.to_query
     url = Settings.google.geocode_url + encode_address
     send_request(url)
   end
 
   def parse_address(result)
-    full_address = result[:results][0][:formatted_address].split(' ')
+    full_address = result[:results][0][:formatted_address].split
     full_address.shift
     full_address.join(' ')
   end

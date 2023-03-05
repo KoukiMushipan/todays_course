@@ -26,7 +26,7 @@ SitemapGenerator::Sitemap.create do
   #   end
 
   add top_path, :priority => 1.0, :changefreq => 'weekly'
-  add new_gest_path, :priority => 0.9, :changefreq => 'weekly'
+  add new_guest_path, :priority => 0.9, :changefreq => 'weekly'
   add signup_path, :priority => 0.8, :changefreq => 'weekly'
   add login_path, :priority => 0.8, :changefreq => 'weekly'
 end

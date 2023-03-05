@@ -7,10 +7,10 @@ class RequestNearbyService
   end
 
   def call
-    return {error: '入力情報に誤りがあります'} if !search_term_form.valid?
+    return { error: '入力情報に誤りがあります' } unless search_term_form.valid?
 
     results = calculation
-    results ? parse_results(results) : {error: '目的地が見つかりませんでした'}
+    results ? parse_results(results) : { error: '目的地が見つかりませんでした' }
   end
 
   private
@@ -30,27 +30,22 @@ class RequestNearbyService
 
   def request_nearby(location_info, radius)
     parse_location = "#{location_info[:latitude]},#{location_info[:longitude]}"
-    encode_parameters = {location: parse_location, radius: radius, type: search_term_form.type}.to_query
+    encode_parameters = { location: parse_location, radius:, type: search_term_form.type }.to_query
     url = Settings.google.nearby_url + encode_parameters
     send_request(url)
   end
 
   def parse_results(results)
     results.map do |result|
-      {
-        variable:
-        {
-          uuid: SecureRandom.uuid,
-          name: result[:name],
-        },
-        fixed:
-        {
-          latitude: result[:geometry][:location][:lat],
-          longitude: result[:geometry][:location][:lng],
-          address: result[:vicinity],
-          place_id: result[:place_id]
-        }
-      }
+      latitude = result[:geometry][:location][:lat]
+      longitude = result[:geometry][:location][:lng]
+      address = result[:vicinity]
+      place_id = result[:place_id]
+
+      variable = { uuid: SecureRandom.uuid, name: result[:name] }
+      fixed = { latitude:, longitude:, address:, place_id: }
+
+      { variable:, fixed: }
     end
   end
 end

@@ -5,7 +5,7 @@ class ProfilesController < ApplicationController
     @one_week_moving_distances = History.one_week_moving_distances(current_user)
     @histories = current_user.histories.finished_list
     @total_moving_time = 0
-    @histories.each {|history| @total_moving_time += ((history.end_time - history.start_time) / 60).to_i }
+    @histories.each { |history| @total_moving_time += ((history.end_time - history.start_time) / 60).to_i }
   end
 
   def edit; end
@@ -22,7 +22,7 @@ class ProfilesController < ApplicationController
 
   def destroy
     @user.destroy!
-    redirect_to signup_path, status: :see_other, flash: {success: 'ユーザーを削除しました'}
+    redirect_to signup_path, flash: { success: 'ユーザーを削除しました' }, status: :see_other
   end
 
   def cancel; end

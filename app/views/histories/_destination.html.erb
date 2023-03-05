@@ -1,4 +1,6 @@
 <%= turbo_frame_tag "destination_#{destination_info[:uuid]}" do %>
+  <%= render 'shared/toast' if is_turbo_frame_request? %> <%# destinations#createで保存するを選択、destinations#update場合用 %>
+
   <div class="info-card pb-0 keep-all zen-kaku-regular">
     <div class="text-left mb-1 lg:mb-0 text-gray-700">
       <p class="mr-0 lg:mr-3 block lg:inline-block">
@@ -50,10 +52,10 @@
         <%= render 'shared/dropdown' %>
 
         <div class="mb-3 hidden" data-dropdown-target="menu">
-          <%= link_to '編集', edit_destination_path(destination_info[:uuid], route: 'moving_page'),
+          <%= link_to '編集', edit_destination_path(destination_info[:uuid], route: 'start_page'),
           class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular mr-4' %>
 
-          <%= link_to '削除', destination_path(destination_info[:uuid], route: 'moving_page'),
+          <%= link_to '削除', destination_path(destination_info[:uuid], route: 'start_page'),
           data: { turbo_method: :delete, turbo_frame: '_top', turbo_confirm: "保存を取り消します\nよろしいですか?"},
           class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular border-red-600 text-red-600' %>
         </div>

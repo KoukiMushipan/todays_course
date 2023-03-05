@@ -1,7 +1,7 @@
 <% content_for(:title, '目的地を探す') %>
 
 <div class="basic-card zen-kaku-regular">
-  <%= render 'form', gest_form: @gest_form %>
+  <%= render 'form', guest_form: @guest_form %>
 </div>
 
 <%= javascript_include_tag Settings.google.map_url + 'callback=getCurrentLocation', defer: 'defer' %>
