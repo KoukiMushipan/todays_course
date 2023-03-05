@@ -5,9 +5,9 @@ class CreateDestinationService
 
   def call
     if destination_form.is_saved
-      {destination: create_destination.attributes_for_session, success: '目的地を保存しました'}
+      { destination: create_destination.attributes_for_session, success: '目的地を保存しました' }
     else
-      {destination: destination_form.attributes_for_session(@result)}
+      { destination: destination_form.attributes_for_session(@result) }
     end
   end
 
@@ -31,8 +31,8 @@ class CreateDestinationService
   def create_destination
     departure = create_or_find_departure
     location = create_location
-    user.destinations.create!(departure: departure,
-                              location: location,
+    user.destinations.create!(departure:,
+                              location:,
                               comment: destination_form.comment,
                               is_published_comment: destination_form.is_published_comment,
                               distance: destination_form.distance,

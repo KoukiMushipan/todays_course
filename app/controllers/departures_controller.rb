@@ -6,10 +6,14 @@ class DeparturesController < ApplicationController
     @destinations = current_user.destinations.saved_list
   end
 
+  def show; end
+
   def new
     @departure_form = DepartureForm.new
     set_saved_departures_and_histories
   end
+
+  def edit; end
 
   def create
     @departure_form = DepartureForm.new(departure_form_params)
@@ -23,16 +27,12 @@ class DeparturesController < ApplicationController
 
     result_of_create_departure = CreateDepartureService.new(current_user, result, @departure_form.is_saved).call
     session[:departure] = result_of_create_departure[:departure]
-    redirect_to new_search_path, flash: {success: result_of_create_departure[:success]}
+    redirect_to new_search_path, flash: { success: result_of_create_departure[:success] }
   end
-
-  def show; end
-
-  def edit; end
 
   def update
     if @location.update(location_params)
-      redirect_to departure_path(@departure.uuid), flash: {success: '出発地を更新しました'}
+      redirect_to departure_path(@departure.uuid), flash: { success: '出発地を更新しました' }
     else
       flash.now[:error] = '入力情報に誤りがあります'
       render :edit, status: :unprocessable_entity

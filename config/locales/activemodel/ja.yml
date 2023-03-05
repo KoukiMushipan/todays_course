@@ -15,7 +15,22 @@ ja:
       search_term_form:
         radius: '距離'
         type: '種類'
-      gest_form:
+      guest_form:
         address: '出発地の住所'
         radius: '目的地までの距離'
         type: '目的地の種類'
+
+    errors:
+      models:
+        destination_form:
+          attributes:
+            distance:
+              in: 'は1m~21,097m以内に設定してください'
+        guest_form:
+          attributes:
+            radius:
+              in: 'は1000m~5,000m以内に設定してください'
+        search_term_form:
+          attributes:
+            radius:
+              in: 'は1000m~5,000m以内に設定してください'

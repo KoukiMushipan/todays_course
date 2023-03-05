@@ -6,9 +6,9 @@ class CreateDepartureService
   def call
     if is_saved
       departure = create_departure
-      {departure: departure.attributes_for_session, success: '出発地を保存しました'}
+      { departure: departure.attributes_for_session, success: '出発地を保存しました' }
     else
-      {departure: departure_info}
+      { departure: departure_info }
     end
   end
 
@@ -22,6 +22,6 @@ class CreateDepartureService
 
   def create_departure
     location = create_location
-    user.departures.create!(location: location, is_saved: is_saved)
+    user.departures.create!(location:, is_saved:)
   end
 end
