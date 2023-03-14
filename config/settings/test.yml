@@ -1,0 +1,6 @@
+google:
+  map_url: 'https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials.google[:key] %>&'
+  geocode_url: 'https://maps.googleapis.com/maps/api/geocode/json?key=<%= Rails.application.credentials.google[:key] %>&language=ja&region=JP&'
+  nearby_url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=<%= Rails.application.credentials.google[:key] %>&language=ja&'
+redis:
+  servers_url: 'redis://localhost:6379/0/session'
