@@ -33,6 +33,12 @@ ja:
 
     errors:
       models:
+        location:
+          attributes:
+            latitude:
+              in: 'は-90度~90度以内に設定してください'
+            longitude:
+              in: 'は-180度~180度以内に設定してください'
         destination:
           attributes:
             distance:
