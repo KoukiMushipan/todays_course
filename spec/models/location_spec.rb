@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Location, type: :model do
-  describe '#valid?' do
+  describe 'Validations' do
     it '全てのカラムを入力する' do
       location = build(:location)
       expect(location).to be_valid
@@ -9,7 +9,13 @@ RSpec.describe Location, type: :model do
     end
 
     context '#name' do
-      it '入力しない' do
+      it 'nilを渡す' do
+        location = build(:location, name: nil)
+        expect(location).to be_invalid
+        expect(location.errors[:name]).to eq ['を入力してください']
+      end
+
+      it '空の文字列を入力する' do
         location = build(:location, name: '')
         expect(location).to be_invalid
         expect(location.errors[:name]).to eq ['を入力してください']
@@ -29,7 +35,13 @@ RSpec.describe Location, type: :model do
     end
 
     context '#latitude' do
-      it '入力しない' do
+      it 'nilを渡す' do
+        location = build(:location, latitude: nil)
+        expect(location).to be_invalid
+        expect(location.errors[:latitude]).to eq ['を入力してください', 'は数値で入力してください']
+      end
+
+      it '空の文字列を入力する' do
         location = build(:location, latitude: '')
         expect(location).to be_invalid
         expect(location.errors[:latitude]).to eq ['を入力してください', 'は数値で入力してください']
@@ -55,7 +67,13 @@ RSpec.describe Location, type: :model do
     end
 
     context '#longitude' do
-      it '入力しない' do
+      it 'nilを渡す' do
+        location = build(:location, longitude: nil)
+        expect(location).to be_invalid
+        expect(location.errors[:longitude]).to eq ['を入力してください', 'は数値で入力してください']
+      end
+
+      it '空の文字列を入力する' do
         location = build(:location, longitude: '')
         expect(location).to be_invalid
         expect(location.errors[:longitude]).to eq ['を入力してください', 'は数値で入力してください']
@@ -81,7 +99,13 @@ RSpec.describe Location, type: :model do
     end
 
     context '#address' do
-      it '入力しない' do
+      it 'nilを渡す' do
+        location = build(:location, address: nil)
+        expect(location).to be_invalid
+        expect(location.errors[:address]).to eq ['を入力してください']
+      end
+
+      it '空の文字列を入力する' do
         location = build(:location, address: '')
         expect(location).to be_invalid
         expect(location.errors[:address]).to eq ['を入力してください']
@@ -101,7 +125,13 @@ RSpec.describe Location, type: :model do
     end
 
     context '#place_id' do
-      it '入力しない' do
+      it 'nilを渡す' do
+        location = build(:location, place_id: nil)
+        expect(location).to be_invalid
+        expect(location.errors[:place_id]).to eq ['を入力してください']
+      end
+
+      it '空の文字列を入力する' do
         location = build(:location, place_id: '')
         expect(location).to be_invalid
         expect(location.errors[:place_id]).to eq ['を入力してください']
