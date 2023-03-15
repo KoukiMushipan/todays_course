@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe '#valid?' do
+  describe 'Validations' do
     it '全てのカラムを入力する' do
       user = build(:user)
       expect(user).to be_valid
@@ -9,7 +9,13 @@ RSpec.describe User, type: :model do
     end
 
     context '#name' do
-      it '入力しない' do
+      it 'nilを渡す' do
+        user = build(:user, name: nil)
+        expect(user).to be_valid
+        expect(user.errors).to be_empty
+      end
+
+      it '空の文字列を入力する' do
         user = build(:user, name: '')
         expect(user).to be_valid
         expect(user.errors).to be_empty
@@ -29,7 +35,13 @@ RSpec.describe User, type: :model do
     end
 
     context '#email' do
-      it '入力しない' do
+      it 'nilを渡す' do
+        user = build(:user, email: nil)
+        expect(user).to be_invalid
+        expect(user.errors[:email]).to eq ['を入力してください']
+      end
+
+      it '空の文字列を入力する' do
         user = build(:user, email: '')
         expect(user).to be_invalid
         expect(user.errors[:email]).to eq ['を入力してください']
@@ -44,7 +56,13 @@ RSpec.describe User, type: :model do
     end
 
     context '#password' do
-      it '入力しない' do
+      it 'nilを渡す' do
+        user = build(:user, password: nil)
+        expect(user).to be_invalid
+        expect(user.errors[:password]).to eq ['は3文字以上で入力してください']
+      end
+
+      it '空の文字列を入力する' do
         user = build(:user, password: '')
         expect(user).to be_invalid
         expect(user.errors[:password]).to eq ['は3文字以上で入力してください']
@@ -66,7 +84,13 @@ RSpec.describe User, type: :model do
     end
 
     context '#password_confirmation' do
-      it '入力しない' do
+      it 'nilを渡す' do
+        user = build(:user, password_confirmation: nil)
+        expect(user).to be_invalid
+        expect(user.errors[:password_confirmation]).to eq ['を入力してください']
+      end
+
+      it '空の文字列を入力する' do
         user = build(:user, password_confirmation: '')
         expect(user).to be_invalid
         expect(user.errors[:password_confirmation]).to eq ['とパスワードの入力が一致しません', 'を入力してください']
@@ -76,6 +100,25 @@ RSpec.describe User, type: :model do
         user = build(:user, password_confirmation: 'different')
         expect(user).to be_invalid
         expect(user.errors[:password_confirmation]).to eq ['とパスワードの入力が一致しません']
+      end
+    end
+  end
+
+  describe 'Associations' do
+    context '#departure' do
+      it '作成したuserを削除すると関連付けされたdepartureも削除される' do
+        departure = create(:departure)
+        expect { departure.user.destroy }.to change { Departure.count }.from(1).to(0)
+      end
+
+      it '作成したuserを削除すると関連付けされたdestinationも削除される' do
+        destination = create(:destination)
+        expect { destination.user.destroy }.to change { Destination.count }.from(1).to(0)
+      end
+
+      it '作成したuserを削除すると関連付けされたhistoryも削除される' do
+        history = create(:history)
+        expect { history.user.destroy }.to change { History.count }.from(1).to(0)
       end
     end
   end
