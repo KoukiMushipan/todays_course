@@ -53,14 +53,26 @@ RSpec.describe Location, type: :model do
         expect(location.errors).to be_empty
       end
 
+      it '-91を入力する' do
+        location = build(:location, latitude: -91)
+        expect(location).to be_invalid
+        expect(location.errors[:latitude]).to eq ['は-90度~90度以内に設定してください']
+      end
+
       it '-90を入力する' do
         location = build(:location, latitude: -90)
         expect(location).to be_valid
         expect(location.errors).to be_empty
       end
 
-      it '-91を入力する' do
-        location = build(:location, latitude: -91)
+      it '90を入力する' do
+        location = build(:location, latitude: 90)
+        expect(location).to be_valid
+        expect(location.errors).to be_empty
+      end
+
+      it '91を入力する' do
+        location = build(:location, latitude: 91)
         expect(location).to be_invalid
         expect(location.errors[:latitude]).to eq ['は-90度~90度以内に設定してください']
       end
@@ -85,14 +97,26 @@ RSpec.describe Location, type: :model do
         expect(location.errors).to be_empty
       end
 
+      it '-181を入力する' do
+        location = build(:location, longitude: -181)
+        expect(location).to be_invalid
+        expect(location.errors[:longitude]).to eq ['は-180度~180度以内に設定してください']
+      end
+
       it '-180を入力する' do
         location = build(:location, longitude: -180)
         expect(location).to be_valid
         expect(location.errors).to be_empty
       end
 
-      it '-181を入力する' do
-        location = build(:location, longitude: -181)
+      it '180を入力する' do
+        location = build(:location, longitude: 180)
+        expect(location).to be_valid
+        expect(location.errors).to be_empty
+      end
+
+      it '181を入力する' do
+        location = build(:location, longitude: 181)
         expect(location).to be_invalid
         expect(location.errors[:longitude]).to eq ['は-180度~180度以内に設定してください']
       end
