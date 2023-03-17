@@ -52,6 +52,12 @@ gem 'sorcery'
 
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
+
+  # テスト
+  gem 'rspec-rails'
+
+  # データの作成
+  gem 'factory_bot_rails'
 end
 
 group :development do
