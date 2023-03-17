@@ -86,12 +86,41 @@ describe 'Validations' do
       end
     end
 
-    context '#start_time' do
-      # 後ほど
-    end
+    context '#start_time, #end_time' do
+      it 'どちらにもnilを渡す' do
+        history = build(:history, start_time: nil, end_time: nil)
+        expect(history).to be_valid
+        expect(history.errors[:start_time]).to be_empty
+        expect(history.errors[:end_time]).to be_empty
+      end
 
-    context '#end_time' do
-      # 後ほど
+      it 'どちらにも空の文字列を入力する' do
+        history = build(:history, start_time: '', end_time: '')
+        expect(history).to be_valid
+        expect(history.errors[:start_time]).to be_empty
+        expect(history.errors[:end_time]).to be_empty
+      end
+
+      it 'start_timeのみ入力する' do
+        history = build(:history, start_time: Time.zone.now, end_time: nil)
+        expect(history).to be_valid
+        expect(history.errors[:start_time]).to be_empty
+        expect(history.errors[:end_time]).to be_empty
+      end
+
+      it 'end_timeのみ入力する' do
+        history = build(:history, start_time: nil, end_time: Time.zone.now)
+        expect(history).to be_invalid
+        expect(history.errors[:start_time]).to eq ['を入力してください']
+        expect(history.errors[:end_time]).to be_empty
+      end
+
+      it 'start_timeより早いend_timeを入力する' do
+        history = build(:history, start_time: Time.zone.now, end_time: Time.zone.now.ago(1.hour))
+        expect(history).to be_invalid
+        expect(history.errors[:start_time]).to be_empty
+        expect(history.errors[:end_time]).to eq ['は開始時刻より遅い時間にしてください']
+      end
     end
   end
 
