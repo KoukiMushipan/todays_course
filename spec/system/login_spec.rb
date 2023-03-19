@@ -56,5 +56,24 @@ RSpec.describe "Login", type: :system do
         end
       end
     end
+
+    describe 'Form' do
+      context 'メールアドレスを入力し、ログインに失敗する' do
+        it 'フォームから入力したメールアドレスが消えていない' do
+          address = 'user-email@example.com'
+          fill_in 'メールアドレス', with: address
+          click_button 'ログイン'
+          expect(page).to have_field 'メールアドレス', with: address
+        end
+      end
+
+      context 'パスワードを入力し、新規作成に失敗する' do
+        it '入力したパスワードがフォームから消えている' do
+          fill_in 'パスワード', with: 'user-password'
+          click_button 'ログイン'
+          expect(page).to have_field 'パスワード', with: ''
+        end
+      end
+    end
   end
 end

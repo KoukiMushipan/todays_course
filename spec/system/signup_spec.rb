@@ -127,5 +127,41 @@ RSpec.describe 'Signup', type: :system do
         end
       end
     end
+
+    describe 'Form' do
+      context '名前を入力し、新規作成に失敗する' do
+        it 'フォームから入力した名前が消えていない' do
+          name = 'user-name'
+          fill_in '名前', with: name
+          click_button '登録'
+          expect(page).to have_field '名前', with: name
+        end
+      end
+
+      context 'メールアドレスを入力し、新規作成に失敗する' do
+        it 'フォームから入力した名前が消えていない' do
+          address = 'user-email@example.com'
+          fill_in 'メールアドレス', with: address
+          click_button '登録'
+          expect(page).to have_field 'メールアドレス', with: address
+        end
+      end
+
+      context 'パスワードを入力し、新規作成に失敗する' do
+        it '入力したパスワードがフォームから消えている' do
+          fill_in 'パスワード', with: 'user-password'
+          click_button '登録'
+          expect(page).to have_field 'パスワード', with: ''
+        end
+      end
+
+      context 'パスワード（確認用）を入力し、新規作成に失敗する' do
+        it '入力したパスワード（確認用）がフォームから消えている' do
+          fill_in 'パスワード（確認用）', with: 'user-password'
+          click_button '登録'
+          expect(page).to have_field 'パスワード（確認用）', with: ''
+        end
+      end
+    end
   end
 end
