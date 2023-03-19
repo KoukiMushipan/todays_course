@@ -60,10 +60,10 @@ RSpec.describe "Login", type: :system do
     describe 'Form' do
       context 'メールアドレスを入力し、ログインに失敗する' do
         it 'フォームから入力したメールアドレスが消えていない' do
-          address = 'user-email@example.com'
-          fill_in 'メールアドレス', with: address
+          email = 'user-email@example.com'
+          fill_in 'メールアドレス', with: email
           click_button 'ログイン'
-          expect(page).to have_field 'メールアドレス', with: address
+          expect(page).to have_field 'メールアドレス', with: email
         end
       end
 

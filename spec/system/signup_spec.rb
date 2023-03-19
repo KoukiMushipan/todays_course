@@ -140,10 +140,10 @@ RSpec.describe 'Signup', type: :system do
 
       context 'メールアドレスを入力し、新規作成に失敗する' do
         it 'フォームから入力した名前が消えていない' do
-          address = 'user-email@example.com'
-          fill_in 'メールアドレス', with: address
+          email = 'user-email@example.com'
+          fill_in 'メールアドレス', with: email
           click_button '登録'
-          expect(page).to have_field 'メールアドレス', with: address
+          expect(page).to have_field 'メールアドレス', with: email
         end
       end
 
