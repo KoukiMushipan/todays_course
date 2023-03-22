@@ -34,5 +34,9 @@ Style/FrozenStringLiteralComment:
 Style/ParallelAssignment:
   Enabled: false
 
+# 翻訳 後で消すかも
+Rails/I18nLocaleTexts:
+  Enabled: false
+
 require:
     - rubocop-rails
