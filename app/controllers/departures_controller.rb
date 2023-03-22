@@ -17,17 +17,19 @@ class DeparturesController < ApplicationController
 
   def create
     @departure_form = DepartureForm.new(departure_form_params)
-    result = RequestGeocodeService.new(@departure_form).call
+    return render_new_departure('入力情報に誤りがあります') unless @departure_form.valid?
 
-    if result.include?(:error)
-      set_saved_departures_and_histories
-      flash.now[:error] = result[:error]
-      return render :new, status: :unprocessable_entity
+    result = RequestGeocodeService.new(@departure_form).call
+    return render_new_departure('位置情報の取得に失敗しました') unless result
+
+    if result[:is_saved]
+      session[:departure] = Departure.create_with_location(current_user, result).attributes_for_session
+      flash[:success] = '出発地を保存しました'
+    else
+      session[:departure] = result
     end
 
-    result_of_create_departure = CreateDepartureService.new(current_user, result, @departure_form.is_saved).call
-    session[:departure] = result_of_create_departure[:departure]
-    redirect_to new_search_path, flash: { success: result_of_create_departure[:success] }
+    redirect_to new_search_path
   end
 
   def update
@@ -55,6 +57,12 @@ class DeparturesController < ApplicationController
   def set_departure_and_location
     @departure = current_user.departures.find_by!(uuid: params[:id])
     @location = @departure.location
+  end
+
+  def render_new_departure(error_message)
+    set_saved_departures_and_histories
+    flash.now[:error] = error_message
+    render :new, status: :unprocessable_entity
   end
 
   def departure_form_params

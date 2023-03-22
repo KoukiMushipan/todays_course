@@ -13,7 +13,7 @@ class CreateHistoryService
   attr_reader :user, :departure_info, :destination_info, :course_type
 
   def create_departure
-    location = Location.create!(departure_info)
+    location = Location.create!(departure_info.except(:is_saved))
     user.departures.create!(location:)
   end
 
