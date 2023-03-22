@@ -1,13 +1,13 @@
 <%= form_with model: departure_form, url: departures_path, class: 'zen-kaku-medium' do |f| %>
   <div class="my-5">
     <%= f.label :name %>
-    <%= f.text_field :name, class: 'normal-form', required: true %>
+    <%= f.text_field :name, class: 'normal-form' %>
     <%= render partial: 'shared/error_message', collection: departure_form.errors.full_messages_for(:name) %>
   </div>
 
   <div class="my-5">
     <%= f.label :address %>
-    <%= f.text_field :address, class: 'normal-form', id: 'js-address-form', required: true %>
+    <%= f.text_field :address, class: 'normal-form', id: 'js-address-form' %>
     <%= link_to '現在地取得', '#', class: 'text-blue-600 underline', id: 'js-get-current-location-button' %>
     <p class="hidden" id="js-loading-text">読込中……</p>
     <%= render partial: 'shared/error_message', collection: departure_form.errors.full_messages_for(:address) %>

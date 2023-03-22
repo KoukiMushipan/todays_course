@@ -1,12 +1,12 @@
 <%= form_with url: login_path, class: 'zen-kaku-medium' do |f| %>
   <div class="my-5">
     <%= f.label :email, 'メールアドレス' %>
-    <%= f.email_field :email, class: 'normal-form', required: true %>
+    <%= f.email_field :email, value: @email, class: 'normal-form' %>
   </div>
 
   <div class="my-5">
     <%= f.label :password, 'パスワード' %>
-    <%= f.password_field :password, class: 'normal-form', required: true %>
+    <%= f.password_field :password, class: 'normal-form' %>
   </div>
 
   <div class="my-5 text-right">

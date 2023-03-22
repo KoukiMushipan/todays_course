@@ -35,6 +35,7 @@ class History < ApplicationRecord
 
   def end_time_check
     return errors.add(:start_time, 'を入力してください') if start_time.nil? && end_time
+
     errors.add(:end_time, 'は開始時刻より遅い時間にしてください') if end_time && (start_time > end_time)
   end
 end

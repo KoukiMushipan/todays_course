@@ -69,3 +69,11 @@ group :development do
   # リントチェック拡張
   gem 'rubocop-rails', require: false
 end
+
+group :test do
+  # テスト用フレームワーク
+  gem 'capybara'
+
+  # ウェブドライバーの自動インストールとアップデート、Seleniumテストをより簡単に実行
+  gem 'webdrivers'
+end
