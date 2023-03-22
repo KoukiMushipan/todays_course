@@ -19,7 +19,7 @@ class GuestsController < ApplicationController
       return render :new, status: :unprocessable_entity
     end
 
-    gon.searchInfo = { results: @results, departure: departure_info, search_term: @guest_form.term }
+    gon.searchInfo = { results: @results, departure_info:, search_term: @guest_form.term }
   end
 
   def new

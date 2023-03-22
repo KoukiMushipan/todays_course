@@ -87,8 +87,12 @@ window.showCandidates = () => {
 
   let markers = []
   markers[0] = results.map((result) => setMarker(result, 'orange')); // resultsの一つ一つにマーカーを作成
-  markers[1] = commentedInfo.map((commentedDestination) => setMarker(commentedDestination, 'teal')); // commentedInfoの一つ一つにマーカーを作成
-  markers[2] = myDestinationsInfo.map((myDestinationInfo) => setMarker(myDestinationInfo, 'cyan')); // myDestinationsInfoの一つ一つにマーカーを作成
+  if (commentedInfo) {
+    markers[1] = commentedInfo.map((commentedDestination) => setMarker(commentedDestination, 'teal')); // commentedInfoの一つ一つにマーカーを作成
+  }
+  if (myDestinationsInfo) {
+    markers[2] = myDestinationsInfo.map((myDestinationInfo) => setMarker(myDestinationInfo, 'cyan')); // myDestinationsInfoの一つ一つにマーカーを作成
+  }
   let candidates = [results, commentedInfo, myDestinationsInfo]
 
   let skip_numbers = [] // スライドが1つもないタブがあっても正常に動作するようにするための記述
