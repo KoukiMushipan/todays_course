@@ -22,6 +22,10 @@ Metrics/MethodLength:
 Naming/PredicateName:
     Enabled: false
 
+# hoge = if fuga
+Style/ConditionalAssignment:
+  Enabled: false
+
 # ドキュメントの無いpublic classを確認
 Style/Documentation:
   Enabled: false
