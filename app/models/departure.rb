@@ -14,7 +14,7 @@ class Departure < ApplicationRecord
   scope :saved_list, -> { saved.with_location.recent }
 
   def self.create_with_location(user, departure_info)
-    location = Location.create!(departure_info.except(:is_saved))
+    location = Location.create_from_info(departure_info)
     Departure.create!(user:, location:, is_saved: departure_info[:is_saved])
   end
 

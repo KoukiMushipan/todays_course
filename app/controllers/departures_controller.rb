@@ -23,7 +23,8 @@ class DeparturesController < ApplicationController
     return render_new_departure('位置情報の取得に失敗しました') unless result
 
     if result[:is_saved]
-      session[:departure] = Departure.create_with_location(current_user, result).attributes_for_session
+      departure = Departure.create_with_location(current_user, result)
+      session[:departure] = departure.attributes_for_session
       flash[:success] = '出発地を保存しました'
     else
       session[:departure] = result
