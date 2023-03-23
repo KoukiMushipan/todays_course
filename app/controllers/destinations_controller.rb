@@ -30,9 +30,16 @@ class DestinationsController < ApplicationController
       return render :new, status: :unprocessable_entity
     end
 
-    result = CreateDestinationService.new(current_user, session[:departure], @destination_form, @candidate).call
-    session[:destination] = result[:destination]
-    redirect_to new_history_path, flash: { success: result[:success] }
+    destination_info = @destination_form.attributes_for_session(@candidate)
+    if @destination_form.is_saved
+      destination = Destination.create_with_location(current_user, session[:departure], destination_info)
+      session[:destination] = destination.attributes_for_session
+      flash[:success] = '目的地を保存しました'
+    else
+      session[:destination] = destination_info
+    end
+
+    redirect_to new_history_path
   end
 
   def update
