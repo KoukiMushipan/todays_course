@@ -24,9 +24,9 @@ class Destination < ApplicationRecord
 
   def self.create_with_location(user, departure_info, destination_info)
     if departure_info[:uuid]
-      departure = Departure.find_by!(uuid: departure_info[:uuid])
+      departure = user.departures.find_by!(uuid: departure_info[:uuid])
     else
-      departure = Departure.create_with_location(departure_info)
+      departure = Departure.create_with_location(user, departure_info)
     end
 
     location = Location.create_from_info(destination_info)
