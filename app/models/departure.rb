@@ -15,7 +15,13 @@ class Departure < ApplicationRecord
 
   def self.create_with_location(user, departure_info)
     location = Location.create_from_info(departure_info)
-    Departure.create!(user:, location:, is_saved: departure_info[:is_saved])
+    create_from_info(user, location, departure_info)
+  end
+
+  def self.create_from_info(user, location, departure_info)
+    attribute_symboles = departure_info.slice(:is_saved)
+    attributes_for_create = { user:, location: }.merge(attribute_symboles)
+    create!(attributes_for_create)
   end
 
   def attributes_for_session
