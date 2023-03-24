@@ -27,8 +27,15 @@ class HistoriesController < ApplicationController
   def edit; end
 
   def create
-    result = CreateHistoryService.new(current_user, @departure_info, @destination_info, params[:course]).call
-    redirect_to history_path(result[:history].uuid), flash: { success: result[:success] }
+    history = History.create_with_location(current_user, @departure_info, @destination_info, params[:course])
+
+    if params[:course] == 'round_trip'
+      flash[:success] = 'スタートしました(往復)'
+    else
+      flash[:success] = 'スタートしました(片道)'
+    end
+
+    redirect_to history_path(history.uuid)
   end
 
   def update
