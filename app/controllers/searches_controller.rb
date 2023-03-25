@@ -27,7 +27,7 @@ class SearchesController < ApplicationController
 
   def create
     @search_term_form = SearchTermForm.new(search_term_form_params)
-    results = RequestNearbyService.new(@departure_info, @search_term_form).call
+    results = Api::NearbyService.new(@departure_info, @search_term_form).call
 
     if results.include?(:error)
       flash.now[:error] = results[:error]
@@ -35,7 +35,7 @@ class SearchesController < ApplicationController
     end
 
     session[:results] = results
-    session[:search_term] = @search_term_form.attributes
+    session[:search_term] = @search_term_form.attributes.symbolize_keys
     redirect_to searches_path
   end
 

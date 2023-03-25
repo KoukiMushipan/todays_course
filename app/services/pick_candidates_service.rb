@@ -51,7 +51,7 @@ class PickCandidatesService
   end
 
   def search_nearby_destinations
-    radius = search_term['radius'] + 1000
+    radius = search_term[:radius] + 1000
     search_range = calculate_search_range(departure_info[:latitude], departure_info[:longitude], radius)
     Destination.includes(:location).where(location: search_range)
   end

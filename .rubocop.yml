@@ -22,6 +22,10 @@ Metrics/MethodLength:
 Naming/PredicateName:
     Enabled: false
 
+# hoge = if fuga
+Style/ConditionalAssignment:
+  Enabled: false
+
 # ドキュメントの無いpublic classを確認
 Style/Documentation:
   Enabled: false
@@ -32,6 +36,10 @@ Style/FrozenStringLiteralComment:
 
 # 多重代入 後で消すかも
 Style/ParallelAssignment:
+  Enabled: false
+
+# 翻訳 後で消すかも
+Rails/I18nLocaleTexts:
   Enabled: false
 
 require:

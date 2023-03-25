@@ -22,6 +22,22 @@ class History < ApplicationRecord
   scope :list, -> { with_location.recent }
   scope :finished_list, -> { finished.with_location.recent }
 
+  def self.create_with_location(user, departure_info, destination_info, course)
+    if destination_info[:uuid]
+      destination = user.destinations.find_by!(uuid: destination_info[:uuid])
+    else
+      destination = Destination.create_with_location(user, departure_info, destination_info)
+    end
+
+    if course == 'round_trip'
+      moving_distance = destination_info[:distance] * 2
+    else
+      moving_distance = destination_info[:distance]
+    end
+
+    user.histories.create!(destination:, moving_distance:)
+  end
+
   def self.one_week_moving_distances(user)
     one_week_histories = user.histories.past_week
     week = (0..6).to_a.map { |i| Time.zone.now - i.days }

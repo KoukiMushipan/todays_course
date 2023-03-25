@@ -14,7 +14,11 @@ class DestinationForm
   validates :is_saved, inclusion: { in: [true, false] }
   validates :is_published_comment, inclusion: { in: [true, false] }
 
-  def attributes_for_session(result)
-    { name:, distance: }.merge!(result[:fixed])
+  def attributes_for_session(candidate)
+    if is_saved
+      attributes.symbolize_keys.merge(candidate[:fixed])
+    else
+      { name:, distance: }.merge(candidate[:fixed])
+    end
   end
 end

@@ -22,17 +22,37 @@ class Destination < ApplicationRecord
 
   scope :saved_list, -> { saved.with_location.recent }
 
+  def self.create_with_location(user, departure_info, destination_info)
+    if departure_info[:uuid]
+      departure = user.departures.find_by!(uuid: departure_info[:uuid])
+    else
+      departure = Departure.create_with_location(user, departure_info)
+    end
+
+    location = Location.create_from_info(destination_info)
+    create_from_info(user, departure, location, destination_info)
+  end
+
+  def self.create_from_info(user, departure, location, destination_info)
+    attribute_symboles = destination_info.slice(:comment, :distance, :is_saved, :is_published_comment)
+    attributes_for_create = { user:, departure:, location: }.merge(attribute_symboles)
+    create!(attributes_for_create)
+  end
+
+  # destination_info
   def attributes_for_session
     attributes_hash = variable_in_attributes.merge(fixed_in_attributes)
     attributes_hash.merge(uuid:, distance:, comment:, is_published_comment:, created_at:)
   end
 
+  # candidate
   def attributes_for_own
     variable = variable_in_attributes.merge(uuid:)
     fixed = fixed_in_attributes.merge(is_published_comment:, created_at:)
     { variable:, fixed: }
   end
 
+  # candidate
   def attributes_for_comment
     variable = variable_in_attributes.merge(uuid: SecureRandom.uuid)
     { variable:, fixed: fixed_in_attributes }

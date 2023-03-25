@@ -13,6 +13,17 @@ class Departure < ApplicationRecord
 
   scope :saved_list, -> { saved.with_location.recent }
 
+  def self.create_with_location(user, departure_info)
+    location = Location.create_from_info(departure_info)
+    create_from_info(user, location, departure_info)
+  end
+
+  def self.create_from_info(user, location, departure_info)
+    attribute_symboles = departure_info.slice(:is_saved)
+    attributes_for_create = { user:, location: }.merge(attribute_symboles)
+    create!(attributes_for_create)
+  end
+
   def attributes_for_session
     {
       uuid:,
