@@ -35,7 +35,7 @@ class SearchesController < ApplicationController
     end
 
     session[:results] = results
-    session[:search_term] = @search_term_form.attributes
+    session[:search_term] = @search_term_form.attributes.symbolize_keys
     redirect_to searches_path
   end
 
