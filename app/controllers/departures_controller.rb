@@ -19,7 +19,7 @@ class DeparturesController < ApplicationController
     @departure_form = DepartureForm.new(departure_form_params)
     return render_new_departure('入力情報に誤りがあります') unless @departure_form.valid?
 
-    result = RequestGeocodeService.new(@departure_form).call
+    result = Api::GeocodeService.new(@departure_form).call
     return render_new_departure('位置情報の取得に失敗しました') unless result
 
     if result[:is_saved]
