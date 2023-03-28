@@ -4,6 +4,9 @@ google:
   nearby_url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=<%= Rails.application.credentials.google[:key] %>&language=ja&'
 redis:
   servers_url: 'redis://localhost:6379/0/session'
+# テスト用
+geocode:
+  result: { address: '東京都港区芝公園4丁目2-8 東京タワー', latitude: 35.6585696, longitude: 139.745484, place_id: 'ChIJcx2EkL2LGGARv0gV3HSFqQo' }
 coordinates:
   radius_1000: [{ latitude: 35.66622427379104, longitude: 139.75129174985798 }, { latitude: 35.650622164028555, longitude: 139.75062343294454 }, { latitude: 35.658895062180406, longitude: 139.73438351719747 }]
   radius_5000: [{ latitude: 35.61368512815402, longitude: 139.7406148791666 }, { latitude: 35.67762658009468, longitude: 139.79553412869427 }, { latitude: 35.6844297917513, longitude: 139.70014969213915 }]

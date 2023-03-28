@@ -30,7 +30,6 @@ RSpec.describe 'Api::NearbyService', type: :request do
 
     context '最初の1つ何もないところの座標を送信する' do
       it '正常な値が返却される', vcr: { cassette_name: 'nearby/success_second_request' } do
-        search_term_form = build(:search_term_form, radius: 1000)
         nearby_service = Api::NearbyService.new(departure_info, search_term_form)
         one_impossible_locations_mock = Settings.coordinates.second_request_success.to_a
         allow(nearby_service).to receive(:three_locations_for_nearby_request).and_return(one_impossible_locations_mock)
@@ -41,7 +40,6 @@ RSpec.describe 'Api::NearbyService', type: :request do
 
     context '最初の2つ何もないところの座標を送信する' do
       it '正常な値が返却される', vcr: { cassette_name: 'nearby/success_third_request' } do
-        search_term_form = build(:search_term_form, radius: 1000)
         nearby_service = Api::NearbyService.new(departure_info, search_term_form)
         two_impossible_locations_mock = Settings.coordinates.third_request_success.to_a
         allow(nearby_service).to receive(:three_locations_for_nearby_request).and_return(two_impossible_locations_mock)
@@ -52,7 +50,6 @@ RSpec.describe 'Api::NearbyService', type: :request do
 
     context '3つ何もないところの座標を送信する' do
       it 'falseが返却される', vcr: { cassette_name: 'nearby/failure_location_0' } do
-        search_term_form = build(:search_term_form, radius: 1000)
         nearby_service = Api::NearbyService.new(departure_info, search_term_form)
         impossible_locations_mock = Settings.coordinates.no_result.to_a
         allow(nearby_service).to receive(:three_locations_for_nearby_request).and_return(impossible_locations_mock)
