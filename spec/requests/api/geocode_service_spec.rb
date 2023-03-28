@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Api::GeocodeService', type: :request do
+RSpec.fdescribe 'Api::GeocodeService', type: :request do
   let(:departure_form) { build(:departure_form) }
   let(:call_success) { { address: '東京都港区芝公園4丁目2-8 東京タワー',
                         is_saved: departure_form.is_saved,
@@ -34,7 +34,7 @@ RSpec.describe 'Api::GeocodeService', type: :request do
     end
 
     context 'DepartureFormに住所を空白で渡し、送信する' do
-      it 'falseが返却される', vcr: { cassette_name: 'geocode/failure-address-nil' } do
+      it 'falseが返却される', vcr: { cassette_name: 'geocode/failure_address_nil' } do
         wrong_departure_form = build(:departure_form, address: nil)
         result = Api::GeocodeService.new(wrong_departure_form).call
         expect(result).to be_falsey
@@ -42,7 +42,7 @@ RSpec.describe 'Api::GeocodeService', type: :request do
     end
 
     context 'DepartureFormに存在しない住所を渡し、送信する' do
-      it 'falseが返却される', vcr: { cassette_name: 'geocode/failure-address-impossible' } do
+      it 'falseが返却される', vcr: { cassette_name: 'geocode/failure_address_impossible' } do
         wrong_departure_form = build(:departure_form, address: 'あ')
         result = Api::GeocodeService.new(wrong_departure_form).call
         expect(result).to be_falsey
@@ -52,6 +52,7 @@ RSpec.describe 'Api::GeocodeService', type: :request do
 
   describe '#parse_address', vcr: { cassette_name: 'geocode/success' } do
     let(:geocode_service) { Api::GeocodeService.new(departure_form) }
+
     context '「国、郵便番号 住所」というフォーマットが取得できる' do
       it '正しい形の住所の取得に成功する' do
         address_mock = '日本、〒105-0011 東京都港区芝公園4丁目2-8'
