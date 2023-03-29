@@ -26,8 +26,8 @@ module Api
     end
 
     def parse_address(result)
-      address = pick_address(result).match(/.*[\d１-９]{3}[-ー][\d１-９]{4}\s*(.+)/)[1]
-      address.tr("０-９ａ-ｚＡ-Ｚ．＠−", "0-9a-zA-Z.@-")
+      address = pick_address(result).match(/.*[\d１-９]{3}[-ー−][\d１-９]{4}\s*(.+)/)[1]
+      address.tr("０-９ａ-ｚＡ-Ｚ．＠ー−-", "0-9a-zA-Z.@-")
     end
 
     def check_result(result)
