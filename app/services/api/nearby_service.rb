@@ -8,10 +8,8 @@ module Api
     end
 
     def call
-      return { error: '入力情報に誤りがあります' } unless search_term_form.valid?
-
       results = calculation
-      results ? parse_results(results) : { error: '目的地が見つかりませんでした' }
+      results ? parse_results(results) : false
     end
 
     private

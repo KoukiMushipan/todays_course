@@ -27,12 +27,10 @@ class SearchesController < ApplicationController
 
   def create
     @search_term_form = SearchTermForm.new(search_term_form_params)
-    results = Api::NearbyService.new(@departure_info, @search_term_form).call
+    return render_new_search('入力情報に誤りがあります') unless @search_term_form.valid?
 
-    if results.include?(:error)
-      flash.now[:error] = results[:error]
-      return render :new, status: :unprocessable_entity
-    end
+    results = Api::NearbyService.new(@departure_info, @search_term_form).call
+    return render_new_search('目的地が見つかりませんでした') unless results
 
     session[:results] = results
     session[:search_term] = @search_term_form.attributes.symbolize_keys
@@ -40,6 +38,11 @@ class SearchesController < ApplicationController
   end
 
   private
+
+  def render_new_search(error_message)
+    flash.now[:error] = error_message
+    render :new, status: :unprocessable_entity
+  end
 
   def search_term_form_params
     params.require(:search_term_form).permit(:radius, :type)

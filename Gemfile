@@ -76,4 +76,10 @@ group :test do
 
   # ウェブドライバーの自動インストールとアップデート、Seleniumテストをより簡単に実行
   gem 'webdrivers'
+
+  # テストの際のAPI通信を最初の一回のみ行い、使い回す
+  gem 'vcr'
+
+  # APIへのコールをモック
+  gem 'webmock'
 end
