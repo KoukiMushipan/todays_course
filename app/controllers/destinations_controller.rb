@@ -86,6 +86,6 @@ class DestinationsController < ApplicationController
 
   def location_and_destination_params
     destination_attributes = %i[comment is_published_comment distance id]
-    params.require(:location).permit(:name, :address, destination_attributes:)
+    params.require(:location).permit(:name, destination_attributes:)
   end
 end
