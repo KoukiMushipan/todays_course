@@ -11,7 +11,7 @@ class DestinationForm
   validates :name, presence: true, length: { maximum: 50 }
   validates :comment, length: { maximum: 255 }
   validates :distance, presence: true, numericality: { only_integer: true, in: 1..21_097 }
-  validates :is_saved, inclusion: { in: [true, false] }
+  validates :is_saved, inclusion: { in: [true, false] }, on: :check_is_saved
   validates :is_published_comment, inclusion: { in: [true, false] }
 
   def attributes_for_session(candidate)
