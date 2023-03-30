@@ -19,13 +19,15 @@ class DestinationsController < ApplicationController
     gon.locationInfo = { departure: session[:departure], destination: @candidate }
   end
 
-  def edit; end
+  def edit
+    @destination_form = DestinationForm.new(@destination.attributes_for_form)
+  end
 
   # turbo_frameリクエスト
   def create
     @destination_form = DestinationForm.new(destination_form_params)
 
-    unless @destination_form.valid?
+    unless @destination_form.valid?(:check_is_saved)
       flash.now[:error] = '入力情報に誤りがあります'
       return render :new, status: :unprocessable_entity
     end
@@ -43,16 +45,18 @@ class DestinationsController < ApplicationController
   end
 
   def update
-    if @location.update(location_and_destination_params)
-      case @route
-      when 'start_page'
-        redirect_to new_history_path(destination: @destination.uuid), flash: { success: ' 目的地を更新しました' }
-      when 'saved_page'
-        redirect_to destination_path(@destination.uuid), flash: { success: ' 目的地を更新しました' }
-      end
-    else
+    @destination_form = DestinationForm.new(edit_destination_form_params)
+    unless @destination_form.valid?
       flash.now[:error] = '入力情報に誤りがあります'
-      render :edit, status: :unprocessable_entity
+      return render :edit, status: :unprocessable_entity
+    end
+
+    @destination.update_with_location(@destination_form)
+    case @route
+    when 'start_page'
+      redirect_to new_history_path(destination: @destination.uuid), flash: { success: ' 目的地を更新しました' }
+    when 'saved_page'
+      redirect_to destination_path(@destination.uuid), flash: { success: ' 目的地を更新しました' }
     end
   end
 
@@ -84,8 +88,7 @@ class DestinationsController < ApplicationController
     params.require(:destination_form).permit(:name, :comment, :is_published_comment, :distance, :is_saved)
   end
 
-  def location_and_destination_params
-    destination_attributes = %i[comment is_published_comment distance id]
-    params.require(:location).permit(:name, :address, destination_attributes:)
+  def edit_destination_form_params
+    params.require(:destination_form).permit(:name, :comment, :is_published_comment, :distance)
   end
 end

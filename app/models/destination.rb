@@ -39,10 +39,21 @@ class Destination < ApplicationRecord
     create!(attributes_for_create)
   end
 
+  def update_with_location(destination_form)
+    location.update!(name: destination_form.name)
+    destination_params = destination_form.attributes.except('name').compact
+    update!(destination_params)
+  end
+
   # destination_info
   def attributes_for_session
     attributes_hash = variable_in_attributes.merge(fixed_in_attributes)
     attributes_hash.merge(uuid:, distance:, comment:, is_published_comment:, created_at:)
+  end
+
+  # destination_form
+  def attributes_for_form
+    { name: location.name, comment:, is_published_comment:, distance: }
   end
 
   # candidate

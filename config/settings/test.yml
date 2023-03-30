@@ -14,7 +14,7 @@ coordinates:
   third_request_success: [{ latitude: 90, longitude: 180, latitude: -90, longitude: 180, latitude:  35.66622427379104, longitude: 139.75129174985798 } ]
   no_result: [{ latitude: 90, longitude: 180, latitude: -90, longitude: 180, latitude: -90, longitude: 0 } ]
 nearby_result:
-  radius_1000: { variable: { uuid: '1263ab59-0996-4bc3-b6fc-fc4e035a2004', name: 'ファミリーマート 新橋仲通り南店' }, fixed: { latitude: 35.666915, longitude: 139.7557323, address: '港区新橋２丁目１０−５', place_id: 'ChIJQ3_ul-uLGGARZPKSaHYKooA' } }
-  radius_5000: { variable: { uuid: '1263ab59-0996-4bc3-b6fc-fc4e035a2004', name: 'ローソン ゲートシティ大崎店' }, fixed: { latitude: 35.6189257, longitude: 139.7316987, address: '品川区大崎１丁目１１−２ イースト１Ｆ ゲートシティ大崎', place_id: 'ChIJP5DPcPWKGGAR81CoK5yKGGo' } }
-  second_request_success: { variable: { uuid: '1263ab59-0996-4bc3-b6fc-fc4e035a2004', name: 'ファミリーマート 新橋仲通り南店' }, fixed: { latitude: 35.666915, longitude: 139.7557323, address: '港区新橋２丁目１０−５', place_id: 'ChIJQ3_ul-uLGGARZPKSaHYKooA' } }
-  third_request_success: { variable: { uuid: '1263ab59-0996-4bc3-b6fc-fc4e035a2004', name: 'ファミリーマート 新橋仲通り南店' }, fixed: { latitude: 35.666915, longitude: 139.7557323, address: '港区新橋２丁目１０−５', place_id: 'ChIJQ3_ul-uLGGARZPKSaHYKooA' } }
+  radius_1000: { variable: { uuid: '1263ab59-0996-4bc3-b6fc-fc4e035a2004', name: 'ファミリーマート 新橋仲通り南店' }, fixed: { latitude: 35.666915, longitude: 139.7557323, address: '港区新橋2丁目10-5', place_id: 'ChIJQ3_ul-uLGGARZPKSaHYKooA' } }
+  radius_5000: { variable: { uuid: '1263ab59-0996-4bc3-b6fc-fc4e035a2004', name: 'ローソン ゲートシティ大崎店' }, fixed: { latitude: 35.6189257, longitude: 139.7316987, address: '品川区大崎1丁目11-2 イースト1F ゲートシティ大崎', place_id: 'ChIJP5DPcPWKGGAR81CoK5yKGGo' } }
+  second_request_success: { variable: { uuid: '1263ab59-0996-4bc3-b6fc-fc4e035a2004', name: 'ファミリーマート 新橋仲通り南店' }, fixed: { latitude: 35.666915, longitude: 139.7557323, address: '港区新橋2丁目10-5', place_id: 'ChIJQ3_ul-uLGGARZPKSaHYKooA' } }
+  third_request_success: { variable: { uuid: '1263ab59-0996-4bc3-b6fc-fc4e035a2004', name: 'ファミリーマート 新橋仲通り南店' }, fixed: { latitude: 35.666915, longitude: 139.7557323, address: '港区新橋2丁目10-5', place_id: 'ChIJQ3_ul-uLGGARZPKSaHYKooA' } }

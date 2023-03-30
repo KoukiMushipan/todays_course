@@ -17,7 +17,7 @@ class DeparturesController < ApplicationController
 
   def create
     @departure_form = DepartureForm.new(departure_form_params)
-    return render_new_departure('入力情報に誤りがあります') unless @departure_form.valid?
+    return render_new_departure('入力情報に誤りがあります') unless @departure_form.valid?(:check_is_saved)
 
     result = Api::GeocodeService.new(@departure_form).call
     return render_new_departure('位置情報の取得に失敗しました') unless result
@@ -34,12 +34,19 @@ class DeparturesController < ApplicationController
   end
 
   def update
-    if @location.update(location_params)
-      redirect_to departure_path(@departure.uuid), flash: { success: '出発地を更新しました' }
+    departure_form = DepartureForm.new(location_params)
+    return render_edit_departure('入力情報に誤りがあります') unless departure_form.valid?
+
+    if @location.address == departure_form.address
+      @location.update!(location_params)
     else
-      flash.now[:error] = '入力情報に誤りがあります'
-      render :edit, status: :unprocessable_entity
+      result = Api::GeocodeService.new(departure_form).call
+      return render_edit_departure('位置情報の取得に失敗しました') unless result
+
+      @location.update!(result.compact)
     end
+
+    redirect_to departure_path(@departure.uuid), flash: { success: '出発地を更新しました' }
   end
 
   def destroy
@@ -64,6 +71,13 @@ class DeparturesController < ApplicationController
     set_saved_departures_and_histories
     flash.now[:error] = error_message
     render :new, status: :unprocessable_entity
+  end
+
+  def render_edit_departure(error_message)
+    # @locationが作成されていることや、location_paramsを受け取っていることに依存しているため注意
+    @location.attributes = location_params
+    flash.now[:error] = error_message
+    render :edit, status: :unprocessable_entity
   end
 
   def departure_form_params

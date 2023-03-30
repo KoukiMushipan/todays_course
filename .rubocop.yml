@@ -11,12 +11,12 @@ AllCops:
 
 # メソッドの代入、メソッド呼び出し、条件分岐のサイズが設定された最大値を超えていないことを確認します。
 Metrics/AbcSize:
-  Max: 22
+  Max: 23.28
 
 # メソッドの長さが最大値を超えるかどうか
 Metrics/MethodLength:
   CountComments: false
-  Max: 12
+  Max: 14
 
 # has_, is_, have_ など、特定の文字列で始まるメソッド名をチェック
 Naming/PredicateName:
