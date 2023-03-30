@@ -19,7 +19,8 @@ class Location < ApplicationRecord
   private
 
   def address_format_check
-    return unless address.present?
+    return if address.blank?
+
     errors.add(:address, 'は〇丁目〇〇や、〇-〇〇といった形で正確に記入してください') unless address.match(/.+[\d１-９]{1,4}[-ー丁−]{1}.{0,2}[\d０-９].*/)
   end
 end

@@ -42,6 +42,7 @@ class DeparturesController < ApplicationController
     else
       result = Api::GeocodeService.new(departure_form).call
       return render_edit_departure('位置情報の取得に失敗しました') unless result
+
       @location.update!(result.compact)
     end
 
@@ -75,7 +76,7 @@ class DeparturesController < ApplicationController
   def render_edit_departure(error_message)
     # @locationが作成されていることや、location_paramsを受け取っていることに依存しているため注意
     @location.attributes = location_params
-    flash.now[:error] = '入力情報に誤りがあります'
+    flash.now[:error] = error_message
     render :edit, status: :unprocessable_entity
   end
 

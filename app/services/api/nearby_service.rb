@@ -38,6 +38,7 @@ module Api
     def address_format_check(results)
       results.map do |result|
         next unless result[:vicinity].match(/.+[\d１-９]{1,4}[-ー丁−]{1}.{0,2}[\d０-９].*/)
+
         result
       end
     end
@@ -46,7 +47,7 @@ module Api
       results.map do |result|
         latitude = result[:geometry][:location][:lat]
         longitude = result[:geometry][:location][:lng]
-        address = result[:vicinity].tr("０-９ａ-ｚＡ-Ｚ．＠ー−-", "0-9a-zA-Z.@-")
+        address = result[:vicinity].tr('０-９ａ-ｚＡ-Ｚ．＠ー−-', '0-9a-zA-Z.@-')
         place_id = result[:place_id]
 
         variable = { uuid: SecureRandom.uuid, name: result[:name] }
