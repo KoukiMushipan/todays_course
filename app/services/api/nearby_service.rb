@@ -9,8 +9,7 @@ module Api
 
     def call
       results = calculation
-      results = address_format_check(results).compact
-      results.present? ? parse_results(results) : false
+      results ? parse_results(results) : false
     end
 
     private
@@ -33,14 +32,6 @@ module Api
       encode_parameters = { location: parse_location, radius:, type: search_term_form.type }.to_query
       url = Settings.google.nearby_url + encode_parameters
       send_request(url)
-    end
-
-    def address_format_check(results)
-      results.map do |result|
-        next unless result[:vicinity].match(/.+[\d１-９]{1,4}[-ー丁−]{1}.{0,2}[\d０-９].*/)
-
-        result
-      end
     end
 
     def parse_results(results)
