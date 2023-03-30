@@ -11,6 +11,7 @@ RSpec.describe Departure, type: :model do
     context '#is_saved' do
       it 'nilを渡す' do
         departure = build(:departure, is_saved: nil)
+        expect(departure.is_saved).to be_nil
         expect(departure).to be_invalid
         expect(departure.errors[:is_saved]).to eq ['は一覧にありません']
       end

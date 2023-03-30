@@ -63,6 +63,7 @@ RSpec.describe DepartureForm, type: :model do
     context '#is_saved' do
       it 'nilを渡す' do
         departure_form = build(:departure_form, is_saved: nil)
+        expect(departure_form.is_saved).to be_nil
         expect(departure_form.valid?(:check_is_saved)).to be_falsey
         expect(departure_form.errors[:is_saved]).to eq ['は一覧にありません']
       end

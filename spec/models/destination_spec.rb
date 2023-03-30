@@ -75,6 +75,7 @@ describe 'Validations' do
     context '#is_saved' do
       it 'nilを渡す' do
         destination = build(:destination, is_saved: nil)
+        expect(destination.is_saved).to be_nil
         expect(destination).to be_invalid
         expect(destination.errors[:is_saved]).to eq ['は一覧にありません']
       end
