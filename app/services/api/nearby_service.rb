@@ -38,7 +38,7 @@ module Api
       results.map do |result|
         latitude = result[:geometry][:location][:lat]
         longitude = result[:geometry][:location][:lng]
-        address = result[:vicinity].tr('０-９ａ-ｚＡ-Ｚ．＠ー−-', '0-9a-zA-Z.@-')
+        address = result[:vicinity].tr('０-９ａ-ｚＡ-Ｚ．＠−', '0-9a-zA-Z.@-').gsub(/\d(ー)/, '-')
         place_id = result[:place_id]
 
         variable = { uuid: SecureRandom.uuid, name: result[:name] }
