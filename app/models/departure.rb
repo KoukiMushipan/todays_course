@@ -7,6 +7,8 @@ class Departure < ApplicationRecord
 
   before_create -> { self.uuid = SecureRandom.uuid }
 
+  delegate :name, :latitude, :longitude, :address, :place_id, to: :location
+
   scope :saved, -> { where(is_saved: true) }
   scope :with_location, -> { includes(:location) }
   scope :recent, -> { order(created_at: :desc) }

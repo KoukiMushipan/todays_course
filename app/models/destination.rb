@@ -16,6 +16,8 @@ class Destination < ApplicationRecord
   before_update -> { self.comment = nil if comment.blank? || is_saved == false }
   before_update -> { self.is_published_comment = false if comment.blank? || is_saved == false }
 
+  delegate :name, :latitude, :longitude, :address, :place_id, to: :location
+
   scope :saved, -> { where(is_saved: true) }
   scope :with_location, -> { includes(:location, departure: :location) }
   scope :recent, -> { order(created_at: :desc) }
