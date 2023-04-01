@@ -2,14 +2,14 @@
   <div class="text-left mb-1 lg:mb-0 text-gray-700">
     <p class="block lg:inline-block tracking-tighter">
       <%= fa_icon 'home' %>
-      <%= history.departure.location.name %>
+      <%= history.departure.name %>
     </p>
   </div>
 
   <div class="text-gray-800 text-2xl lg:text-3xl zen-kaku-medium">
     <h5 class="mr-0 lg:mr-5 block lg:inline-block tracking-tighter">
       <%= fa_icon 'flag' %>
-      <%= history.destination.location.name %>
+      <%= history.destination.name %>
     </h5>
 
     <h5 class="block lg:inline-block">
@@ -18,7 +18,7 @@
     </h5>
   </div>
 
-  <p class="text-gray-700 tracking-tighter"><%= history.destination.location.address %></p>
+  <p class="text-gray-700 tracking-tighter"><%= history.destination.address %></p>
 
   <% if history.comment %>
     <p class="text-gray-800 tracking-tighter">

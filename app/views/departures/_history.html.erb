@@ -9,19 +9,19 @@
 
   <p class="mb-1.5 text-left text-gray-700 tracking-tighter">
     <%= fa_icon 'flag' %>
-    <span><%= history.decorate.destination_name %></span>
+    <span><%= history.destination.name %></span>
   </p>
 
   <h5 class="mb-1 text-2xl lg:text-3xl text-gray-800 zen-kaku-medium tracking-tighter">
-    <%= history.decorate.departure_name %>
+    <%= history.destination.departure.name %>
   </h5>
 
   <p class="mb-3 text-gray-700 tracking-tighter">
-    <%= history.decorate.departure_address %>
+    <%= history.destination.departure.address %>
   </p>
 
   <div class="mt-4 mb-3">
-    <%= link_to '出発', new_search_path(departure: history.decorate.departure_uuid),
+    <%= link_to '出発', new_search_path(departure: history.destination.departure.uuid),
     class: 'orange-btn tracking-widest text-xl px-12 py-2 zen-kaku-medium' %>
   </div>
 </div>
