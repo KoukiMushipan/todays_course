@@ -4,14 +4,12 @@ RSpec.describe "Saved::Departures", type: :system do
   let(:departure) { create(:departure, is_saved: true) }
   let(:user) { create(:user) }
   let(:other) { create(:user) }
-  before do
-
-  end
 
   describe 'Page' do
     context '保存済み出発地のページにアクセスする' do
       it '情報が正しく表示されている' do
         login(user)
+        sleep(0.1)
         find('.fa.fa-folder-open.nav-icon').click
         expect(current_path).to eq departures_path
         expect(page).to have_content '保存済み'
@@ -64,6 +62,130 @@ RSpec.describe "Saved::Departures", type: :system do
         find('label[for=left]').click
         expect(page).to have_content saved_departure.name
         expect(page).not_to have_content not_saved_departure.name
+      end
+    end
+  end
+
+  describe 'Edit' do
+    let(:random_departure) { create(:departure, :random, is_saved: true) }
+    let(:departure_form) { build(:departure_form) }
+
+    before do
+      login(random_departure.user)
+      sleep(0.1)
+      visit departures_path
+      sleep(0.1)
+      find('label[for=left]').click
+      find('.fa.fa-chevron-down').click
+      click_link('編集')
+      sleep(0.1)
+    end
+
+    describe 'Validations', vcr: { cassette_name: 'geocode/success' } do
+      context '正常な値を入力する' do
+        it '保存済み出発地の更新に成功し、一覧が表示される' do
+          fill_in '名称', with: departure_form.name
+          fill_in '住所', with: departure_form.address
+          click_button '更新'
+          expect(page).to have_content '出発地を更新しました'
+          expect(page).to have_content departure_form.name
+          expect(page).to have_content departure_form.address
+        end
+      end
+
+      describe '#name' do
+        before { fill_in '住所', with: departure_form.address }
+
+        context '名称を空白にする' do
+          it '保存済み出発地の更新に失敗し、編集状態に戻る'do
+            fill_in '名称', with: ''
+            click_button '更新'
+            expect(page).to have_content '名称を入力してください'
+            expect(page).to have_content '入力情報に誤りがあります'
+          end
+        end
+
+        context '名称を50文字入力する' do
+          it '保存済み出発地の更新に成功し、一覧が表示される' do
+            name = 'a' * 50
+            fill_in '名称', with: name
+            click_button '更新'
+            expect(page).to have_content '出発地を更新しました'
+            expect(page).to have_content name
+          end
+        end
+
+        context '名称を51文字入力する' do
+          it '保存済み出発地の更新に失敗し、編集状態に戻る' do
+            fill_in '名称', with: 'a' * 51
+            click_button '更新'
+            expect(page).to have_content '名称は50文字以内で入力してください'
+            expect(page).to have_content '入力情報に誤りがあります'
+          end
+        end
+      end
+
+      describe '#address' do
+        before { fill_in '名称', with: departure_form.name }
+
+        context '住所を空白にする' do
+          it '保存済み出発地の更新に失敗し、編集状態に戻る' do
+            fill_in '住所', with: ''
+            click_button '更新'
+            expect(page).to have_content '住所を入力してください'
+            expect(page).to have_content '入力情報に誤りがあります'
+          end
+        end
+
+        context '住所を255文字入力する' do
+          it '保存済み出発地の更新に成功し、一覧が表示される', vcr: false do
+            # 実際に存在する255文字の住所を打ち込んだという仮定のため、mockを使用
+            result = build(:location).attributes.compact
+            geocode = instance_double(Api::GeocodeService, call: result)
+            allow(Api::GeocodeService).to receive(:new).and_return(geocode)
+
+            fill_in '住所', with: 'a' * 255
+            click_button '更新'
+            expect(page).to have_content '出発地を更新しました'
+            expect(page).to have_content result['address']
+          end
+        end
+
+        context '住所を256文字入力する' do
+          it '保存済み出発地の更新に失敗し、編集状態に戻る' do
+            fill_in '住所', with: 'a' * 256
+            click_button '更新'
+            expect(page).to have_content '住所は255文字以内で入力してください'
+            expect(page).to have_content '入力情報に誤りがあります'
+          end
+        end
+      end
+    end
+
+    describe 'Form' do
+      context '編集フォームを表示させる' do
+        it 'フォームが表示され、初期値が入っている' do
+          expect(page).to have_field '名称', with: random_departure.name
+          expect(page).to have_field '住所', with: random_departure.address
+        end
+      end
+
+      context '名称を入力し、更新に失敗する' do
+        it 'フォームから入力した名称が消えていない' do
+          name = 'a' * 51
+          fill_in '名称', with: name
+          click_button '更新'
+          expect(page).to have_field '名称', with: name
+        end
+      end
+
+      context '住所を入力し、更新に失敗する' do
+        it 'フォームから入力した住所が消えていない' do
+          address = 'a' * 256
+          fill_in '住所', with: address
+          click_button '更新'
+          expect(page).to have_field '住所', with: address
+        end
       end
     end
   end
