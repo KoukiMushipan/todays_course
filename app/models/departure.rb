@@ -29,4 +29,9 @@ class Departure < ApplicationRecord
   def attributes_for_session
     { uuid:, name:, latitude:, longitude:, address:, place_id:, created_at: }
   end
+
+  # departure_form
+  def attributes_for_form
+    { name:, address: }
+  end
 end
