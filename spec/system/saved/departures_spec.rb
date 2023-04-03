@@ -189,4 +189,26 @@ RSpec.describe "Saved::Departures", type: :system do
       end
     end
   end
+
+  describe 'Destroy' do
+    before do
+      login(departure.user)
+      sleep(0.1)
+      visit departures_path
+      sleep(0.1)
+      find('label[for=left]').click
+      find('.fa.fa-chevron-down').click
+      sleep(0.1)
+    end
+
+    context '削除ボタンをクリックする' do
+      it  '正常に削除される' do
+        page.accept_confirm("保存済みから削除します\nよろしいですか?") do
+          click_link '削除'
+        end
+        expect(page).to have_content '出発地を保存済みから削除しました'
+        expect(page).not_to have_content departure.name
+      end
+    end
+  end
 end
