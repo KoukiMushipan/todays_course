@@ -5,6 +5,14 @@ RSpec.describe "Saved::Departures", type: :system do
   let(:user) { create(:user) }
   let(:other) { create(:user) }
 
+  def visit_saved_departures_page(departure)
+    login(departure.user)
+    sleep(0.1)
+    visit departures_path
+    sleep(0.1)
+    find('label[for=left]').click
+  end
+
   describe 'Page' do
     context '保存済み出発地のページにアクセスする' do
       it '情報が正しく表示されている' do
@@ -22,11 +30,7 @@ RSpec.describe "Saved::Departures", type: :system do
   describe 'Contents' do
     context '１つの出発地を保存する' do
       it '情報が正しく表示されている' do
-        login(departure.user)
-        sleep(0.1)
-        visit departures_path
-        sleep(0.1)
-        find('label[for=left]').click
+        visit_saved_departures_page(departure)
         expect(current_path).to eq departures_path
         expect(page).to have_content departure.name
         expect(page).to have_content departure.address
@@ -41,11 +45,7 @@ RSpec.describe "Saved::Departures", type: :system do
       it '自分の保存済み出発地のみ表示される' do
         saved_own = create(:departure, user:, is_saved: true)
         saved_other = create(:departure, user: other, is_saved: true)
-        login(user)
-        sleep(0.1)
-        visit departures_path
-        sleep(0.1)
-        find('label[for=left]').click
+        visit_saved_departures_page(saved_own)
         expect(page).to have_content saved_own.name
         expect(page).not_to have_content saved_other.name
       end
@@ -55,11 +55,7 @@ RSpec.describe "Saved::Departures", type: :system do
       it '保存済み出発地のみ表示される' do
         saved_departure = create(:departure, user:, is_saved: true)
         not_saved_departure = create(:departure, user:, is_saved: false)
-        login(user)
-        sleep(0.1)
-        visit departures_path
-        sleep(0.1)
-        find('label[for=left]').click
+        visit_saved_departures_page(saved_departure)
         expect(page).to have_content saved_departure.name
         expect(page).not_to have_content not_saved_departure.name
       end
@@ -71,11 +67,7 @@ RSpec.describe "Saved::Departures", type: :system do
     let(:departure_form) { build(:departure_form) }
 
     before do
-      login(random_departure.user)
-      sleep(0.1)
-      visit departures_path
-      sleep(0.1)
-      find('label[for=left]').click
+      visit_saved_departures_page(random_departure)
       find('.fa.fa-chevron-down').click
       click_link('編集')
       sleep(0.1)
@@ -192,11 +184,7 @@ RSpec.describe "Saved::Departures", type: :system do
 
   describe 'Destroy' do
     before do
-      login(departure.user)
-      sleep(0.1)
-      visit departures_path
-      sleep(0.1)
-      find('label[for=left]').click
+      visit_saved_departures_page(departure)
       find('.fa.fa-chevron-down').click
       sleep(0.1)
     end
