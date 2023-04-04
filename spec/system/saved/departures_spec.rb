@@ -86,8 +86,6 @@ RSpec.describe "Saved::Departures", type: :system do
       end
 
       describe '#name' do
-        before { fill_in '住所', with: departure_form.address }
-
         context '名称を空白にする' do
           it '保存済み出発地の更新に失敗し、編集状態に戻る'do
             fill_in '名称', with: ''
@@ -118,8 +116,6 @@ RSpec.describe "Saved::Departures", type: :system do
       end
 
       describe '#address' do
-        before { fill_in '名称', with: departure_form.name }
-
         context '住所を空白にする' do
           it '保存済み出発地の更新に失敗し、編集状態に戻る' do
             fill_in '住所', with: ''
