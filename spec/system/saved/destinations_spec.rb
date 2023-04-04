@@ -33,6 +33,7 @@ RSpec.describe "Saved::Destinations", type: :system do
         expect(page).to have_content destination.name
         expect(page).to have_content destination.address
         expect(page).to have_css '.fa.fa-eye'
+        expect(page).to have_css '.fa.fa-commenting'
         expect(page).to have_content destination.comment
         expect(page).to have_content destination.distance
         expect(page).to have_content I18n.l(destination.created_at, format: :short)
@@ -94,34 +95,37 @@ RSpec.describe "Saved::Destinations", type: :system do
     end
   end
 
-  xdescribe 'Edit' do
-    let(:random_departure) { create(:departure, :random, is_saved: true) }
-    let(:departure_form) { build(:departure_form) }
+  describe 'Edit' do
+    let(:random_destination) { create(:destination, :random, is_saved: true) }
+    let(:destination_form) { build(:destination_form) }
 
     before do
-      visit_saved_departures_page(random_departure)
+      visit_saved_destinations_page(random_destination)
       find('.fa.fa-chevron-down').click
       click_link('編集')
       sleep(0.1)
     end
 
-    describe 'Validations', vcr: { cassette_name: 'geocode/success' } do
+    describe 'Validations' do
       context '正常な値を入力する' do
-        it '保存済み出発地の更新に成功し、一覧が表示される' do
-          fill_in '名称', with: departure_form.name
-          fill_in '住所', with: departure_form.address
+        it '保存済み目的地の更新に成功し、一覧が表示される' do
+          fill_in '名称', with: destination_form.name
+          fill_in 'コメント', with: destination_form.comment
+          check 'コメントを公開する'
+          fill_in '片道の距離', with: destination_form.distance
           click_button '更新'
-          expect(page).to have_content '出発地を更新しました'
-          expect(page).to have_content departure_form.name
-          expect(page).to have_content departure_form.address
+          expect(page).to have_content '目的地を更新しました'
+          expect(page).to have_content destination_form.name
+          expect(page).to have_content destination_form.comment
+          expect(page).to have_css '.fa.fa-eye'
+          expect(page).to have_css '.fa.fa-commenting'
+          expect(page).to have_content destination_form.distance
         end
       end
 
       describe '#name' do
-        before { fill_in '住所', with: departure_form.address }
-
         context '名称を空白にする' do
-          it '保存済み出発地の更新に失敗し、編集状態に戻る'do
+          it '保存済み目的地の更新に失敗し、編集状態に戻る'do
             fill_in '名称', with: ''
             click_button '更新'
             expect(page).to have_content '名称を入力してください'
@@ -130,17 +134,17 @@ RSpec.describe "Saved::Destinations", type: :system do
         end
 
         context '名称を50文字入力する' do
-          it '保存済み出発地の更新に成功し、一覧が表示される' do
+          it '保存済み目的地の更新に成功し、一覧が表示される' do
             name = 'a' * 50
             fill_in '名称', with: name
             click_button '更新'
-            expect(page).to have_content '出発地を更新しました'
+            expect(page).to have_content '目的地を更新しました'
             expect(page).to have_content name
           end
         end
 
         context '名称を51文字入力する' do
-          it '保存済み出発地の更新に失敗し、編集状態に戻る' do
+          it '保存済み目的地の更新に失敗し、編集状態に戻る' do
             fill_in '名称', with: 'a' * 51
             click_button '更新'
             expect(page).to have_content '名称は50文字以内で入力してください'
@@ -149,37 +153,131 @@ RSpec.describe "Saved::Destinations", type: :system do
         end
       end
 
-      describe '#address' do
-        before { fill_in '名称', with: departure_form.name }
-
-        context '住所を空白にする' do
-          it '保存済み出発地の更新に失敗し、編集状態に戻る' do
-            fill_in '住所', with: ''
+      describe '#comment' do
+        context 'コメントを空白にする' do
+          it '保存済み目的地の更新に成功、一覧が表示される、公開・コメントアイコンは表示されない' do
+            fill_in 'コメント', with: ''
+            check 'コメントを公開する'
             click_button '更新'
-            expect(page).to have_content '住所を入力してください'
+            expect(page).to have_content '目的地を更新しました'
+            expect(page).not_to have_css '.fa.fa-eye'
+            expect(page).not_to have_css '.fa.fa-commenting'
+          end
+        end
+
+        context 'コメントを255文字入力する' do
+          it '保存済み目的地の更新に成功、一覧が表示される、コメントアイコンが表示される' do
+            comment = 'a' * 255
+            fill_in 'コメント', with: comment
+            click_button '更新'
+            expect(page).to have_content '目的地を更新しました'
+            expect(page).to have_css '.fa.fa-commenting'
+            expect(page).to have_content comment
+          end
+        end
+
+        context 'コメントを256文字入力する' do
+          it '保存済み目的地の更新に失敗し、編集状態に戻る' do
+            fill_in 'コメント', with: 'a' * 256
+            click_button '更新'
+            expect(page).to have_content 'コメントは255文字以内で入力してください'
+            expect(page).to have_content '入力情報に誤りがあります'
+          end
+        end
+      end
+
+      describe '#is_published_comment' do
+        context 'コメントを公開・空白にする' do
+          it '保存済み目的地の更新に成功、一覧が表示される、公開・コメントアイコンは表示されない' do
+            fill_in 'コメント', with: ''
+            check 'コメントを公開する'
+            click_button '更新'
+            expect(page).to have_content '目的地を更新しました'
+            expect(page).not_to have_css '.fa.fa-eye'
+            expect(page).not_to have_css '.fa.fa-commenting'
+          end
+        end
+
+        context 'コメントを非公開・空白にする' do
+          it '保存済み目的地の更新に成功、一覧が表示される、公開・コメントアイコンは表示されない' do
+            fill_in 'コメント', with: ''
+            uncheck 'コメントを公開する'
+            click_button '更新'
+            expect(page).to have_content '目的地を更新しました'
+            expect(page).not_to have_css '.fa.fa-eye'
+            expect(page).not_to have_css '.fa.fa-commenting'
+          end
+        end
+
+        context 'コメントを公開・入力する' do
+          it '保存済み目的地の更新に成功、一覧が表示される、公開・コメントアイコンが表示される' do
+            fill_in 'コメント', with: destination_form.comment
+            check 'コメントを公開する'
+            click_button '更新'
+            expect(page).to have_content '目的地を更新しました'
+            expect(page).to have_css '.fa.fa-eye'
+            expect(page).to have_css '.fa.fa-commenting'
+            expect(page).to have_content destination_form.comment
+          end
+        end
+
+        context 'コメントを非公開・入力する' do
+          it '保存済み目的地の更新に成功、一覧が表示される、非公開・コメントアイコンが表示される' do
+            fill_in 'コメント', with: destination_form.comment
+            uncheck 'コメントを公開する'
+            click_button '更新'
+            expect(page).to have_content '目的地を更新しました'
+            expect(page).not_to have_css '.fa.fa-eye'
+            expect(page).to have_css '.fa.fa-eye-slash'
+            expect(page).to have_css '.fa.fa-commenting'
+            expect(page).to have_content destination_form.comment
+          end
+        end
+      end
+
+      describe '#distance' do
+        context '片道の距離を空白にする' do
+          it '保存済み目的地の更新に失敗し、編集状態に戻る'do
+            fill_in '片道の距離', with: ''
+            click_button '更新'
+            expect(page).to have_content '片道の距離を入力してください'
+            expect(page).to have_content '片道の距離は数値で入力してください'
             expect(page).to have_content '入力情報に誤りがあります'
           end
         end
 
-        context '住所を255文字入力する' do
-          it '保存済み出発地の更新に成功し、一覧が表示される', vcr: false do
-            # 実際に存在する255文字の住所を打ち込んだという仮定のため、mockを使用
-            result = build(:location).attributes.compact
-            geocode = instance_double(Api::GeocodeService, call: result)
-            allow(Api::GeocodeService).to receive(:new).and_return(geocode)
-
-            fill_in '住所', with: 'a' * 255
+        context '片道の距離に0を入力する' do
+          it '保存済み目的地の更新に失敗し、編集状態に戻る' do
+            fill_in '片道の距離', with: 0
             click_button '更新'
-            expect(page).to have_content '出発地を更新しました'
-            expect(page).to have_content result['address']
+            expect(page).to have_content '片道の距離は1m~21,097m以内に設定してください'
+            expect(page).to have_content '入力情報に誤りがあります'
           end
         end
 
-        context '住所を256文字入力する' do
-          it '保存済み出発地の更新に失敗し、編集状態に戻る' do
-            fill_in '住所', with: 'a' * 256
+        context '片道の距離に1を入力する' do
+          it '保存済み目的地の更新に成功し、一覧が表示される' do
+            fill_in '片道の距離', with: 1
             click_button '更新'
-            expect(page).to have_content '住所は255文字以内で入力してください'
+            expect(page).to have_content '目的地を更新しました'
+            expect(page).to have_content '1m'
+          end
+        end
+
+        context '片道の距離に21,097を入力する' do
+          it '保存済み目的地の更新に成功し、一覧が表示される' do
+            fill_in '片道の距離', with: 21097
+            click_button '更新'
+            expect(page).to have_content '目的地を更新しました'
+            expect(page).to have_content '21097m'
+          end
+        end
+
+        context '片道の距離に21,098を入力する' do
+          it '保存済み目的地の更新に失敗し、編集状態に戻る' do
+            fill_in '片道の距離', with: 21098
+            click_button '更新'
+            expect(page).to have_content '片道の距離は1m~21,097m以内に設定してください'
             expect(page).to have_content '入力情報に誤りがあります'
           end
         end
