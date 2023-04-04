@@ -39,6 +39,7 @@ RSpec.describe "Saved::Destinations", type: :system do
         expect(page).to have_content I18n.l(destination.created_at, format: :short)
         expect(page).to have_content destination.departure.name
         find('.fa.fa-chevron-down').click
+        expect(page).to have_link '出発', href: new_history_path(destination: destination.uuid)
         expect(page).to have_link '編集', href: edit_destination_path(destination.uuid, route: 'saved_page')
         expect(page).to have_link '削除', href: destination_path(destination.uuid, route: 'saved_page')
       end
@@ -85,7 +86,7 @@ RSpec.describe "Saved::Destinations", type: :system do
     end
 
     context 'コメントをしない目的地を作成する' do
-      it 'コメントと関連するアイコン表示されない' do
+      it 'コメントと関連するアイコンが表示されない' do
         not_commented_destination = create(:destination, is_saved: true)
         visit_saved_destinations_page(not_commented_destination)
         expect(page).not_to have_css '.fa.fa-eye'

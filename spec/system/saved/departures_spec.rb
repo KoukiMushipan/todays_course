@@ -36,6 +36,7 @@ RSpec.describe "Saved::Departures", type: :system do
         expect(page).to have_content departure.address
         expect(page).to have_content I18n.l(departure.created_at, format: :short)
         find('.fa.fa-chevron-down').click
+        expect(page).to have_link '出発', href: new_search_path(departure: departure.uuid)
         expect(page).to have_link '編集', href: edit_departure_path(departure.uuid)
         expect(page).to have_link '削除', href: departure_path(departure.uuid)
       end
