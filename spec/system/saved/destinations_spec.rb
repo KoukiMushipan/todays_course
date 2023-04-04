@@ -11,7 +11,7 @@ RSpec.describe "Saved::Destinations", type: :system do
     visit departures_path
   end
 
-  xdescribe 'Page' do
+  describe 'Page' do
     context '保存済み目的地のページにアクセスする' do
       it '情報が正しく表示されている' do
         login(user)
@@ -25,7 +25,7 @@ RSpec.describe "Saved::Destinations", type: :system do
     end
   end
 
-  xdescribe 'Contents' do
+  describe 'Contents' do
     context '１つの目的地を保存する' do
       it '情報が正しく表示されている' do
         visit_saved_destinations_page(destination)
@@ -96,17 +96,18 @@ RSpec.describe "Saved::Destinations", type: :system do
   end
 
   describe 'Edit' do
-    let(:random_destination) { create(:destination, :random, is_saved: true) }
     let(:destination_form) { build(:destination_form) }
 
-    before do
-      visit_saved_destinations_page(random_destination)
-      find('.fa.fa-chevron-down').click
-      click_link('編集')
-      sleep(0.1)
-    end
-
     describe 'Validations' do
+      let(:random_destination) { create(:destination, :random, is_saved: true) }
+
+      before do
+        visit_saved_destinations_page(random_destination)
+        find('.fa.fa-chevron-down').click
+        click_link('編集')
+        sleep(0.1)
+      end
+
       context '正常な値を入力する' do
         it '保存済み目的地の更新に成功し、一覧が表示される' do
           fill_in '名称', with: destination_form.name
@@ -285,10 +286,19 @@ RSpec.describe "Saved::Destinations", type: :system do
     end
 
     describe 'Form' do
+      before do
+        visit_saved_destinations_page(destination)
+        find('.fa.fa-chevron-down').click
+        click_link('編集')
+        sleep(0.1)
+      end
+
       context '編集フォームを表示させる' do
         it 'フォームが表示され、初期値が入っている' do
-          expect(page).to have_field '名称', with: random_departure.name
-          expect(page).to have_field '住所', with: random_departure.address
+          expect(page).to have_field '名称', with: destination.name
+          expect(page).to have_field 'コメント', with: destination.comment
+          expect(page).to have_checked_field 'コメントを公開する'
+          expect(page).to have_field '片道の距離', with: destination.distance
         end
       end
 
@@ -301,18 +311,37 @@ RSpec.describe "Saved::Destinations", type: :system do
         end
       end
 
-      context '住所を入力し、更新に失敗する' do
-        it 'フォームから入力した住所が消えていない' do
-          address = 'a' * 256
-          fill_in '住所', with: address
+      context 'コメントを入力し、更新に失敗する' do
+        it 'フォームから入力したコメントが消えていない' do
+          comment = 'a' * 256
+          fill_in 'コメント', with: comment
           click_button '更新'
-          expect(page).to have_field '住所', with: address
+          expect(page).to have_field 'コメント', with: comment
+        end
+      end
+
+      context '更新に失敗する' do
+        it '変更したチェックボックスがもとに戻っていない' do
+          expect(page).to have_checked_field 'コメントを公開する'
+          uncheck 'コメントを公開する'
+          fill_in 'コメント', with: 'a' * 256
+          click_button '更新'
+          expect(page).to have_unchecked_field 'コメントを公開する'
+        end
+      end
+
+      context '片道の距離を入力し、更新に失敗する' do
+        it 'フォームから入力した片道の距離が消えていない' do
+          distance = 0
+          fill_in '片道の距離', with: distance
+          click_button '更新'
+          expect(page).to have_field '片道の距離', with: distance
         end
       end
     end
   end
 
-  xdescribe 'Destroy' do
+  describe 'Destroy' do
     before do
       visit_saved_destinations_page(destination)
       find('.fa.fa-chevron-down').click
@@ -324,8 +353,8 @@ RSpec.describe "Saved::Destinations", type: :system do
         page.accept_confirm("保存済みから削除します\nよろしいですか?") do
           click_link '削除'
         end
-        expect(page).to have_content '出発地を保存済みから削除しました'
-        expect(page).not_to have_content departure.name
+        expect(page).to have_content '目的地を保存済みから削除しました'
+        expect(page).not_to have_content destination.name
       end
     end
   end
