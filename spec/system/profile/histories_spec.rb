@@ -78,4 +78,210 @@ RSpec.describe "Profile::Histories", type: :system do
       end
     end
   end
+
+  describe 'Edit' do
+    let(:other_history) { create(:history, :other) }
+
+    before do
+      visit_histories_page(history)
+      find('.fa.fa-chevron-down').click
+      click_link('編集')
+      sleep(0.2)
+    end
+
+    describe 'Validations' do
+      context '正常な値を入力する' do
+        it '履歴の更新に成功し、一覧が表示される' do
+          fill_in '開始時刻', with: other_history.start_time
+          fill_in '終了時刻', with: other_history.end_time
+          fill_in 'コメント', with: other_history.comment
+          fill_in '移動距離', with: other_history.moving_distance
+          click_button '更新'
+          expect(page).to have_content '履歴を更新しました'
+          expect(page).to have_content other_history.comment
+          expect(page).to have_content "#{other_history.moving_distance}m"
+          expect(page).to have_content I18n.l(other_history.start_time, format: :short)
+          expect(page).to have_content "#{other_history.decorate.moving_time}分"
+        end
+      end
+
+      describe '#start_time' do
+        context '開始時刻を空白にする' do
+          it '履歴の更新に失敗し、編集状態に戻る' do
+            fill_in '開始時刻', with: ''
+            click_button '更新'
+            expect(page).to have_content '開始時刻を入力してください'
+            expect(page).to have_content '入力情報に誤りがあります'
+          end
+        end
+      end
+
+      describe '#end_time' do
+        context '終了時刻を空白にする' do
+          it '履歴の更新に失敗し、編集状態に戻る' do
+            fill_in '終了時刻', with: ''
+            click_button '更新'
+            expect(page).to have_content '終了時刻を入力してください'
+            expect(page).to have_content '入力情報に誤りがあります'
+          end
+        end
+
+        context '終了時刻を開始時刻より遅い時刻にする' do
+          it '履歴の更新に失敗し、編集状態に戻る' do
+            fill_in '開始時刻', with: other_history.end_time
+            fill_in '終了時刻', with: other_history.start_time
+            click_button '更新'
+            expect(page).to have_content 'は開始時刻より遅い時間にしてください'
+            expect(page).to have_content '入力情報に誤りがあります'
+          end
+        end
+      end
+
+      describe '#comment' do
+        context 'コメントを空白にする' do
+          it '履歴の更新に成功、一覧が表示される、非公開・コメントアイコンは表示されない' do
+            fill_in 'コメント', with: ''
+            click_button '更新'
+            expect(page).to have_content '履歴を更新しました'
+            expect(page).not_to have_css '.fa.fa-eye-slash'
+            expect(page).not_to have_css '.fa.fa-commenting'
+          end
+        end
+
+        context 'コメントを255文字入力する' do
+          it '履歴の更新に成功、一覧が表示される、非公開・コメントアイコンが表示される' do
+            comment = 'a' * 255
+            fill_in 'コメント', with: comment
+            click_button '更新'
+            expect(page).to have_content '履歴を更新しました'
+            expect(page).to have_css '.fa.fa-eye-slash'
+            expect(page).to have_css '.fa.fa-commenting'
+            expect(page).to have_content comment
+          end
+        end
+
+        context 'コメントを256文字入力する' do
+          it '履歴の更新に失敗し、編集状態に戻る' do
+            fill_in 'コメント', with: 'a' * 256
+            click_button '更新'
+            expect(page).to have_content 'コメントは255文字以内で入力してください'
+            expect(page).to have_content '入力情報に誤りがあります'
+          end
+        end
+      end
+
+      describe '#moving_distance' do
+        context '移動距離を空白にする' do
+          it '保存済み目的地の更新に失敗し、編集状態に戻る'do
+            fill_in '移動距離', with: ''
+            click_button '更新'
+            expect(page).to have_content '移動距離を入力してください'
+            expect(page).to have_content '移動距離は数値で入力してください'
+            expect(page).to have_content '入力情報に誤りがあります'
+          end
+        end
+
+        context '移動距離に0を入力する' do
+          it '保存済み目的地の更新に失敗し、編集状態に戻る' do
+            fill_in '移動距離', with: 0
+            click_button '更新'
+            expect(page).to have_content '移動距離は1m~42,195m以内に設定してください'
+            expect(page).to have_content '入力情報に誤りがあります'
+          end
+        end
+
+        context '移動距離に1を入力する' do
+          it '保存済み目的地の更新に成功し、一覧が表示される' do
+            fill_in '移動距離', with: 1
+            click_button '更新'
+            expect(page).to have_content '履歴を更新しました'
+            expect(page).to have_content '1m'
+          end
+        end
+
+        context '移動距離に42,195を入力する' do
+          it '保存済み目的地の更新に成功し、一覧が表示される' do
+            fill_in '移動距離', with: 42195
+            click_button '更新'
+            expect(page).to have_content '履歴を更新しました'
+            expect(page).to have_content '42195m'
+          end
+        end
+
+        context '移動距離に42,196を入力する' do
+          it '保存済み目的地の更新に失敗し、編集状態に戻る' do
+            fill_in '移動距離', with: 42196
+            click_button '更新'
+            expect(page).to have_content '移動距離は1m~42,195m以内に設定してください'
+            expect(page).to have_content '入力情報に誤りがあります'
+          end
+        end
+      end
+    end
+
+    describe 'Form' do
+      context '編集フォームを表示させる' do
+        it 'フォームが表示され、初期値が入っている' do
+          expect(page).to have_field '開始時刻', with: history.start_time.strftime('%Y-%m-%dT%H:%M')
+          expect(page).to have_field '終了時刻', with: history.end_time.strftime('%Y-%m-%dT%H:%M')
+          expect(page).to have_field 'コメント', with: history.comment
+          expect(page).to have_field '移動距離', with: history.moving_distance
+        end
+      end
+
+      context '開始時刻を入力し、更新に失敗する' do
+        it 'フォームから入力した開始時刻が消えていない' do
+          fill_in '開始時刻', with: other_history.end_time
+          fill_in '終了時刻', with: other_history.start_time
+          click_button '更新'
+          expect(page).to have_field '開始時刻', with: other_history.end_time.strftime('%Y-%m-%dT%H:%M')
+        end
+      end
+
+      context '終了時刻を入力し、更新に失敗する' do
+        it 'フォームから入力した終了時刻が消えていない' do
+          fill_in '開始時刻', with: other_history.end_time
+          fill_in '終了時刻', with: other_history.start_time
+          click_button '更新'
+          expect(page).to have_field '終了時刻', with: other_history.start_time.strftime('%Y-%m-%dT%H:%M')
+        end
+      end
+
+      context 'コメントを入力し、更新に失敗する' do
+        it 'フォームから入力したコメントが消えていない' do
+          comment = 'a' * 256
+          fill_in 'コメント', with: comment
+          click_button '更新'
+          expect(page).to have_field 'コメント', with: comment
+        end
+      end
+
+      context '移動距離を入力し、更新に失敗する' do
+        it 'フォームから入力した移動距離が消えていない' do
+          distance = 0
+          fill_in '移動距離', with: distance
+          click_button '更新'
+          expect(page).to have_field '移動距離', with: distance
+        end
+      end
+    end
+  end
+
+  describe 'Destroy' do
+    before do
+      visit_histories_page(history)
+      find('.fa.fa-chevron-down').click
+      sleep(0.1)
+    end
+
+    context '削除ボタンをクリックする' do
+      it  '正常に削除される' do
+        page.accept_confirm("履歴から削除します\nよろしいですか?") do
+          click_link '削除'
+        end
+        expect(page).to have_content '履歴を削除しました'
+        expect(page).not_to have_content history.destination.name
+      end
+    end
+  end
 end
