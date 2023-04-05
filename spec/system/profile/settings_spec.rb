@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Settings", type: :system do
+RSpec.describe "Profile::Settings", type: :system do
   let(:user) { create(:user) }
   describe 'ユーザー設定' do
     before { login(user) }
