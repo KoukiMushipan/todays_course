@@ -5,5 +5,16 @@ FactoryBot.define do
     end_time { Time.zone.now.since(1.hour) }
     association :user
     association :destination
+
+    trait :commented do
+      sequence(:comment, 'history-comment-1')
+    end
+
+    trait :other do
+      moving_distance { 4000 }
+      start_time { Time.zone.now.ago(3.hour) }
+      end_time { Time.zone.now.ago(1.hour) }
+      sequence(:comment, 'other_history-comment-1')
+    end
   end
 end
