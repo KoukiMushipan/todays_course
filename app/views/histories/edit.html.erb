@@ -6,13 +6,13 @@
       <%= form_with model: @history, url: history_path(@history.uuid, route: @route), class: 'zen-kaku-medium text-left' do |f| %>
         <div class="my-5">
           <%= f.label :start_time %>
-          <%= f.datetime_field :start_time, value: @history.start_time.strftime('%Y-%m-%d %H:%M'), class: 'normal-form' %>
+          <%= f.datetime_field :start_time, value: @history.start_time&.strftime('%Y-%m-%d %H:%M') , class: 'normal-form' %>
           <%= render partial: 'shared/error_message', collection: @history.errors.full_messages_for(:start_time) %>
         </div>
 
         <div class="my-5">
           <%= f.label :end_time %>
-          <%= f.datetime_field :end_time, value: @history.end_time.strftime('%Y-%m-%d %H:%M'), class: 'normal-form'%>
+          <%= f.datetime_field :end_time, value: @history.end_time&.strftime('%Y-%m-%d %H:%M'), class: 'normal-form'%>
           <%= render partial: 'shared/error_message', collection: @history.errors.full_messages_for(:end_time) %>
         </div>
 
@@ -30,7 +30,7 @@
 
         <div class="my-5 text-right zen-kaku-regular text-xl tracking-wider">
           <%= link_to '取消', cancel_history_path(@history.uuid, route: @route), class: 'border-orange-btn px-5 py-2' %>
-          <%= f.submit '決定', class: 'orange-btn px-5 py-2.5' %>
+          <%= f.submit '更新', class: 'orange-btn px-5 py-2.5' %>
         </div>
       <% end %>
     </div>
