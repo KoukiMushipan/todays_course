@@ -340,6 +340,42 @@ RSpec.describe "Saved::Destinations", type: :system do
         end
       end
     end
+
+    describe 'Cancel' do
+      before do
+        visit_saved_destinations_page(destination)
+        find('.fa.fa-chevron-down').click
+        click_link('編集')
+        sleep(0.1)
+      end
+
+      context '編集フォームを表示させた後、取り消しボタンを押す' do
+        it '目的地が適切に表示される' do
+          click_link '取消'
+          expect(page).to have_content destination.name
+        end
+      end
+
+      context '編集フォームを表示させ、内容を変えた後、取り消しボタンを押す' do
+        it '更新されていない目的地が適切に表示される' do
+          fill_in '名称', with: destination_form.name
+          fill_in 'コメント', with: destination_form.comment
+          uncheck 'コメントを公開する'
+          fill_in '片道の距離', with: destination_form.distance
+          click_link '取消'
+          expect(page).to have_content destination.name
+          expect(page).to have_content destination.comment
+          expect(page).to have_css '.fa.fa-eye'
+          expect(page).to have_css '.fa.fa-commenting'
+          expect(page).to have_content destination.distance
+
+          expect(page).not_to have_content destination_form.name
+          expect(page).not_to have_content destination_form.comment
+          expect(page).not_to have_css '.fa.fa-eye-slash'
+          # expect(page).not_to have_content destination_form.distance
+        end
+      end
+    end
   end
 
   describe 'Destroy' do

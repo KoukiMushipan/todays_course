@@ -265,6 +265,33 @@ RSpec.describe "Profile::Histories", type: :system do
         end
       end
     end
+
+    describe 'Cancel' do
+      context '編集フォームを表示させた後、取り消しボタンを押す' do
+        it '履歴が適切に表示される' do
+          click_link '取消'
+          expect(page).to have_content history.destination.name
+        end
+      end
+
+      context '編集フォームを表示させ、内容を変えた後、取り消しボタンを押す' do
+        it '更新されていない履歴が適切に表示される' do
+          fill_in '開始時刻', with: other_history.start_time
+          fill_in '終了時刻', with: other_history.end_time
+          fill_in 'コメント', with: other_history.comment
+          fill_in '移動距離', with: other_history.moving_distance
+          click_link '取消'
+          expect(page).to have_content history.comment
+          expect(page).to have_content "#{history.moving_distance}m"
+          expect(page).to have_content I18n.l(history.start_time, format: :short)
+          expect(page).to have_content "#{history.decorate.moving_time}分"
+          expect(page).not_to have_content other_history.comment
+          expect(page).not_to have_content "#{other_history.moving_distance}m"
+          expect(page).not_to have_content I18n.l(other_history.start_time, format: :short)
+          expect(page).not_to have_content "#{other_history.decorate.moving_time}分"
+        end
+      end
+    end
   end
 
   describe 'Destroy' do

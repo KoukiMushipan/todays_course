@@ -177,6 +177,27 @@ RSpec.describe "Saved::Departures", type: :system do
         end
       end
     end
+
+    describe 'Cancel' do
+      context '編集フォームを表示させた後、取り消しボタンを押す' do
+        it '出発地が適切に表示される' do
+          click_link '取消'
+          expect(page).to have_content random_departure.name
+        end
+      end
+
+      context '編集フォームを表示させ、内容を変えた後、取り消しボタンを押す' do
+        it '更新されていない出発地が適切に表示される' do
+          fill_in '名称', with: departure_form.name
+          fill_in '住所', with: departure_form.address
+          click_link '取消'
+          expect(page).to have_content random_departure.name
+          expect(page).to have_content random_departure.address
+          expect(page).not_to have_content departure_form.name
+          expect(page).not_to have_content departure_form.address
+        end
+      end
+    end
   end
 
   describe 'Destroy' do
