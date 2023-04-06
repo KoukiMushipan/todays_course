@@ -196,4 +196,16 @@ RSpec.describe "Saved::Departures", type: :system do
       end
     end
   end
+
+  describe 'Start' do
+    before { visit_saved_departures_page(departure) }
+    context '出発ボタンをクリックする' do
+      it '目的地の条件入力ページに遷移する' do
+        click_link '出発'
+        expect(current_url.include?('?')).to be_truthy
+        expect(current_path).to eq new_search_path
+        expect(current_url.match(/.*(#{new_search_path}.*)/)[1]).to eq new_search_path(departure: departure.uuid)
+      end
+    end
+  end
 end
