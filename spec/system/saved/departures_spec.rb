@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe "Saved::Departures", type: :system do
   let(:departure) { create(:departure, is_saved: true) }
   let(:user) { create(:user) }
-  let(:other) { create(:user) }
 
   def visit_saved_departures_page(departure)
     login(departure.user)
@@ -28,6 +27,8 @@ RSpec.describe "Saved::Departures", type: :system do
   end
 
   describe 'Contents' do
+    let(:other) { create(:user) }
+
     context '１つの出発地を保存する' do
       it '情報が正しく表示されている' do
         visit_saved_departures_page(departure)
@@ -63,26 +64,28 @@ RSpec.describe "Saved::Departures", type: :system do
     end
   end
 
-  describe 'Edit' do
-    let(:random_departure) { create(:departure, :random, is_saved: true) }
-    let(:departure_form) { build(:departure_form) }
+  def visit_edit_departure_page(departure)
+    visit_saved_departures_page(departure)
+    find('.fa.fa-chevron-down').click
+    click_link('編集')
+    sleep(0.1)
+  end
 
-    before do
-      visit_saved_departures_page(random_departure)
-      find('.fa.fa-chevron-down').click
-      click_link('編集')
-      sleep(0.1)
-    end
+  describe 'Edit' do
+    let(:build_departure) { build(:departure, is_saved: true) }
+    let(:another_departure) { create(:departure, :another, is_saved: true) }
 
     describe 'Validations', vcr: { cassette_name: 'geocode/success' } do
+      before { visit_edit_departure_page(another_departure) }
+
       context '正常な値を入力する' do
         it '保存済み出発地の更新に成功し、一覧が表示される' do
-          fill_in '名称', with: departure_form.name
-          fill_in '住所', with: departure_form.address
+          fill_in '名称', with: build_departure.name
+          fill_in '住所', with: build_departure.address
           click_button '更新'
           expect(page).to have_content '出発地を更新しました'
-          expect(page).to have_content departure_form.name
-          expect(page).to have_content departure_form.address
+          expect(page).to have_content build_departure.name
+          expect(page).to have_content build_departure.address
         end
       end
 
@@ -129,7 +132,7 @@ RSpec.describe "Saved::Departures", type: :system do
         context '住所を255文字入力する' do
           it '保存済み出発地の更新に成功し、一覧が表示される', vcr: false do
             # 実際に存在する255文字の住所を打ち込んだという仮定のため、mockを使用
-            result = build(:location).attributes.compact
+            result = build(:location, :designated).attributes.compact
             geocode = instance_double(Api::GeocodeService, call: result)
             allow(Api::GeocodeService).to receive(:new).and_return(geocode)
 
@@ -152,10 +155,12 @@ RSpec.describe "Saved::Departures", type: :system do
     end
 
     describe 'Form' do
+      before { visit_edit_departure_page(departure) }
+
       context '編集フォームを表示させる' do
         it 'フォームが表示され、初期値が入っている' do
-          expect(page).to have_field '名称', with: random_departure.name
-          expect(page).to have_field '住所', with: random_departure.address
+          expect(page).to have_field '名称', with: departure.name
+          expect(page).to have_field '住所', with: departure.address
         end
       end
 
@@ -179,22 +184,24 @@ RSpec.describe "Saved::Departures", type: :system do
     end
 
     describe 'Cancel' do
+      before { visit_edit_departure_page(departure) }
+
       context '編集フォームを表示させた後、取り消しボタンを押す' do
         it '出発地が適切に表示される' do
           click_link '取消'
-          expect(page).to have_content random_departure.name
+          expect(page).to have_content departure.name
         end
       end
 
       context '編集フォームを表示させ、内容を変えた後、取り消しボタンを押す' do
         it '更新されていない出発地が適切に表示される' do
-          fill_in '名称', with: departure_form.name
-          fill_in '住所', with: departure_form.address
+          fill_in '名称', with: another_departure.name
+          fill_in '住所', with: another_departure.address
           click_link '取消'
-          expect(page).to have_content random_departure.name
-          expect(page).to have_content random_departure.address
-          expect(page).not_to have_content departure_form.name
-          expect(page).not_to have_content departure_form.address
+          expect(page).to have_content departure.name
+          expect(page).to have_content departure.address
+          expect(page).not_to have_content another_departure.name
+          expect(page).not_to have_content another_departure.address
         end
       end
     end

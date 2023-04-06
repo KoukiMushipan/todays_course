@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :departure do
     association :user
-    association :location
+    association :location, :designated
 
-    trait :random do
+    trait :another do
       association :location, :random
     end
   end
