@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe "Saved::Destinations", type: :system do
   let(:destination) { create(:destination, :published_comment) }
   let(:user) { create(:user) }
-  let(:other) { create(:user) }
 
   def visit_saved_destinations_page(destination)
     login(destination.user)
@@ -26,6 +25,8 @@ RSpec.describe "Saved::Destinations", type: :system do
   end
 
   describe 'Contents' do
+    let(:other) { create(:user) }
+
     context '１つの目的地を保存する' do
       it '情報が正しく表示されている' do
         visit_saved_destinations_page(destination)
@@ -97,31 +98,29 @@ RSpec.describe "Saved::Destinations", type: :system do
   end
 
   describe 'Edit' do
-    let(:destination_form) { build(:destination_form) }
+    let(:build_another_destination) { create(:destination, :another, :published_comment) }
+
+    before do
+      visit_saved_destinations_page(destination)
+      find('.fa.fa-chevron-down').click
+      click_link('編集')
+      sleep(0.1)
+    end
 
     describe 'Validations' do
-      let(:random_destination) { create(:destination, :random, is_saved: true) }
-
-      before do
-        visit_saved_destinations_page(random_destination)
-        find('.fa.fa-chevron-down').click
-        click_link('編集')
-        sleep(0.1)
-      end
-
       context '正常な値を入力する' do
         it '保存済み目的地の更新に成功し、一覧が表示される' do
-          fill_in '名称', with: destination_form.name
-          fill_in 'コメント', with: destination_form.comment
+          fill_in '名称', with: build_another_destination.name
+          fill_in 'コメント', with: build_another_destination.comment
           check 'コメントを公開する'
-          fill_in '片道の距離', with: destination_form.distance
+          fill_in '片道の距離', with: build_another_destination.distance
           click_button '更新'
           expect(page).to have_content '目的地を更新しました'
-          expect(page).to have_content destination_form.name
-          expect(page).to have_content destination_form.comment
+          expect(page).to have_content build_another_destination.name
+          expect(page).to have_content build_another_destination.comment
           expect(page).to have_css '.fa.fa-eye'
           expect(page).to have_css '.fa.fa-commenting'
-          expect(page).to have_content destination_form.distance
+          expect(page).to have_content build_another_destination.distance
         end
       end
 
@@ -213,26 +212,26 @@ RSpec.describe "Saved::Destinations", type: :system do
 
         context 'コメントを公開・入力する' do
           it '保存済み目的地の更新に成功、一覧が表示される、公開・コメントアイコンが表示される' do
-            fill_in 'コメント', with: destination_form.comment
+            fill_in 'コメント', with: build_another_destination.comment
             check 'コメントを公開する'
             click_button '更新'
             expect(page).to have_content '目的地を更新しました'
             expect(page).to have_css '.fa.fa-eye'
             expect(page).to have_css '.fa.fa-commenting'
-            expect(page).to have_content destination_form.comment
+            expect(page).to have_content build_another_destination.comment
           end
         end
 
         context 'コメントを非公開・入力する' do
           it '保存済み目的地の更新に成功、一覧が表示される、非公開・コメントアイコンが表示される' do
-            fill_in 'コメント', with: destination_form.comment
+            fill_in 'コメント', with: build_another_destination.comment
             uncheck 'コメントを公開する'
             click_button '更新'
             expect(page).to have_content '目的地を更新しました'
             expect(page).not_to have_css '.fa.fa-eye'
             expect(page).to have_css '.fa.fa-eye-slash'
             expect(page).to have_css '.fa.fa-commenting'
-            expect(page).to have_content destination_form.comment
+            expect(page).to have_content build_another_destination.comment
           end
         end
       end
@@ -287,13 +286,6 @@ RSpec.describe "Saved::Destinations", type: :system do
     end
 
     describe 'Form' do
-      before do
-        visit_saved_destinations_page(destination)
-        find('.fa.fa-chevron-down').click
-        click_link('編集')
-        sleep(0.1)
-      end
-
       context '編集フォームを表示させる' do
         it 'フォームが表示され、初期値が入っている' do
           expect(page).to have_field '名称', with: destination.name
@@ -342,13 +334,6 @@ RSpec.describe "Saved::Destinations", type: :system do
     end
 
     describe 'Cancel' do
-      before do
-        visit_saved_destinations_page(destination)
-        find('.fa.fa-chevron-down').click
-        click_link('編集')
-        sleep(0.1)
-      end
-
       context '編集フォームを表示させた後、取り消しボタンを押す' do
         it '目的地が適切に表示される' do
           click_link '取消'
@@ -358,10 +343,10 @@ RSpec.describe "Saved::Destinations", type: :system do
 
       context '編集フォームを表示させ、内容を変えた後、取り消しボタンを押す' do
         it '更新されていない目的地が適切に表示される' do
-          fill_in '名称', with: destination_form.name
-          fill_in 'コメント', with: destination_form.comment
+          fill_in '名称', with: build_another_destination.name
+          fill_in 'コメント', with: build_another_destination.comment
           uncheck 'コメントを公開する'
-          fill_in '片道の距離', with: destination_form.distance
+          fill_in '片道の距離', with: build_another_destination.distance
           click_link '取消'
           expect(page).to have_content destination.name
           expect(page).to have_content destination.comment
@@ -369,10 +354,10 @@ RSpec.describe "Saved::Destinations", type: :system do
           expect(page).to have_css '.fa.fa-commenting'
           expect(page).to have_content destination.distance
 
-          expect(page).not_to have_content destination_form.name
-          expect(page).not_to have_content destination_form.comment
+          expect(page).not_to have_content build_another_destination.name
+          expect(page).not_to have_content build_another_destination.comment
           expect(page).not_to have_css '.fa.fa-eye-slash'
-          # expect(page).not_to have_content destination_form.distance
+          expect(page).not_to have_content build_another_destination.distance
         end
       end
     end

@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :destination do
     distance { 1000 }
     association :user
-    association :location
+    association :location, :designated
     association :departure
 
     trait :published_comment do
@@ -17,9 +17,8 @@ FactoryBot.define do
       is_published_comment { false }
     end
 
-    trait :random do
-      distance { rand(1000..5000) }
-      association :departure, :random
+    trait :another do
+      distance { rand(1001..5000) }
       association :location, :random
     end
   end
