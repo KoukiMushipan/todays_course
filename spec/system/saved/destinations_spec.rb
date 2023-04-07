@@ -28,8 +28,8 @@ RSpec.describe "Saved::Destinations", type: :system do
     let(:other) { create(:user) }
 
     context '１つの目的地を保存する' do
+      before { visit_saved_destinations_page(destination) }
       it '情報が正しく表示されている' do
-        visit_saved_destinations_page(destination)
         expect(current_path).to eq departures_path
         expect(page).to have_content destination.name
         expect(page).to have_content destination.address
@@ -39,10 +39,16 @@ RSpec.describe "Saved::Destinations", type: :system do
         expect(page).to have_content destination.distance
         expect(page).to have_content I18n.l(destination.created_at, format: :short)
         expect(page).to have_content destination.departure.name
-        find('.fa.fa-chevron-down').click
+      end
+
+      it 'リンク関連が正しく表示されている' do
         expect(page).to have_link '出発', href: new_history_path(destination: destination.uuid)
+        find('.fa.fa-chevron-down').click
         expect(page).to have_link '編集', href: edit_destination_path(destination.uuid, route: 'saved_page')
         expect(page).to have_link '削除', href: destination_path(destination.uuid, route: 'saved_page')
+        click_link '編集'
+        expect(page).to have_link '取消', href: destination_path(destination.uuid, route: 'saved_page')
+        expect(find('form')['action']).to be_include destination_path(destination.uuid, route: 'saved_page')
       end
     end
 

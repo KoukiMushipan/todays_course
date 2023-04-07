@@ -30,16 +30,22 @@ RSpec.describe "Saved::Departures", type: :system do
     let(:other) { create(:user) }
 
     context '１つの出発地を保存する' do
+      before { visit_saved_departures_page(departure) }
       it '情報が正しく表示されている' do
-        visit_saved_departures_page(departure)
         expect(current_path).to eq departures_path
         expect(page).to have_content departure.name
         expect(page).to have_content departure.address
         expect(page).to have_content I18n.l(departure.created_at, format: :short)
-        find('.fa.fa-chevron-down').click
+      end
+
+      it 'リンク関連が正しく表示されている' do
         expect(page).to have_link '出発', href: new_search_path(departure: departure.uuid)
+        find('.fa.fa-chevron-down').click
         expect(page).to have_link '編集', href: edit_departure_path(departure.uuid)
         expect(page).to have_link '削除', href: departure_path(departure.uuid)
+        click_link '編集'
+        expect(page).to have_link '取消', href: departure_path(departure.uuid)
+        expect(find('form')['action']).to be_include departure_path(departure.uuid)
       end
     end
 

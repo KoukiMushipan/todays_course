@@ -29,8 +29,9 @@ RSpec.describe "Profile::Histories", type: :system do
     let(:other) { create(:user) }
 
     context '１つの履歴を保存する' do
+      before { visit_histories_page(history) }
+
       it '情報が正しく表示されている' do
-        visit_histories_page(history)
         expect(current_path).to eq profile_path
         expect(page).to have_content history.destination.name
         expect(page).to have_content history.destination.address
@@ -41,10 +42,16 @@ RSpec.describe "Profile::Histories", type: :system do
         expect(page).to have_content I18n.l(history.start_time, format: :short)
         expect(page).to have_content "#{history.decorate.moving_time}分"
         expect(page).to have_content history.destination.departure.name
-        find('.fa.fa-chevron-down').click
+      end
+
+      it 'リンク関連が正しく表示されている' do
         expect(page).to have_link '出発', href: new_history_path(destination: history.destination.uuid)
+        find('.fa.fa-chevron-down').click
         expect(page).to have_link '編集', href: edit_history_path(history.uuid, route: 'profile_page')
         expect(page).to have_link '削除', href: history_path(history.uuid, route: 'profile_page')
+        click_link '編集'
+        expect(page).to have_link '取消', href: cancel_history_path(history.uuid, route: 'profile_page')
+        expect(find('form')['action']).to be_include history_path(history.uuid, route: 'profile_page')
       end
     end
 
