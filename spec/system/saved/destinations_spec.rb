@@ -389,12 +389,11 @@ RSpec.describe "Saved::Destinations", type: :system do
 
   describe 'Start' do
     before { visit_saved_destinations_page(destination) }
+
     context '出発ボタンをクリックする' do
       it 'スタートページに遷移する' do
         click_link '出発'
-        expect(current_url.include?('?')).to be_truthy
-        expect(current_path).to eq new_history_path
-        expect(current_url.match(/.*(#{new_history_path}.*)/)[1]).to eq new_history_path(destination: destination.uuid)
+        expect(current_url).to be_include new_history_path(destination: destination.uuid)
       end
     end
   end
