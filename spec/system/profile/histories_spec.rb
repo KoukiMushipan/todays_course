@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe "Profile::Histories", type: :system do
   let(:history) { create(:history, :commented) }
   let(:user) { create(:user) }
-  let(:other) { create(:user) }
 
   def visit_histories_page(history)
     login(history.user)
@@ -27,6 +26,8 @@ RSpec.describe "Profile::Histories", type: :system do
   end
 
   describe 'Contents' do
+    let(:other) { create(:user) }
+
     context '１つの履歴を保存する' do
       it '情報が正しく表示されている' do
         visit_histories_page(history)
@@ -80,7 +81,7 @@ RSpec.describe "Profile::Histories", type: :system do
   end
 
   describe 'Edit' do
-    let(:other_history) { create(:history, :other) }
+    let(:build_another_history) { build(:history, :another, :commented) }
 
     before do
       visit_histories_page(history)
@@ -92,16 +93,16 @@ RSpec.describe "Profile::Histories", type: :system do
     describe 'Validations' do
       context '正常な値を入力する' do
         it '履歴の更新に成功し、一覧が表示される' do
-          fill_in '開始時刻', with: other_history.start_time
-          fill_in '終了時刻', with: other_history.end_time
-          fill_in 'コメント', with: other_history.comment
-          fill_in '移動距離', with: other_history.moving_distance
+          fill_in '開始時刻', with: build_another_history.start_time
+          fill_in '終了時刻', with: build_another_history.end_time
+          fill_in 'コメント', with: build_another_history.comment
+          fill_in '移動距離', with: build_another_history.moving_distance
           click_button '更新'
           expect(page).to have_content '履歴を更新しました'
-          expect(page).to have_content other_history.comment
-          expect(page).to have_content "#{other_history.moving_distance}m"
-          expect(page).to have_content I18n.l(other_history.start_time, format: :short)
-          expect(page).to have_content "#{other_history.decorate.moving_time}分"
+          expect(page).to have_content build_another_history.comment
+          expect(page).to have_content "#{build_another_history.moving_distance}m"
+          expect(page).to have_content I18n.l(build_another_history.start_time, format: :short)
+          expect(page).to have_content "#{build_another_history.decorate.moving_time}分"
         end
       end
 
@@ -128,8 +129,8 @@ RSpec.describe "Profile::Histories", type: :system do
 
         context '終了時刻を開始時刻より遅い時刻にする' do
           it '履歴の更新に失敗し、編集状態に戻る' do
-            fill_in '開始時刻', with: other_history.end_time
-            fill_in '終了時刻', with: other_history.start_time
+            fill_in '開始時刻', with: build_another_history.end_time
+            fill_in '終了時刻', with: build_another_history.start_time
             click_button '更新'
             expect(page).to have_content 'は開始時刻より遅い時間にしてください'
             expect(page).to have_content '入力情報に誤りがあります'
@@ -231,19 +232,19 @@ RSpec.describe "Profile::Histories", type: :system do
 
       context '開始時刻を入力し、更新に失敗する' do
         it 'フォームから入力した開始時刻が消えていない' do
-          fill_in '開始時刻', with: other_history.end_time
-          fill_in '終了時刻', with: other_history.start_time
+          fill_in '開始時刻', with: build_another_history.end_time
+          fill_in '終了時刻', with: build_another_history.start_time
           click_button '更新'
-          expect(page).to have_field '開始時刻', with: other_history.end_time.strftime('%Y-%m-%dT%H:%M')
+          expect(page).to have_field '開始時刻', with: build_another_history.end_time.strftime('%Y-%m-%dT%H:%M')
         end
       end
 
       context '終了時刻を入力し、更新に失敗する' do
         it 'フォームから入力した終了時刻が消えていない' do
-          fill_in '開始時刻', with: other_history.end_time
-          fill_in '終了時刻', with: other_history.start_time
+          fill_in '開始時刻', with: build_another_history.end_time
+          fill_in '終了時刻', with: build_another_history.start_time
           click_button '更新'
-          expect(page).to have_field '終了時刻', with: other_history.start_time.strftime('%Y-%m-%dT%H:%M')
+          expect(page).to have_field '終了時刻', with: build_another_history.start_time.strftime('%Y-%m-%dT%H:%M')
         end
       end
 
@@ -276,19 +277,19 @@ RSpec.describe "Profile::Histories", type: :system do
 
       context '編集フォームを表示させ、内容を変えた後、取り消しボタンを押す' do
         it '更新されていない履歴が適切に表示される' do
-          fill_in '開始時刻', with: other_history.start_time
-          fill_in '終了時刻', with: other_history.end_time
-          fill_in 'コメント', with: other_history.comment
-          fill_in '移動距離', with: other_history.moving_distance
+          fill_in '開始時刻', with: build_another_history.start_time
+          fill_in '終了時刻', with: build_another_history.end_time
+          fill_in 'コメント', with: build_another_history.comment
+          fill_in '移動距離', with: build_another_history.moving_distance
           click_link '取消'
           expect(page).to have_content history.comment
           expect(page).to have_content "#{history.moving_distance}m"
           expect(page).to have_content I18n.l(history.start_time, format: :short)
           expect(page).to have_content "#{history.decorate.moving_time}分"
-          expect(page).not_to have_content other_history.comment
-          expect(page).not_to have_content "#{other_history.moving_distance}m"
-          expect(page).not_to have_content I18n.l(other_history.start_time, format: :short)
-          expect(page).not_to have_content "#{other_history.decorate.moving_time}分"
+          expect(page).not_to have_content build_another_history.comment
+          expect(page).not_to have_content "#{build_another_history.moving_distance}m"
+          expect(page).not_to have_content I18n.l(build_another_history.start_time, format: :short)
+          expect(page).not_to have_content "#{build_another_history.decorate.moving_time}分"
         end
       end
     end
