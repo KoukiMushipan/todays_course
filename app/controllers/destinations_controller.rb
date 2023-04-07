@@ -27,7 +27,7 @@ class DestinationsController < ApplicationController
   def create
     @destination_form = DestinationForm.new(destination_form_params)
 
-    unless @destination_form.valid?(:check_is_saved)
+    unless @destination_form.valid?(:check_save)
       flash.now[:error] = '入力情報に誤りがあります'
       return render :new, status: :unprocessable_entity
     end

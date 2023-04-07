@@ -4,7 +4,7 @@ RSpec.describe DestinationForm, type: :model do
   describe 'Validations' do
     it '全てのカラムを入力する' do
       destination_form = build(:destination_form)
-      expect(destination_form.valid?(:check_is_saved)).to be_truthy
+      expect(destination_form.valid?(:check_save)).to be_truthy
       expect(destination_form.errors).to be_empty
     end
 
@@ -102,35 +102,35 @@ RSpec.describe DestinationForm, type: :model do
       it 'nilを渡す' do
         destination_form = build(:destination_form, is_saved: nil)
         expect(destination_form.is_saved).to be_nil
-        expect(destination_form.valid?(:check_is_saved)).to be_falsey
+        expect(destination_form.valid?(:check_save)).to be_falsey
         expect(destination_form.errors[:is_saved]).to eq ['は一覧にありません']
       end
 
       it '空の文字列を入力する' do
         destination_form = build(:destination_form, is_saved: '')
         expect(destination_form.is_saved).to be_nil
-        expect(destination_form.valid?(:check_is_saved)).to be_falsey
+        expect(destination_form.valid?(:check_save)).to be_falsey
         expect(destination_form.errors[:is_saved]).to eq ['は一覧にありません']
       end
 
       it '空ではない文字列を入力する' do
         destination_form = build(:destination_form, is_saved: ' ')
         expect(destination_form.is_saved).to be_truthy
-        expect(destination_form.valid?(:check_is_saved)).to be_truthy
+        expect(destination_form.valid?(:check_save)).to be_truthy
         expect(destination_form.errors).to be_empty
       end
 
       it '0を入力する' do
         destination_form = build(:destination_form, is_saved: 0)
         expect(destination_form.is_saved).to be_falsey
-        expect(destination_form.valid?(:check_is_saved)).to be_truthy
+        expect(destination_form.valid?(:check_save)).to be_truthy
         expect(destination_form.errors).to be_empty
       end
 
       it '1を入力する' do
         destination_form = build(:destination_form, is_saved: 1)
         expect(destination_form.is_saved).to be_truthy
-        expect(destination_form.valid?(:check_is_saved)).to be_truthy
+        expect(destination_form.valid?(:check_save)).to be_truthy
         expect(destination_form.errors).to be_empty
       end
     end

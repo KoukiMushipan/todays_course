@@ -4,7 +4,7 @@ RSpec.describe DepartureForm, type: :model do
   describe 'Validations' do
     it '全てのカラムを入力する' do
       departure_form = build(:departure_form)
-      expect(departure_form.valid?(:check_is_saved)).to be_truthy
+      expect(departure_form.valid?(:check_save)).to be_truthy
       expect(departure_form.errors).to be_empty
     end
 
@@ -64,35 +64,35 @@ RSpec.describe DepartureForm, type: :model do
       it 'nilを渡す' do
         departure_form = build(:departure_form, is_saved: nil)
         expect(departure_form.is_saved).to be_nil
-        expect(departure_form.valid?(:check_is_saved)).to be_falsey
+        expect(departure_form.valid?(:check_save)).to be_falsey
         expect(departure_form.errors[:is_saved]).to eq ['は一覧にありません']
       end
 
       it '空の文字列を入力する' do
         departure_form = build(:departure_form, is_saved: '')
         expect(departure_form.is_saved).to be_nil
-        expect(departure_form.valid?(:check_is_saved)).to be_falsey
+        expect(departure_form.valid?(:check_save)).to be_falsey
         expect(departure_form.errors[:is_saved]).to eq ['は一覧にありません']
       end
 
       it '空ではない文字列を入力する' do
         departure_form = build(:departure_form, is_saved: ' ')
         expect(departure_form.is_saved).to be_truthy
-        expect(departure_form.valid?(:check_is_saved)).to be_truthy
+        expect(departure_form.valid?(:check_save)).to be_truthy
         expect(departure_form.errors).to be_empty
       end
 
       it '0を入力する' do
         departure_form = build(:departure_form, is_saved: 0)
         expect(departure_form.is_saved).to be_falsey
-        expect(departure_form.valid?(:check_is_saved)).to be_truthy
+        expect(departure_form.valid?(:check_save)).to be_truthy
         expect(departure_form.errors).to be_empty
       end
 
       it '1を入力する' do
         departure_form = build(:departure_form, is_saved: 1)
         expect(departure_form.is_saved).to be_truthy
-        expect(departure_form.valid?(:check_is_saved)).to be_truthy
+        expect(departure_form.valid?(:check_save)).to be_truthy
         expect(departure_form.errors).to be_empty
       end
     end
