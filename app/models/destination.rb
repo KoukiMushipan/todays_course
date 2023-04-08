@@ -16,6 +16,8 @@ class Destination < ApplicationRecord
   before_update -> { self.comment = nil if comment.blank? || is_saved == false }
   before_update -> { self.is_published_comment = false if comment.blank? || is_saved == false }
 
+  delegate :name, :latitude, :longitude, :address, :place_id, to: :location
+
   scope :saved, -> { where(is_saved: true) }
   scope :with_location, -> { includes(:location, departure: :location) }
   scope :recent, -> { order(created_at: :desc) }
@@ -53,7 +55,7 @@ class Destination < ApplicationRecord
 
   # destination_form
   def attributes_for_form
-    { name: location.name, comment:, is_published_comment:, distance: }
+    { name:, comment:, is_published_comment:, distance: }
   end
 
   # candidate
@@ -72,16 +74,10 @@ class Destination < ApplicationRecord
   private
 
   def variable_in_attributes
-    { name: location.name }
+    { name: }
   end
 
   def fixed_in_attributes
-    {
-      latitude: location.latitude,
-      longitude: location.longitude,
-      address: location.address,
-      place_id: location.place_id,
-      comment:
-    }
+    { latitude:, longitude:, address:, place_id:, comment: }
   end
 end

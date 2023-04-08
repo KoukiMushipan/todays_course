@@ -13,11 +13,13 @@ class DeparturesController < ApplicationController
     set_saved_departures_and_histories
   end
 
-  def edit; end
+  def edit
+    @departure_form = DepartureForm.new(@departure.attributes_for_form)
+  end
 
   def create
     @departure_form = DepartureForm.new(departure_form_params)
-    return render_new_departure('入力情報に誤りがあります') unless @departure_form.valid?(:check_is_saved)
+    return render_new_departure('入力情報に誤りがあります') unless @departure_form.valid?(:check_save)
 
     result = Api::GeocodeService.new(@departure_form).call
     return render_new_departure('位置情報の取得に失敗しました') unless result
@@ -34,13 +36,13 @@ class DeparturesController < ApplicationController
   end
 
   def update
-    departure_form = DepartureForm.new(location_params)
-    return render_edit_departure('入力情報に誤りがあります') unless departure_form.valid?
+    @departure_form = DepartureForm.new(edit_departure_form_params)
+    return render_edit_departure('入力情報に誤りがあります') unless @departure_form.valid?
 
-    if @location.address == departure_form.address
-      @location.update!(location_params)
+    if @location.address == @departure_form.address
+      @location.update!(edit_departure_form_params)
     else
-      result = Api::GeocodeService.new(departure_form).call
+      result = Api::GeocodeService.new(@departure_form).call
       return render_edit_departure('位置情報の取得に失敗しました') unless result
 
       @location.update!(result.compact)
@@ -74,8 +76,6 @@ class DeparturesController < ApplicationController
   end
 
   def render_edit_departure(error_message)
-    # @locationが作成されていることや、location_paramsを受け取っていることに依存しているため注意
-    @location.attributes = location_params
     flash.now[:error] = error_message
     render :edit, status: :unprocessable_entity
   end
@@ -84,7 +84,7 @@ class DeparturesController < ApplicationController
     params.require(:departure_form).permit(:name, :address, :is_saved)
   end
 
-  def location_params
-    params.require(:location).permit(:name, :address)
+  def edit_departure_form_params
+    params.require(:departure_form).permit(:name, :address)
   end
 end

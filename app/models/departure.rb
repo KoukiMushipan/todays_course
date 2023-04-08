@@ -7,6 +7,8 @@ class Departure < ApplicationRecord
 
   before_create -> { self.uuid = SecureRandom.uuid }
 
+  delegate :name, :latitude, :longitude, :address, :place_id, to: :location
+
   scope :saved, -> { where(is_saved: true) }
   scope :with_location, -> { includes(:location) }
   scope :recent, -> { order(created_at: :desc) }
@@ -25,14 +27,11 @@ class Departure < ApplicationRecord
   end
 
   def attributes_for_session
-    {
-      uuid:,
-      name: location.name,
-      latitude: location.latitude,
-      longitude: location.longitude,
-      address: location.address,
-      place_id: location.place_id,
-      created_at:
-    }
+    { uuid:, name:, latitude:, longitude:, address:, place_id:, created_at: }
+  end
+
+  # departure_form
+  def attributes_for_form
+    { name:, address: }
   end
 end

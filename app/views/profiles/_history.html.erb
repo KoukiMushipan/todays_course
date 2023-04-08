@@ -5,7 +5,7 @@
     <div class="text-left mb-1 lg:mb-0 text-gray-700 tracking-tighter">
       <p class="mr-0 lg:mr-3 block lg:inline-block">
         <%= fa_icon 'home' %>
-        <%= history.decorate.departure_name %>
+        <%= history.destination.departure.name %>
       </p>
 
       <p class="block lg:inline-block">
@@ -18,7 +18,7 @@
     <div class="text-gray-800 text-2xl lg:text-3xl zen-kaku-medium">
       <h5 class="mr-0 lg:mr-5 block lg:inline-block">
         <%= fa_icon 'flag' %>
-        <%= history.decorate.destination_name %>
+        <%= history.destination.name %>
       </h5>
       <h5 class="block lg:inline-block">
         <%= fa_icon 'road' %>
@@ -27,7 +27,7 @@
     </div>
 
     <p class="text-gray-700 tracking-tighter">
-      <%= history.decorate.destination_address %>
+      <%= history.destination.address %>
     </p>
 
     <div class="text-gray-800 tracking-tighter mt-0.5 mb-3">
@@ -41,7 +41,7 @@
     </div>
 
     <div>
-      <%= link_to '出発', new_history_path(destination: history.decorate.destination_uuid),
+      <%= link_to '出発', new_history_path(destination: history.destination.uuid),
       data: { turbo_frame: '_top' },
       class: 'orange-btn tracking-widest text-xl px-12 py-2 zen-kaku-medium' %>
     </div>
@@ -54,7 +54,7 @@
         class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular mr-4' %>
 
         <%= link_to '削除', history_path(history.uuid, route: 'profile_page'),
-        data: { turbo_method: :delete, turbo_confirm: "保存済みから削除します\nよろしいですか?"},
+        data: { turbo_method: :delete, turbo_confirm: "履歴から削除します\nよろしいですか?"},
         class: 'border-orange-btn tracking-widest text-lg px-8 py-1.5 zen-kaku-regular border-red-600 text-red-600' %>
       </div>
     </div>
