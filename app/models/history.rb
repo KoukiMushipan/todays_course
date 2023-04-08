@@ -7,6 +7,7 @@ class History < ApplicationRecord
   validates :moving_distance, presence: true, numericality: { only_integer: true, in: 1..42_195 }
   validates :start_time, presence: true, on: :update
   validates :end_time, presence: true, on: :update
+  validate :start_time_check, on: :create
   validate :end_time_check
 
   before_create -> { self.uuid = SecureRandom.uuid }
@@ -51,8 +52,13 @@ class History < ApplicationRecord
 
   private
 
+  def start_time_check
+    errors.add(:start_time, 'を入力してください') if start_time.nil? && end_time
+  end
+
   def end_time_check
-    return unless start_time
-    errors.add(:end_time, 'は開始時刻より遅い時間にしてください') if end_time && (start_time > end_time)
+    return unless start_time && end_time
+
+    errors.add(:end_time, 'は開始時刻より遅い時間にしてください') if start_time > end_time
   end
 end

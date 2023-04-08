@@ -4,7 +4,7 @@ RSpec.describe History, type: :model do
 describe 'Validations' do
     it '全てのカラムを入力する' do
       history = build(:history)
-      expect(history).to be_valid
+      expect(history.valid?(:update)).to be_truthy
       expect(history.errors).to be_empty
     end
 
@@ -108,18 +108,30 @@ describe 'Validations' do
         expect(history.errors[:end_time]).to be_empty
       end
 
-      it 'end_timeのみ入力する' do
-        history = build(:history, start_time: nil, end_time: Time.zone.now)
-        expect(history).to be_invalid
-        expect(history.errors[:start_time]).to eq ['を入力してください']
-        expect(history.errors[:end_time]).to be_empty
-      end
-
       it 'start_timeより早いend_timeを入力する' do
         history = build(:history, start_time: Time.zone.now, end_time: Time.zone.now.ago(1.hour))
         expect(history).to be_invalid
         expect(history.errors[:start_time]).to be_empty
         expect(history.errors[:end_time]).to eq ['は開始時刻より遅い時間にしてください']
+      end
+
+      it 'end_timeのみ入力して作成する' do
+        history = build(:history, start_time: nil, end_time: Time.zone.now)
+        expect(history.valid?(:create)).to be_falsey
+        expect(history.errors[:start_time]).to eq ['を入力してください']
+        expect(history.errors[:end_time]).to be_empty
+      end
+
+      it 'start_timeにnilを渡して更新する' do
+        history = build(:history, start_time: nil)
+        expect(history.valid?(:update)).to be_falsey
+        expect(history.errors[:start_time]).to eq ['を入力してください']
+      end
+
+      it 'end_timeにnilを渡して更新する' do
+        history = build(:history, end_time: nil)
+        expect(history.valid?(:update)).to be_falsey
+        expect(history.errors[:end_time]).to eq ['を入力してください']
       end
     end
   end
