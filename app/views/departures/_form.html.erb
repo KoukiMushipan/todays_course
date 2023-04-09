@@ -7,7 +7,7 @@
 
   <div class="my-5">
     <%= f.label :address %>
-    <%= f.text_field :address, class: 'normal-form', id: 'js-address-form' %>
+    <%= f.text_field :address, class: 'normal-form' %>
     <%= link_to '現在地取得', '#', class: 'text-blue-600 underline', id: 'js-get-current-location-button' %>
     <p class="hidden" id="js-loading-text">読込中……</p>
     <%= render partial: 'shared/error_message', collection: departure_form.errors.full_messages_for(:address) %>
