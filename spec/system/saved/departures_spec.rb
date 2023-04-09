@@ -91,7 +91,7 @@ RSpec.describe "Saved::Departures", type: :system do
           click_button '更新'
           expect(page).to have_content '出発地を更新しました'
           expect(page).to have_content build_departure.name
-          expect(page).to have_content build_departure.address
+          expect(page).to have_content Settings.geocode.result[:address]
         end
       end
 
