@@ -138,7 +138,7 @@ RSpec.describe "Saved::Departures", type: :system do
         context '住所を255文字入力する' do
           it '保存済み出発地の更新に成功し、一覧が表示される', vcr: false do
             # 実際に存在する255文字の住所を打ち込んだという仮定のため、mockを使用
-            result = build(:location, :designated).attributes.compact.symbolize_keys
+            result = build(:location, :for_departure).attributes.compact.symbolize_keys
             geocode = instance_double(Api::GeocodeService, call: result)
             allow(Api::GeocodeService).to receive(:new).and_return(geocode)
 

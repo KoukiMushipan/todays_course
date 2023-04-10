@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :destination do
     distance { 1000 }
     association :user
-    association :location, :designated
+    association :location, :for_destination
     association :departure
 
     trait :published_comment do

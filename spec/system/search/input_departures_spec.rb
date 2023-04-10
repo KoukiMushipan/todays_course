@@ -102,7 +102,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
         context '住所を255文字入力する' do
           it '出発地の取得に成功し、目的地の条件入力ページに遷移する', vcr: false do
             # 実際に存在する255文字の住所を打ち込んだという仮定のため、mockを使用
-            result = build(:location, :designated).attributes.compact.symbolize_keys
+            result = build(:location, :for_departure).attributes.compact.symbolize_keys
             geocode = instance_double(Api::GeocodeService, call: result)
             allow(Api::GeocodeService).to receive(:new).and_return(geocode)
 
