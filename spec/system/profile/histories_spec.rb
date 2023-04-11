@@ -41,7 +41,7 @@ RSpec.describe "Profile::Histories", type: :system do
         expect(page).to have_content "#{history.moving_distance}m"
         expect(page).to have_content I18n.l(history.start_time, format: :short)
         expect(page).to have_content "#{history.decorate.moving_time}分"
-        expect(page).to have_content history.destination.departure.name
+        expect(page).to have_content history.departure.name
       end
 
       it 'リンク関連が正しく表示されている' do
@@ -57,7 +57,7 @@ RSpec.describe "Profile::Histories", type: :system do
 
     context '複数のユーザーの履歴を作成する' do
       it '自分の履歴のみ表示される' do
-        saved_own = create(:history, user:)
+        saved_own = history
         saved_other = create(:history, user: other)
         visit_histories_page(saved_own)
         expect(page).to have_content saved_own.destination.name

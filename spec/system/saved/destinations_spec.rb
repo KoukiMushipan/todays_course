@@ -54,7 +54,7 @@ RSpec.describe "Saved::Destinations", type: :system do
 
     context '複数のユーザーの保存済み目的地を作成する' do
       it '自分の保存済み目的地のみ表示される' do
-        saved_own = create(:destination, user:, is_saved: true)
+        saved_own = destination
         saved_other = create(:destination, user: other, is_saved: true)
         visit_saved_destinations_page(saved_own)
         expect(page).to have_content saved_own.name
@@ -64,7 +64,7 @@ RSpec.describe "Saved::Destinations", type: :system do
 
     context '保存済み・未保存目的地を作成する' do
       it '保存済み目的地のみ表示される' do
-        saved_destination = create(:destination, user:, is_saved: true)
+        saved_destination = destination
         not_saved_destination = create(:destination, user:, is_saved: false)
         visit_saved_destinations_page(saved_destination)
         expect(page).to have_content saved_destination.name
