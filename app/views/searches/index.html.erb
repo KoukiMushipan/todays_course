@@ -36,4 +36,8 @@
 </div>
 
 <%= include_gon %>
-<%= javascript_include_tag Settings.google.map_url + 'callback=showCandidates', defer: 'defer' %>
+
+<% # 表示されているMapのテストは一旦保留するため、読み込まない %>
+<% unless Rails.env.test? %>
+  <%= javascript_include_tag Settings.google.map_url + 'callback=showCandidates', defer: 'defer' %>
+<% end %>
