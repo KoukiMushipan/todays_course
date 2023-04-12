@@ -74,4 +74,123 @@ RSpec.describe "Search::InputTerms", type: :system do
       end
     end
   end
+
+  describe 'Validations' do
+    let(:result) { Settings.nearby_result.radius_1000.to_hash }
+
+    before do
+      visit_input_terms_page(departure)
+      nearby = instance_double(Api::NearbyService, call: [result])
+      allow(Api::NearbyService).to receive(:new).and_return(nearby)
+    end
+
+    context '正常な値を入力する' do
+      it '目的地の検索に成功し、候補一覧ページに遷移する' do
+        fill_in '距離(1000m~5000m)', with: 3000
+        select 'カフェ', from: '種類'
+        click_button '検索'
+        sleep(0.1)
+        expect(current_path).to eq searches_path
+        expect(page).to have_content result[:variable][:name]
+        expect(page).to have_content result[:fixed][:address]
+      end
+    end
+
+    describe '#radius' do
+      context '距離を空白にする' do
+        it '目的地の検索に失敗し、条件入力ページに戻る'do
+          fill_in '距離(1000m~5000m)', with: ''
+          click_button '検索'
+          expect(current_path).to eq new_search_path
+          expect(page).to have_content '入力情報に誤りがあります'
+          expect(page).to have_content '距離を入力してください'
+          expect(page).to have_content '距離は数値で入力してください'
+        end
+      end
+
+      context '距離に999を入力する' do
+        it '目的地の検索に失敗し、条件入力ページに戻る' do
+          fill_in '距離(1000m~5000m)', with: 999
+          click_button '検索'
+          expect(current_path).to eq new_search_path
+          # number_fieldで1000~5000に指定
+        end
+      end
+
+      context '距離に1000を入力する' do
+        it '目的地の検索に成功し、一覧が表示される' do
+        fill_in '距離(1000m~5000m)', with: 1000
+        select 'カフェ', from: '種類'
+        click_button '検索'
+        sleep(0.1)
+        expect(current_path).to eq searches_path
+        expect(page).to have_content result[:variable][:name]
+        expect(page).to have_content result[:fixed][:address]
+        end
+      end
+
+      context '距離に1001を入力する' do
+        it '目的地の検索に失敗し、条件入力ページに戻る' do
+          fill_in '距離(1000m~5000m)', with: 1001
+          click_button '検索'
+          expect(current_path).to eq new_search_path
+          # number_fieldでstep: 100に指定
+        end
+      end
+
+      context '距離に5000を入力する' do
+        it '目的地の検索に成功し、一覧が表示される' do
+          fill_in '距離(1000m~5000m)', with: 5000
+          select 'カフェ', from: '種類'
+          click_button '検索'
+          sleep(0.1)
+          expect(current_path).to eq searches_path
+          expect(page).to have_content result[:variable][:name]
+          expect(page).to have_content result[:fixed][:address]
+        end
+      end
+
+      context '距離に5001を入力する' do
+        it '目的地の検索に失敗し、条件入力ページに戻る' do
+          fill_in '距離(1000m~5000m)', with: 5001
+          click_button '検索'
+          expect(current_path).to eq new_search_path
+          # number_fieldで1000~5000に指定
+        end
+      end
+    end
+
+    # describe '#type'
+  end
+
+  describe 'Form' do
+    before { visit_input_terms_page(departure) }
+
+    context '距離を入力し、目的地の検索に失敗する' do
+      it 'フォームから入力した距離が消えていない' do
+        #空白以外はnumber_fieldの設定ではじいているため
+        fill_in '距離(1000m~5000m)', with: 999
+        click_button '検索'
+        expect(current_path).to eq new_search_path
+        expect(page).to have_field '距離(1000m~5000m)', with: 999
+      end
+    end
+
+    context '種類を選択し、目的地の検索に失敗する' do
+      it 'フォームから選択した種類が変わっていない' do
+        fill_in '距離(1000m~5000m)', with: ''
+        select 'カフェ', from: '種類'
+        click_button '検索'
+        expect(current_path).to eq new_search_path
+        expect(page).to have_select('種類', selected: 'カフェ')
+      end
+    end
+  end
+
+  xdescribe 'Failure' do
+    context '条件に合致する目的地が存在しないため、検索に失敗する' do
+      it 'エラーメッセージが表示され、条件入力ページに戻る' do
+      end
+    end
+  end
 end
