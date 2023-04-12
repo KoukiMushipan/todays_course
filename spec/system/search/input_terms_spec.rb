@@ -79,9 +79,9 @@ RSpec.describe "Search::InputTerms", type: :system do
     let(:result) { Settings.nearby_result.radius_1000.to_hash }
 
     before do
-      visit_input_terms_page(departure)
       nearby = instance_double(Api::NearbyService, call: [result])
       allow(Api::NearbyService).to receive(:new).and_return(nearby)
+      visit_input_terms_page(departure)
     end
 
     context '正常な値を入力する' do
@@ -187,9 +187,17 @@ RSpec.describe "Search::InputTerms", type: :system do
     end
   end
 
-  xdescribe 'Failure' do
+  describe 'Failure' do
     context '条件に合致する目的地が存在しないため、検索に失敗する' do
       it 'エラーメッセージが表示され、条件入力ページに戻る' do
+        nearby = instance_double(Api::NearbyService, call: false)
+        allow(Api::NearbyService).to receive(:new).and_return(nearby)
+        visit_input_terms_page(departure)
+
+        fill_in '距離(1000m~5000m)', with: 1000
+        click_button '検索'
+        expect(current_path).to eq new_search_path
+        expect(page).to have_content '目的地が見つかりませんでした'
       end
     end
   end
