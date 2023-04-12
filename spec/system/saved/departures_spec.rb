@@ -241,4 +241,20 @@ RSpec.describe "Saved::Departures", type: :system do
       end
     end
   end
+
+  describe 'Failure' do
+    context '入力された住所が存在しないため、取得に失敗する' do
+      it 'エラーメッセージが表示され、編集状態に戻る' do
+        geocode = instance_double(Api::GeocodeService, call: false)
+        allow(Api::GeocodeService).to receive(:new).and_return(geocode)
+
+        visit_edit_departure_page(departure)
+        address = 'failure'
+        fill_in '住所', with: address
+        click_button '更新'
+        expect(page).to have_content '位置情報の取得に失敗しました'
+        expect(page).to have_field '住所', with: address
+      end
+    end
+  end
 end
