@@ -46,7 +46,10 @@ RSpec.describe "Search::InputTerms", type: :system do
       end
 
       it 'リンク関連が正しく表示されている' do
+        expect(page).to have_button '検索'
         expect(find('form')['action']).to be_include searches_path
+        expect(find('form')['method']).to eq 'post'
+        expect(page).not_to have_selector("input[name='_method']", visible: false)
       end
     end
 

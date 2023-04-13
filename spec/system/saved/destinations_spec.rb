@@ -48,7 +48,9 @@ RSpec.describe "Saved::Destinations", type: :system do
         expect(page).to have_link '削除', href: destination_path(destination.uuid, route: 'saved_page')
         click_link '編集'
         expect(page).to have_link '取消', href: destination_path(destination.uuid, route: 'saved_page')
+        expect(page).to have_button '更新'
         expect(find('form')['action']).to be_include destination_path(destination.uuid, route: 'saved_page')
+        expect(find('input[name="_method"]', visible: false)['value']).to eq 'patch'
       end
     end
 
