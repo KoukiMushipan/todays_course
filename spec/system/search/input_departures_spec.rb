@@ -30,35 +30,46 @@ RSpec.describe "Search::InputDepartures", type: :system do
     end
   end
 
-  describe 'Validations', vcr: { cassette_name: 'geocode/success' } do
+  describe 'Validations' do
+    let(:for_result) { build(:location, :for_departure) }
+
     before { visit_new_departure_page }
 
     context '正常な値を入力する（保存する）' do
       it '出発地の作成に成功し、目的地の条件入力ページに遷移する' do
-        fill_in '名称', with: departure_form.name
-        fill_in '住所', with: departure_form.address
+        result = for_result.attributes.compact.symbolize_keys
+        result[:is_saved] = true
+        geocode = instance_double(Api::GeocodeService, call: result)
+        allow(Api::GeocodeService).to receive(:new).and_return(geocode)
+
+        fill_in '名称', with: for_result.name
+        fill_in '住所', with: for_result.address
         check '保存する'
         click_button '決定'
         expect(page).to have_content '出発地を保存しました'
-        expect(page).to have_content departure_form.name
-        expect(page).to have_content Settings.geocode.result[:address]
+        expect(page).to have_content result[:name]
+        expect(page).to have_content result[:address]
       end
     end
 
     context '正常な値を入力する（保存しない）' do
       it '出発地の取得に成功し、目的地の条件入力ページに遷移する' do
-        fill_in '名称', with: departure_form.name
-        fill_in '住所', with: departure_form.address
+        result = for_result.attributes.compact.symbolize_keys
+        geocode = instance_double(Api::GeocodeService, call: result)
+        allow(Api::GeocodeService).to receive(:new).and_return(geocode)
+
+        fill_in '名称', with: for_result.name
+        fill_in '住所', with: for_result.address
         uncheck '保存する'
         click_button '決定'
         expect(page).not_to have_content '出発地を保存しました'
-        expect(page).to have_content departure_form.name
-        expect(page).to have_content Settings.geocode.result[:address]
+        expect(page).to have_content result[:name]
+        expect(page).to have_content result[:address]
       end
     end
 
     describe '#name' do
-      before { fill_in '住所', with: departure_form.address }
+      before { fill_in '住所', with: for_result.address }
 
       context '名称を空白にする' do
         it '出発地の取得に失敗し、出発地入力状態に戻る'do
@@ -71,10 +82,14 @@ RSpec.describe "Search::InputDepartures", type: :system do
 
       context '名称を50文字入力する' do
         it '出発地の取得に成功し、目的地の条件入力ページに遷移する' do
-          name = 'a' * 50
-          fill_in '名称', with: name
+          result = for_result.attributes.compact.symbolize_keys
+          result[:name] = 'a' * 50
+          geocode = instance_double(Api::GeocodeService, call: result)
+          allow(Api::GeocodeService).to receive(:new).and_return(geocode)
+
+          fill_in '名称', with: result[:name]
           click_button '決定'
-          expect(page).to have_content name
+          expect(page).to have_content result[:name]
         end
       end
 
@@ -89,7 +104,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
     end
 
     describe '#address' do
-      before { fill_in '名称', with: departure_form.name }
+      before { fill_in '名称', with: for_result.name }
 
       context '住所を空白にする' do
         it '出発地の取得に失敗し、出発地入力状態に戻る' do
@@ -101,9 +116,9 @@ RSpec.describe "Search::InputDepartures", type: :system do
       end
 
       context '住所を255文字入力する' do
-        it '出発地の取得に成功し、目的地の条件入力ページに遷移する', vcr: false do
-          # 実際に存在する255文字の住所を打ち込んだという仮定のため、mockを使用
-          result = build(:location, :for_departure).attributes.compact.symbolize_keys
+        it '出発地の取得に成功し、目的地の条件入力ページに遷移する' do
+          # 実際に存在する255文字の住所を打ち込んだという仮定
+          result = for_result.attributes.compact.symbolize_keys
           geocode = instance_double(Api::GeocodeService, call: result)
           allow(Api::GeocodeService).to receive(:new).and_return(geocode)
 
@@ -160,7 +175,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
         click_button '決定'
         expect(page).to have_content '位置情報の取得に失敗しました'
         expect(page).to have_field '名称', with: departure_form.name
-        expect(page).to have_field '住所', with: departure_form.gaddress
+        expect(page).to have_field '住所', with: departure_form.address
       end
     end
   end
