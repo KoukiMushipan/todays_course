@@ -78,20 +78,24 @@ RSpec.describe "Saved::Departures", type: :system do
   end
 
   describe 'Edit' do
-    let(:build_departure) { build(:departure, is_saved: true) }
     let(:another_departure) { create(:departure, :another, is_saved: true) }
+    let(:for_result) { build(:location, :for_departure) }
 
-    describe 'Validations', vcr: { cassette_name: 'geocode/success' } do
+    describe 'Validations' do
       before { visit_edit_departure_page(another_departure) }
 
       context '正常な値を入力する' do
         it '保存済み出発地の更新に成功し、一覧が表示される' do
-          fill_in '名称', with: build_departure.name
-          fill_in '住所', with: build_departure.address
+          result = for_result.attributes.compact.symbolize_keys
+          geocode = instance_double(Api::GeocodeService, call: result)
+          allow(Api::GeocodeService).to receive(:new).and_return(geocode)
+
+          fill_in '名称', with: for_result.name
+          fill_in '住所', with: for_result.address
           click_button '更新'
           expect(page).to have_content '出発地を更新しました'
-          expect(page).to have_content build_departure.name
-          expect(page).to have_content Settings.geocode.result[:address]
+          expect(page).to have_content result[:name]
+          expect(page).to have_content result[:address]
         end
       end
 
@@ -107,11 +111,15 @@ RSpec.describe "Saved::Departures", type: :system do
 
         context '名称を50文字入力する' do
           it '保存済み出発地の更新に成功し、一覧が表示される' do
-            name = 'a' * 50
-            fill_in '名称', with: name
+            result = for_result.attributes.compact.symbolize_keys
+            result[:name] = 'a' * 50
+            geocode = instance_double(Api::GeocodeService, call: result)
+            allow(Api::GeocodeService).to receive(:new).and_return(geocode)
+
+            fill_in '名称', with: result[:name]
             click_button '更新'
             expect(page).to have_content '出発地を更新しました'
-            expect(page).to have_content name
+            expect(page).to have_content result[:name]
           end
         end
 
@@ -136,9 +144,9 @@ RSpec.describe "Saved::Departures", type: :system do
         end
 
         context '住所を255文字入力する' do
-          it '保存済み出発地の更新に成功し、一覧が表示される', vcr: false do
-            # 実際に存在する255文字の住所を打ち込んだという仮定のため、mockを使用
-            result = build(:location, :for_departure).attributes.compact.symbolize_keys
+          it '保存済み出発地の更新に成功し、一覧が表示される' do
+            # 実際に存在する255文字の住所を打ち込んだという仮定
+            result = for_result.attributes.compact.symbolize_keys
             geocode = instance_double(Api::GeocodeService, call: result)
             allow(Api::GeocodeService).to receive(:new).and_return(geocode)
 
