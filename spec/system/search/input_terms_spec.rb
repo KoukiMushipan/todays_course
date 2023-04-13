@@ -50,13 +50,20 @@ RSpec.describe "Search::InputTerms", type: :system do
       end
     end
 
-    context '出発地を保存せず、条件入力ページに遷移する', vcr: { cassette_name: 'geocode/success' } do
+    context '出発地を保存せず、条件入力ページに遷移する' do
+      let(:for_result) { build(:location, :for_departure) }
+      let(:result) { for_result.attributes.compact.symbolize_keys }
+
       before do
+        result[:is_saved] = false
+        geocode = instance_double(Api::GeocodeService, call: result)
+        allow(Api::GeocodeService).to receive(:new).and_return(geocode)
+
         login(user)
         sleep(0.1)
         visit new_departure_path
-        fill_in '名称', with: departure_form.name
-        fill_in '住所', with: departure_form.address
+        fill_in '名称', with: for_result.name
+        fill_in '住所', with: for_result.address
         uncheck '保存する'
         click_button '決定'
         sleep(0.1)
@@ -64,8 +71,8 @@ RSpec.describe "Search::InputTerms", type: :system do
 
       it '情報が正しく表示されている' do
         expect(current_path).to eq new_search_path
-        expect(page).to have_content departure_form.name
-        expect(page).to have_content departure_form.address
+        expect(page).to have_content result[:name]
+        expect(page).to have_content result[:address]
         expect(page).to have_content '未保存'
       end
 
