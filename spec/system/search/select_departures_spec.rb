@@ -84,6 +84,162 @@ RSpec.describe "Search::SelectDepartures", type: :system do
       end
     end
 
+    describe 'Edit' do
+      let(:another_departure) { create(:departure, :another, is_saved: true) }
+      let(:for_result) { build(:location, :for_departure) }
+
+      describe 'Validations' do
+        before do
+          visit_select_saved_departures_page(another_departure)
+          find('.fa.fa-chevron-down').click
+          click_link '編集'
+        end
+
+        context '正常な値を入力する' do
+          it '保存済み出発地の更新に成功し、一覧が表示される' do
+            result = for_result.attributes.compact.symbolize_keys
+            geocode = instance_double(Api::GeocodeService, call: result)
+            allow(Api::GeocodeService).to receive(:new).and_return(geocode)
+
+            fill_in '名称', with: for_result.name
+            fill_in '住所', with: for_result.address
+            click_button '更新'
+            expect(page).to have_content '出発地を更新しました'
+            expect(page).to have_content result[:name]
+            expect(page).to have_content result[:address]
+          end
+        end
+
+        describe '#name' do
+          context '名称を空白にする' do
+            it '保存済み出発地の更新に失敗し、編集状態に戻る'do
+              fill_in '名称', with: ''
+              click_button '更新'
+              expect(page).to have_content '名称を入力してください'
+              expect(page).to have_content '入力情報に誤りがあります'
+            end
+          end
+
+          context '名称を50文字入力する' do
+            it '保存済み出発地の更新に成功し、一覧が表示される' do
+              result = for_result.attributes.compact.symbolize_keys
+              result[:name] = 'a' * 50
+              geocode = instance_double(Api::GeocodeService, call: result)
+              allow(Api::GeocodeService).to receive(:new).and_return(geocode)
+
+              fill_in '名称', with: result[:name]
+              click_button '更新'
+              expect(page).to have_content '出発地を更新しました'
+              expect(page).to have_content result[:name]
+            end
+          end
+
+          context '名称を51文字入力する' do
+            it '保存済み出発地の更新に失敗し、編集状態に戻る' do
+              fill_in '名称', with: 'a' * 51
+              click_button '更新'
+              expect(page).to have_content '名称は50文字以内で入力してください'
+              expect(page).to have_content '入力情報に誤りがあります'
+            end
+          end
+        end
+
+        describe '#address' do
+          context '住所を空白にする' do
+            it '保存済み出発地の更新に失敗し、編集状態に戻る' do
+              fill_in '住所', with: ''
+              click_button '更新'
+              expect(page).to have_content '住所を入力してください'
+              expect(page).to have_content '入力情報に誤りがあります'
+            end
+          end
+
+          context '住所を255文字入力する' do
+            it '保存済み出発地の更新に成功し、一覧が表示される' do
+              # 実際に存在する255文字の住所を打ち込んだという仮定
+              result = for_result.attributes.compact.symbolize_keys
+              geocode = instance_double(Api::GeocodeService, call: result)
+              allow(Api::GeocodeService).to receive(:new).and_return(geocode)
+
+              fill_in '住所', with: 'a' * 255
+              click_button '更新'
+              expect(page).to have_content '出発地を更新しました'
+              expect(page).to have_content result[:address]
+            end
+          end
+
+          context '住所を256文字入力する' do
+            it '保存済み出発地の更新に失敗し、編集状態に戻る' do
+              fill_in '住所', with: 'a' * 256
+              click_button '更新'
+              expect(page).to have_content '住所は255文字以内で入力してください'
+              expect(page).to have_content '入力情報に誤りがあります'
+            end
+          end
+        end
+      end
+
+      describe 'Form' do
+        before do
+          visit_select_saved_departures_page(departure)
+          find('.fa.fa-chevron-down').click
+          click_link '編集'
+        end
+
+        context '編集フォームを表示させる' do
+          it 'フォームが表示され、初期値が入っている' do
+            expect(page).to have_field '名称', with: departure.name
+            expect(page).to have_field '住所', with: departure.address
+          end
+        end
+
+        context '名称を入力し、更新に失敗する' do
+          it 'フォームから入力した名称が消えていない' do
+            name = 'a' * 51
+            fill_in '名称', with: name
+            click_button '更新'
+            expect(page).to have_field '名称', with: name
+          end
+        end
+
+        context '住所を入力し、更新に失敗する' do
+          it 'フォームから入力した住所が消えていない' do
+            address = 'a' * 256
+            fill_in '住所', with: address
+            click_button '更新'
+            expect(page).to have_field '住所', with: address
+          end
+        end
+      end
+
+      describe 'Cancel' do
+        before do
+          visit_select_saved_departures_page(departure)
+          find('.fa.fa-chevron-down').click
+          click_link '編集'
+        end
+
+        context '編集フォームを表示させた後、取り消しボタンを押す' do
+          it '出発地が適切に表示される' do
+            click_link '取消'
+            expect(page).to have_content departure.name
+          end
+        end
+
+        context '編集フォームを表示させ、内容を変えた後、取り消しボタンを押す' do
+          it '更新されていない出発地が適切に表示される' do
+            fill_in '名称', with: another_departure.name
+            fill_in '住所', with: another_departure.address
+            click_link '取消'
+            expect(page).to have_content departure.name
+            expect(page).to have_content departure.address
+            expect(page).not_to have_content another_departure.name
+            expect(page).not_to have_content another_departure.address
+          end
+        end
+      end
+    end
+
     describe 'Start' do
       before { visit_select_saved_departures_page(departure) }
 
