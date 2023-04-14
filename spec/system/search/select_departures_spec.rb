@@ -70,7 +70,8 @@ RSpec.describe "Search::SelectDepartures", type: :system do
 
     describe 'Edit' do
       let(:another_departure) { create(:departure, :another, is_saved: true) }
-      let(:for_result) { build(:location, :for_departure) }
+      let(:for_geocode_result) { build(:location, :for_departure) }
+      let(:geocode_result) { for_geocode_result.attributes.compact.symbolize_keys }
 
       describe 'Validations' do
         before do
@@ -81,16 +82,13 @@ RSpec.describe "Search::SelectDepartures", type: :system do
 
         context '正常な値を入力する' do
           it '保存済み出発地の更新に成功し、一覧が表示される' do
-            result = for_result.attributes.compact.symbolize_keys
-            geocode = instance_double(Api::GeocodeService, call: result)
-            allow(Api::GeocodeService).to receive(:new).and_return(geocode)
-
-            fill_in '名称', with: for_result.name
-            fill_in '住所', with: for_result.address
+            geocode_mock(geocode_result)
+            fill_in '名称', with: for_geocode_result.name
+            fill_in '住所', with: for_geocode_result.address
             click_button '更新'
             expect(page).to have_content '出発地を更新しました'
-            expect(page).to have_content result[:name]
-            expect(page).to have_content result[:address]
+            expect(page).to have_content geocode_result[:name]
+            expect(page).to have_content geocode_result[:address]
           end
         end
 
@@ -106,15 +104,12 @@ RSpec.describe "Search::SelectDepartures", type: :system do
 
           context '名称を50文字入力する' do
             it '保存済み出発地の更新に成功し、一覧が表示される' do
-              result = for_result.attributes.compact.symbolize_keys
-              result[:name] = 'a' * 50
-              geocode = instance_double(Api::GeocodeService, call: result)
-              allow(Api::GeocodeService).to receive(:new).and_return(geocode)
-
-              fill_in '名称', with: result[:name]
+              geocode_result[:name] = 'a' * 50
+              geocode_mock(geocode_result)
+              fill_in '名称', with: geocode_result[:name]
               click_button '更新'
               expect(page).to have_content '出発地を更新しました'
-              expect(page).to have_content result[:name]
+              expect(page).to have_content geocode_result[:name]
             end
           end
 
@@ -141,14 +136,11 @@ RSpec.describe "Search::SelectDepartures", type: :system do
           context '住所を255文字入力する' do
             it '保存済み出発地の更新に成功し、一覧が表示される' do
               # 実際に存在する255文字の住所を打ち込んだという仮定
-              result = for_result.attributes.compact.symbolize_keys
-              geocode = instance_double(Api::GeocodeService, call: result)
-              allow(Api::GeocodeService).to receive(:new).and_return(geocode)
-
+              geocode_mock(geocode_result)
               fill_in '住所', with: 'a' * 255
               click_button '更新'
               expect(page).to have_content '出発地を更新しました'
-              expect(page).to have_content result[:address]
+              expect(page).to have_content geocode_result[:address]
             end
           end
 
@@ -219,6 +211,22 @@ RSpec.describe "Search::SelectDepartures", type: :system do
             expect(page).to have_content departure.address
             expect(page).not_to have_content another_departure.name
             expect(page).not_to have_content another_departure.address
+          end
+        end
+      end
+
+      describe 'Failure' do
+        context '入力された住所が存在しないため、取得に失敗する' do
+          it 'エラーメッセージが表示され、編集状態に戻る' do
+            geocode_mock(false)
+            visit_select_saved_departures_page(departure)
+            find('.fa.fa-chevron-down').click
+            click_link '編集'
+            address = 'failure'
+            fill_in '住所', with: address
+            click_button '更新'
+            expect(page).to have_content '位置情報の取得に失敗しました'
+            expect(page).to have_field '住所', with: address
           end
         end
       end

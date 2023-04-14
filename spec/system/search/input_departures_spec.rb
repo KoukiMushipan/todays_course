@@ -38,49 +38,44 @@ RSpec.describe "Search::InputDepartures", type: :system do
   end
 
   describe 'Validations' do
-    let(:for_result) { build(:location, :for_departure) }
+    let(:for_geocode_result) { build(:location, :for_departure) }
+    let(:geocode_result) { for_geocode_result.attributes.compact.symbolize_keys }
 
     before { visit_new_departure_page(user) }
 
     context '正常な値を入力する（保存する）' do
       it '出発地の作成に成功し、目的地の条件入力ページに遷移する' do
-        result = for_result.attributes.compact.symbolize_keys
-        result[:is_saved] = true
-        geocode = instance_double(Api::GeocodeService, call: result)
-        allow(Api::GeocodeService).to receive(:new).and_return(geocode)
-
-        fill_in '名称', with: for_result.name
-        fill_in '住所', with: for_result.address
+        geocode_result[:is_saved] = true
+        geocode_mock(geocode_result)
+        fill_in '名称', with: for_geocode_result.name
+        fill_in '住所', with: for_geocode_result.address
         check '保存する'
         click_button '決定'
         sleep(0.1)
         expect(current_path).to eq new_search_path
         expect(page).to have_content '出発地を保存しました'
-        expect(page).to have_content result[:name]
-        expect(page).to have_content result[:address]
+        expect(page).to have_content geocode_result[:name]
+        expect(page).to have_content geocode_result[:address]
       end
     end
 
     context '正常な値を入力する（保存しない）' do
       it '出発地の取得に成功し、目的地の条件入力ページに遷移する' do
-        result = for_result.attributes.compact.symbolize_keys
-        geocode = instance_double(Api::GeocodeService, call: result)
-        allow(Api::GeocodeService).to receive(:new).and_return(geocode)
-
-        fill_in '名称', with: for_result.name
-        fill_in '住所', with: for_result.address
+        geocode_mock(geocode_result)
+        fill_in '名称', with: for_geocode_result.name
+        fill_in '住所', with: for_geocode_result.address
         uncheck '保存する'
         click_button '決定'
         sleep(0.1)
         expect(current_path).to eq new_search_path
         expect(page).not_to have_content '出発地を保存しました'
-        expect(page).to have_content result[:name]
-        expect(page).to have_content result[:address]
+        expect(page).to have_content geocode_result[:name]
+        expect(page).to have_content geocode_result[:address]
       end
     end
 
     describe '#name' do
-      before { fill_in '住所', with: for_result.address }
+      before { fill_in '住所', with: for_geocode_result.address }
 
       context '名称を空白にする' do
         it '出発地の取得に失敗し、出発地入力状態に戻る'do
@@ -94,16 +89,14 @@ RSpec.describe "Search::InputDepartures", type: :system do
 
       context '名称を50文字入力する' do
         it '出発地の取得に成功し、目的地の条件入力ページに遷移する' do
-          result = for_result.attributes.compact.symbolize_keys
-          result[:name] = 'a' * 50
-          geocode = instance_double(Api::GeocodeService, call: result)
-          allow(Api::GeocodeService).to receive(:new).and_return(geocode)
+          geocode_result[:name] = 'a' * 50
+          geocode_mock(geocode_result)
 
-          fill_in '名称', with: result[:name]
+          fill_in '名称', with: geocode_result[:name]
           click_button '決定'
           sleep(0.1)
           expect(current_path).to eq new_search_path
-          expect(page).to have_content result[:name]
+          expect(page).to have_content geocode_result[:name]
         end
       end
 
@@ -119,7 +112,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
     end
 
     describe '#address' do
-      before { fill_in '名称', with: for_result.name }
+      before { fill_in '名称', with: for_geocode_result.name }
 
       context '住所を空白にする' do
         it '出発地の取得に失敗し、出発地入力状態に戻る' do
@@ -134,15 +127,12 @@ RSpec.describe "Search::InputDepartures", type: :system do
       context '住所を255文字入力する' do
         it '出発地の取得に成功し、目的地の条件入力ページに遷移する' do
           # 実際に存在する255文字の住所を打ち込んだという仮定
-          result = for_result.attributes.compact.symbolize_keys
-          geocode = instance_double(Api::GeocodeService, call: result)
-          allow(Api::GeocodeService).to receive(:new).and_return(geocode)
-
+          geocode_mock(geocode_result)
           fill_in '住所', with: 'a' * 255
           click_button '決定'
           sleep(0.1)
           expect(current_path).to eq new_search_path
-          expect(page).to have_content result[:address]
+          expect(page).to have_content geocode_result[:address]
         end
       end
 
@@ -185,8 +175,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
   describe 'Failure' do
     context '入力された住所が存在しないため、取得に失敗する' do
       it 'エラーメッセージが表示され、編集状態に戻る' do
-        geocode = instance_double(Api::GeocodeService, call: false)
-        allow(Api::GeocodeService).to receive(:new).and_return(geocode)
+        geocode_mock(false)
 
         visit_new_departure_page(user)
         fill_in '名称', with: departure_form.name

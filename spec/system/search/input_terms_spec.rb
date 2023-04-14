@@ -42,19 +42,18 @@ RSpec.describe "Search::InputTerms", type: :system do
     end
 
     context '出発地を保存せず、条件入力ページに遷移する' do
-      let(:for_result) { build(:location, :for_departure) }
-      let(:result) { for_result.attributes.compact.symbolize_keys }
+      let(:for_geocode_result) { build(:location, :for_departure) }
+      let(:geocode_result) { for_geocode_result.attributes.compact.symbolize_keys }
 
       before do
-        result[:is_saved] = false
-        geocode = instance_double(Api::GeocodeService, call: result)
-        allow(Api::GeocodeService).to receive(:new).and_return(geocode)
+        geocode_result[:is_saved] = false
+        geocode_mock(geocode_result)
 
         login(user)
         sleep(0.1)
         visit new_departure_path
-        fill_in '名称', with: for_result.name
-        fill_in '住所', with: for_result.address
+        fill_in '名称', with: for_geocode_result.name
+        fill_in '住所', with: for_geocode_result.address
         uncheck '保存する'
         click_button '決定'
         sleep(0.1)
@@ -62,8 +61,8 @@ RSpec.describe "Search::InputTerms", type: :system do
 
       it '情報が正しく表示されている' do
         expect(current_path).to eq new_search_path
-        expect(page).to have_content result[:name]
-        expect(page).to have_content result[:address]
+        expect(page).to have_content geocode_result[:name]
+        expect(page).to have_content geocode_result[:address]
         expect(page).to have_content '未保存'
       end
 
@@ -74,11 +73,10 @@ RSpec.describe "Search::InputTerms", type: :system do
   end
 
   describe 'Validations' do
-    let(:result) { Settings.nearby_result.radius_1000.to_hash }
+    let(:nearby_result) { Settings.nearby_result.radius_1000.to_hash }
 
     before do
-      nearby = instance_double(Api::NearbyService, call: [result])
-      allow(Api::NearbyService).to receive(:new).and_return(nearby)
+      nearby_mock(nearby_result)
       visit_input_terms_page(departure)
     end
 
@@ -89,8 +87,8 @@ RSpec.describe "Search::InputTerms", type: :system do
         click_button '検索'
         sleep(0.1)
         expect(current_path).to eq searches_path
-        expect(page).to have_content result[:variable][:name]
-        expect(page).to have_content result[:fixed][:address]
+        expect(page).to have_content nearby_result[:variable][:name]
+        expect(page).to have_content nearby_result[:fixed][:address]
       end
     end
 
@@ -122,8 +120,8 @@ RSpec.describe "Search::InputTerms", type: :system do
         click_button '検索'
         sleep(0.1)
         expect(current_path).to eq searches_path
-        expect(page).to have_content result[:variable][:name]
-        expect(page).to have_content result[:fixed][:address]
+        expect(page).to have_content nearby_result[:variable][:name]
+        expect(page).to have_content nearby_result[:fixed][:address]
         end
       end
 
@@ -143,8 +141,8 @@ RSpec.describe "Search::InputTerms", type: :system do
           click_button '検索'
           sleep(0.1)
           expect(current_path).to eq searches_path
-          expect(page).to have_content result[:variable][:name]
-          expect(page).to have_content result[:fixed][:address]
+          expect(page).to have_content nearby_result[:variable][:name]
+          expect(page).to have_content nearby_result[:fixed][:address]
         end
       end
 
@@ -188,8 +186,7 @@ RSpec.describe "Search::InputTerms", type: :system do
   describe 'Failure' do
     context '条件に合致する目的地が存在しないため、検索に失敗する' do
       it 'エラーメッセージが表示され、条件入力ページに戻る' do
-        nearby = instance_double(Api::NearbyService, call: false)
-        allow(Api::NearbyService).to receive(:new).and_return(nearby)
+        nearby_mock(false)
         visit_input_terms_page(departure)
 
         fill_in '距離(1000m~5000m)', with: 1000
