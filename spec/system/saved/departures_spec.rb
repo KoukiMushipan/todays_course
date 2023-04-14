@@ -4,14 +4,6 @@ RSpec.describe "Saved::Departures", type: :system do
   let(:departure) { create(:departure, is_saved: true) }
   let(:user) { create(:user) }
 
-  def visit_saved_departures_page(departure)
-    login(departure.user)
-    sleep(0.1)
-    visit departures_path
-    sleep(0.1)
-    find('label[for=left]').click
-  end
-
   describe 'Page' do
     context '保存済み出発地のページにアクセスする' do
       it '情報が正しく表示されている' do
@@ -71,13 +63,6 @@ RSpec.describe "Saved::Departures", type: :system do
         expect(page).not_to have_content not_saved_departure.name
       end
     end
-  end
-
-  def visit_edit_departure_page(departure)
-    visit_saved_departures_page(departure)
-    find('.fa.fa-chevron-down').click
-    click_link('編集')
-    sleep(0.1)
   end
 
   describe 'Edit' do

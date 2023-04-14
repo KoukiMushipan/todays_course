@@ -4,11 +4,6 @@ RSpec.describe "Profile::Histories", type: :system do
   let(:history) { create(:history, :commented) }
   let(:user) { create(:user) }
 
-  def visit_histories_page(history)
-    login(history.user)
-    sleep(0.2)
-  end
-
   describe 'Page' do
     context '履歴のページにアクセスする' do
       it '情報が正しく表示されている' do

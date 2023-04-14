@@ -4,12 +4,6 @@ RSpec.describe "Saved::Destinations", type: :system do
   let(:destination) { create(:destination, :published_comment) }
   let(:user) { create(:user) }
 
-  def visit_saved_destinations_page(destination)
-    login(destination.user)
-    sleep(0.1)
-    visit departures_path
-  end
-
   describe 'Page' do
     context '保存済み目的地のページにアクセスする' do
       it '情報が正しく表示されている' do

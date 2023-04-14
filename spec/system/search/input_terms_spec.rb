@@ -5,18 +5,6 @@ RSpec.describe "Search::InputTerms", type: :system do
   let(:departure_form) { build(:departure_form) }
   let(:user) { create(:user) }
 
-  def visit_new_departure_page(departure)
-    login(departure.user)
-    sleep(0.1)
-    visit new_departure_path
-  end
-
-  def visit_input_terms_page(departure)
-    visit_new_departure_page(departure)
-    find('.fa.fa-folder-open.text-2xl').click
-    click_link '出発'
-  end
-
   describe 'Page' do
     context '条件を入力するページにアクセスする' do
       it '情報が正しく表示されている' do

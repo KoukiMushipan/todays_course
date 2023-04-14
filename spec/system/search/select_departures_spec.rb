@@ -7,22 +7,6 @@ RSpec.describe "Search::SelectDepartures", type: :system do
   let(:user) { create(:user) }
   let(:other) { create(:user) }
 
-    def visit_new_departure_page(departure)
-      login(departure.user)
-      sleep(0.1)
-      visit new_departure_path
-    end
-
-    def visit_select_saved_departures_page(departure)
-      visit_new_departure_page(departure)
-      find('.fa.fa-folder-open.text-2xl').click
-    end
-
-    def visit_select_history_departure_page(departure)
-      visit_new_departure_page(departure)
-      find('.fa.fa-history.text-2xl').click
-    end
-
   describe 'Page' do
     context '出発地を入力するページにアクセスする' do
       it '情報が正しく表示されている' do

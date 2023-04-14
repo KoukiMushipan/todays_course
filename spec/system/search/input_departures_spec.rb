@@ -5,12 +5,6 @@ RSpec.describe "Search::InputDepartures", type: :system do
   let(:result_address) { build(:departure_form).address }
   let(:user) { create(:user) }
 
-  def visit_new_departure_page
-    login(user)
-    sleep(0.1)
-    visit new_departure_path
-  end
-
   describe 'Page' do
     context '出発地を入力するページにアクセスする' do
       it '情報が正しく表示されている' do
@@ -31,7 +25,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
   end
 
   describe 'Contents' do
-    before { visit_new_departure_page }
+    before { visit_new_departure_page(user) }
 
     context '出発地を入力するページにアクセスする' do
       it 'リンク関連が正しく表示されている' do
@@ -46,7 +40,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
   describe 'Validations' do
     let(:for_result) { build(:location, :for_departure) }
 
-    before { visit_new_departure_page }
+    before { visit_new_departure_page(user) }
 
     context '正常な値を入力する（保存する）' do
       it '出発地の作成に成功し、目的地の条件入力ページに遷移する' do
@@ -165,7 +159,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
   end
 
   describe 'Form' do
-    before { visit_new_departure_page }
+    before { visit_new_departure_page(user) }
 
     context '名称を入力し、取得に失敗する' do
       it 'フォームから入力した名称が消えていない' do
@@ -194,7 +188,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
         geocode = instance_double(Api::GeocodeService, call: false)
         allow(Api::GeocodeService).to receive(:new).and_return(geocode)
 
-        visit_new_departure_page
+        visit_new_departure_page(user)
         fill_in '名称', with: departure_form.name
         fill_in '住所', with: departure_form.address
         click_button '決定'
