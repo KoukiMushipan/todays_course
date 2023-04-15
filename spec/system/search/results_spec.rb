@@ -179,30 +179,60 @@ RSpec.describe "Search::Results", type: :system do
 
   describe 'Other' do
     context 'Contents' do
-      context '検索結果と公開コメントで重複した目的地がある' do
+      context '検索結果と公開コメントでplace_idが重複した目的地がある' do
         it 'コメントの枠で表示されている' do
+          nearby_mock(nearby_result)
+          location = create(:location, :for_departure, place_id: nearby_result[:fixed][:place_id])
+          published_comment_destination = create(:destination, :published_comment, location:)
+          visit_search_results_page(departure)
+          expect(page).not_to have_content nearby_result[:variable][:name]
+          find('.fa.fa-commenting.text-2xl').click
+          expect(page).to have_content published_comment_destination.name
         end
       end
 
-      context '公開コメントと保存済みで重複した目的地がある' do
+      context '公開コメントと保存済みでplace_idが重複した目的地がある' do
         it '保存済みの枠で表示されている' do
+          nearby_mock(nearby_result)
+          published_comment_destination = create(:destination, :published_comment)
+          location = create(:location, :for_departure, place_id: published_comment_destination.place_id)
+          saved_destination = create(:destination, is_saved: true, user:, departure:, location:)
+          visit_search_results_page(saved_destination.departure)
+          find('.fa.fa-commenting.text-2xl').click
+          expect(page).not_to have_content published_comment_destination.name
+          find('.fa.fa-folder-open.text-2xl').click
+          expect(page).to have_content saved_destination.name
         end
       end
 
-      context '検索結果と保存済みで重複した目的地がある' do
+      context '検索結果と保存済みでplace_idが重複した目的地がある' do
         it '保存済みの枠で表示されている' do
+          nearby_mock(nearby_result)
+          location = create(:location, :for_departure, place_id: nearby_result[:fixed][:place_id])
+          saved_destination = create(:destination, is_saved: true, user:, departure:, location:)
+          visit_search_results_page(saved_destination.departure)
+          expect(page).not_to have_content nearby_result[:variable][:name]
+          find('.fa.fa-folder-open.text-2xl').click
+          expect(page).to have_content saved_destination.name
         end
       end
 
-      context '検索結果と公開コメントと保存済みで重複した目的地がある' do
+      context '検索結果と公開コメントと保存済みでplace_idが重複した目的地がある' do
         it '保存済みの枠で表示されている' do
+          nearby_mock(nearby_result)
+          location = create(:location, :for_departure, place_id: nearby_result[:fixed][:place_id])
+          published_comment_destination = create(:destination, :published_comment, location:)
+          saved_destination = create(:destination, is_saved: true, user:, departure:, location:)
+          visit_search_results_page(saved_destination.departure)
+          expect(page).not_to have_content nearby_result[:variable][:name]
+          find('.fa.fa-commenting.text-2xl').click
+          expect(page).not_to have_content published_comment_destination.name
+          find('.fa.fa-folder-open.text-2xl').click
+          expect(page).to have_content saved_destination.name
         end
       end
 
-      context '各項目20件以上の目的地が存在する状態で検索結果ページにアクセスする' do
-        it '20件ずつ表示される' do
-        end
-      end
+      # context '各項目20件以上の目的地が存在する状態で検索結果ページにアクセスする' do
     end
   end
 end
