@@ -46,4 +46,11 @@ module VisitMacros
     find('.fa.fa-folder-open.text-2xl').click
     click_link '出発'
   end
+
+  def visit_search_results_page(departure)
+    visit_input_terms_page(departure)
+    fill_in '距離(1000m~5000m)', with: '5000'
+    click_button '検索'
+    sleep(0.1)
+  end
 end
