@@ -60,7 +60,7 @@ RSpec.describe "Search::Results", type: :system do
           expect(page).to have_content published_comment_destination.comment
           expect(page).to have_css '.fa.fa-eye'
           expect(page).not_to have_css '.fa.fa-eye-slash'
-          expect(page).to have_css '.fa.fa-commenting'
+          expect(find('#center-content')).to have_css '.fa.fa-commenting'
         end
 
         it 'リンク関連が正しく表示されている' do
@@ -81,7 +81,7 @@ RSpec.describe "Search::Results", type: :system do
           expect(page).to have_content another_published_comment_destination.comment
           expect(page).to have_css '.fa.fa-eye'
           expect(page).not_to have_css '.fa.fa-eye-slash'
-          expect(page).to have_css '.fa.fa-commenting'
+          expect(find('#center-content')).to have_css '.fa.fa-commenting'
         end
       end
 
@@ -93,6 +93,114 @@ RSpec.describe "Search::Results", type: :system do
           visit_search_results_page(departure)
           find('.fa.fa-commenting.text-2xl').click
           expect(page).not_to have_content another_not_published_comment_destination.name
+        end
+      end
+    end
+  end
+
+  describe 'Saved' do
+    context 'Contents' do
+      let(:destination) { create(:destination, is_saved: true, user:, departure:) }
+      let(:published_comment_destination) { create(:destination, :published_comment, departure:, user:) }
+      let(:not_published_comment_destination) { create(:destination, :not_published_comment, departure:, user:) }
+
+      before { nearby_mock(nearby_result) }
+
+      context '検索結果ページにアクセスする' do
+        context '保存済みコメントをしていない目的地が存在する' do
+          it 'コメントと関連するアイコンが表示されない' do
+            visit_search_results_page(destination.departure)
+            find('.fa.fa-folder-open.text-2xl').click
+            expect(page).to have_content I18n.l(destination.created_at, format: :short)
+            expect(page).to have_content destination.name
+            expect(page).to have_content destination.address
+            expect(page).not_to have_css '.fa.fa-eye'
+            expect(page).not_to have_css '.fa.fa-eye-slash'
+            expect(find('#right-content')).not_to have_css '.fa.fa-commenting'
+          end
+        end
+
+        context '自身の保存済み公開コメントの目的地が存在する' do
+          it 'コメント・コメントアイコン・公開アイコンが表示される' do
+            visit_search_results_page(published_comment_destination.departure)
+            find('.fa.fa-folder-open.text-2xl').click
+            expect(page).to have_content I18n.l(published_comment_destination.created_at, format: :short)
+            expect(page).to have_content published_comment_destination.name
+            expect(page).to have_content published_comment_destination.address
+            expect(page).to have_content published_comment_destination.comment
+            expect(page).to have_css '.fa.fa-eye'
+            expect(page).not_to have_css '.fa.fa-eye-slash'
+            expect(find('#right-content')).to have_css '.fa.fa-commenting'
+          end
+        end
+
+        context '自身の保存済み非公開コメントの目的地が存在する' do
+          it 'コメント・コメントアイコン・非公開アイコンが表示される' do
+            visit_search_results_page(not_published_comment_destination.departure)
+            find('.fa.fa-folder-open.text-2xl').click
+            expect(page).to have_content I18n.l(not_published_comment_destination.created_at, format: :short)
+            expect(page).to have_content not_published_comment_destination.name
+            expect(page).to have_content not_published_comment_destination.address
+            expect(page).to have_content not_published_comment_destination.comment
+            expect(page).not_to have_css '.fa.fa-eye'
+            expect(page).to have_css '.fa.fa-eye-slash'
+            expect(find('#right-content')).to have_css '.fa.fa-commenting'
+          end
+        end
+
+        it 'リンク関連が正しく表示されている' do
+          visit_search_results_page(destination.departure)
+          find('.fa.fa-folder-open.text-2xl').click
+          expect(page).to have_link '決定', href: new_history_path(destination: destination.uuid)
+        end
+      end
+
+      context '他ユーザーの保存済み目的地が存在する状態で検索結果ページにアクセスする' do
+        it '該当目的地が表示されない' do
+          # saved_own = destination
+          # saved_other = create(:destination, user: other, is_saved: true)
+          # visit_saved_destinations_page(saved_own)
+          # expect(page).to have_content saved_own.name
+          # expect(page).not_to have_content saved_other.name
+        end
+      end
+
+      context '保存済み・未保存目的地が存在する状態で検索結果ページにアクセスする' do
+        it '保存済み目的地のみ表示される' do
+          # saved_destination = destination
+          # not_saved_destination = create(:destination, user:, is_saved: false)
+          # visit_saved_destinations_page(saved_destination)
+          # expect(page).to have_content saved_destination.name
+          # expect(page).not_to have_content not_saved_destination.name
+        end
+      end
+    end
+  end
+
+  describe 'Other' do
+    context 'Contents' do
+      context '検索結果と公開コメントで重複した目的地がある' do
+        it 'コメントの枠で表示されている' do
+        end
+      end
+
+      context '公開コメントと保存済みで重複した目的地がある' do
+        it '保存済みの枠で表示されている' do
+        end
+      end
+
+      context '検索結果と保存済みで重複した目的地がある' do
+        it '保存済みの枠で表示されている' do
+        end
+      end
+
+      context '検索結果と公開コメントと保存済みで重複した目的地がある' do
+        it '保存済みの枠で表示されている' do
+        end
+      end
+
+      context '各項目20件以上の目的地が存在する状態で検索結果ページにアクセスする' do
+        it '20件ずつ表示される' do
         end
       end
     end
