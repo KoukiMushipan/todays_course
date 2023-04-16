@@ -5,7 +5,7 @@ AllCops:
     - "config/**/*"
     - 'db/**/*'
     - "lib/**/*"
-    - 'spec/**/*'
+    # - 'spec/**/*'
     - 'vendor/**/*'
     - 'app/helpers/page_helper.rb'
 
@@ -44,3 +44,4 @@ Rails/I18nLocaleTexts:
 
 require:
     - rubocop-rails
+    - rubocop-rspec
