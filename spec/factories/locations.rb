@@ -19,8 +19,17 @@ FactoryBot.define do
     trait :random do
       latitude { Faker::Address.latitude }
       longitude { Faker::Address.longitude }
-      address { Faker::Address.state + Faker::Address.city + Faker::Address.street_name + "#{rand(1..9)}-#{rand(1..99)}" }
+      address { random_address }
       place_id { Faker::Alphanumeric.alphanumeric(number: 27) }
     end
   end
+end
+
+def random_address
+  state = Faker::Address.state
+  city = Faker::Address.city
+  street_name = Faker::Address.street_name
+  number = "#{rand(1..9)}-#{rand(1..99)}"
+
+  state + city + street_name + number
 end
