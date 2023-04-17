@@ -42,6 +42,18 @@ Style/ParallelAssignment:
 Rails/I18nLocaleTexts:
   Enabled: false
 
+# 1検証あたりのexpectの回数
+RSpec/MultipleExpectations:
+  Enabled: false
+
+# グループのネスト上限
+RSpec/NestedGroups:
+  Max: 4
+
+# contextの接頭辞、接尾辞について いずれは設定してもいいかも
+RSpec/ContextWording:
+  Enabled: false
+
 require:
     - rubocop-rails
     - rubocop-rspec
