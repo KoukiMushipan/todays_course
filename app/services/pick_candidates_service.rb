@@ -65,7 +65,7 @@ class PickCandidatesService
 
   def remove_duplicates(pick_candidates)
     place_id_arr = []
-    pick_candidates.each do |_k, candidates|
+    pick_candidates.reverse_each do |_k, candidates|
       candidates.delete_if { |candidate| place_id_arr.include?(candidate[:fixed][:place_id]) }
       place_id_arr += candidates.map { |candidate| candidate[:fixed][:place_id] }
     end

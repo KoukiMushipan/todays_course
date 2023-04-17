@@ -1,6 +1,6 @@
 <% if comment.instance_of?(Array) %>
   <div class="flex justify-center items-center">
-    <p>
+    <p class="mr-3 sm:mr-4">
       <% if is_published_comment.nil? || is_published_comment %>
         <%= fa_icon 'eye' %>
       <% else %>
@@ -8,11 +8,11 @@
       <% end %>
       <%= fa_icon 'commenting' %>
     </p>
-    <div>
+    <div class="text-left ml-3 sm:ml-4">
       <% comment.each do |c| %>
-        <p>
-          <%= "・#{c}" %>
-        </p>
+        <ul class="list-disc">
+          <li><%= c %></li>
+        </ul>
       <% end %>
     </div>
   </div>
@@ -23,6 +23,7 @@
     <% else %>
       <%= fa_icon 'eye-slash' %>
     <% end %>
+    <%= fa_icon 'commenting' %>
     <%= comment %>
   </p>
 <% end %>

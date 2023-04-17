@@ -16,7 +16,7 @@ RSpec.describe "Profile::Settings", type: :system do
       end
     end
 
-    describe 'ユーザーのプロフィールを編集' do
+    describe 'Edit' do
       before do
         find('label[for=right]').click
         click_link '編集'

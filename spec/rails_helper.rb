@@ -63,4 +63,6 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include LoginMacros
+  config.include VisitMacros
+  config.include MockMacros
 end

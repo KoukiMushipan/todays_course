@@ -33,4 +33,7 @@
   </div>
 </div>
 
-<%= javascript_include_tag Settings.google.map_url + 'callback=getCurrentLocation', defer: 'defer' %>
+<% # 現在地取得のテストは一旦保留するため、読み込まない %>
+<% unless Rails.env.test? %>
+  <%= javascript_include_tag Settings.google.map_url + 'callback=getCurrentLocation', defer: 'defer' %>
+<% end %>

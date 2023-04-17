@@ -14,6 +14,7 @@ FactoryBot.define do
       moving_distance { rand(2001..10000) }
       start_time { Time.zone.now.ago(3.hour) }
       end_time { Time.zone.now.ago(1.hour) }
+      association :destination, :another
     end
   end
 end

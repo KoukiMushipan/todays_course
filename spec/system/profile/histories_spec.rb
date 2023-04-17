@@ -4,11 +4,6 @@ RSpec.describe "Profile::Histories", type: :system do
   let(:history) { create(:history, :commented) }
   let(:user) { create(:user) }
 
-  def visit_histories_page(history)
-    login(history.user)
-    sleep(0.2)
-  end
-
   describe 'Page' do
     context '履歴のページにアクセスする' do
       it '情報が正しく表示されている' do
@@ -41,7 +36,7 @@ RSpec.describe "Profile::Histories", type: :system do
         expect(page).to have_content "#{history.moving_distance}m"
         expect(page).to have_content I18n.l(history.start_time, format: :short)
         expect(page).to have_content "#{history.decorate.moving_time}分"
-        expect(page).to have_content history.destination.departure.name
+        expect(page).to have_content history.departure.name
       end
 
       it 'リンク関連が正しく表示されている' do
@@ -51,13 +46,15 @@ RSpec.describe "Profile::Histories", type: :system do
         expect(page).to have_link '削除', href: history_path(history.uuid, route: 'profile_page')
         click_link '編集'
         expect(page).to have_link '取消', href: cancel_history_path(history.uuid, route: 'profile_page')
+        expect(page).to have_button '更新'
         expect(find('form')['action']).to be_include history_path(history.uuid, route: 'profile_page')
+        expect(find('input[name="_method"]', visible: false)['value']).to eq 'patch'
       end
     end
 
     context '複数のユーザーの履歴を作成する' do
       it '自分の履歴のみ表示される' do
-        saved_own = create(:history, user:)
+        saved_own = history
         saved_other = create(:history, user: other)
         visit_histories_page(saved_own)
         expect(page).to have_content saved_own.destination.name

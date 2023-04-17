@@ -1,6 +1,6 @@
 <% if flash? %>
   <% flash.each do |type, messages| %>
-    <% if messages.class == Array %>
+    <% if messages.instance_of?(Array) %>
       <% messages.each do |message| %>
         <div  data-controller="toast"
               data-toast-type-value=<%= type %>

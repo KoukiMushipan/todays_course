@@ -71,6 +71,9 @@ group :development do
 
   # リントチェック拡張
   gem 'rubocop-rails', require: false
+
+  # rspecリントチェック
+  gem 'rubocop-rspec', require: false
 end
 
 group :test do
