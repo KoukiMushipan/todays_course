@@ -5,7 +5,6 @@ AllCops:
     - "config/**/*"
     - 'db/**/*'
     - "lib/**/*"
-    # - 'spec/**/*'
     - 'vendor/**/*'
     - 'app/helpers/page_helper.rb'
 

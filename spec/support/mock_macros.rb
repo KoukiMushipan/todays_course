@@ -6,9 +6,7 @@ module MockMacros
 
   def nearby_mock(result)
     nearby =
-      if result.instance_of?(Array)
-        instance_double(Api::NearbyService, call: result)
-      elsif result.instance_of?(Hash)
+      if result.instance_of?(Hash)
         instance_double(Api::NearbyService, call: [result])
       else
         instance_double(Api::NearbyService, call: result)
