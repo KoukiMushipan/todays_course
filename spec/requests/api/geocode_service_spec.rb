@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Api::GeocodeService', type: :request do
+RSpec.describe 'Api::GeocodeService' do
   let(:departure_form) { build(:departure_form) }
   let(:call_success) do
     result = Settings.geocode.result.to_hash
@@ -67,7 +67,7 @@ RSpec.describe 'Api::GeocodeService', type: :request do
       end
     end
 
-    context "DepartureFormにname: nilを渡し、送信する" do
+    context 'DepartureFormにname: nilを渡し、送信する' do
       it "name: ''が反映されたものが返却される", vcr: { cassette_name: 'geocode/success' } do
         save_departure_form = build(:departure_form, name: nil)
         result = Api::GeocodeService.new(save_departure_form).call
