@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe "Profile::Settings", type: :system do
+RSpec.describe 'Profile::Settings' do
   let(:user) { create(:user) }
+
   describe 'ユーザー設定' do
     before { login(user) }
 
@@ -12,7 +13,7 @@ RSpec.describe "Profile::Settings", type: :system do
           click_link 'ログアウト'
         end
         expect(page).to have_content 'ログアウトしました'
-        expect(current_path).to eq login_path
+        expect(page).to have_current_path login_path
       end
     end
 
@@ -29,26 +30,26 @@ RSpec.describe "Profile::Settings", type: :system do
             fill_in 'メールアドレス', with: 'user-email-update@example.com'
             click_button '更新'
             expect(page).to have_content '編集'
-            expect(current_path).to eq profile_path
+            expect(page).to have_current_path profile_path
           end
         end
 
         describe '#name' do
           context '名前を入力しない' do
             it 'プロフィールの更新が成功し、プロフィールページに戻る' do
-            fill_in '名前', with: ''
-            click_button '更新'
-            expect(page).to have_content '編集'
-            expect(current_path).to eq profile_path
+              fill_in '名前', with: ''
+              click_button '更新'
+              expect(page).to have_content '編集'
+              expect(page).to have_current_path profile_path
             end
           end
 
           context '名前を50文字入力する' do
             it 'プロフィールの更新が成功し、プロフィールページに戻る' do
-            fill_in '名前', with: 'a' * 50
-            click_button '更新'
-            expect(page).to have_content '編集'
-            expect(current_path).to eq profile_path
+              fill_in '名前', with: 'a' * 50
+              click_button '更新'
+              expect(page).to have_content '編集'
+              expect(page).to have_current_path profile_path
             end
           end
 
@@ -59,7 +60,7 @@ RSpec.describe "Profile::Settings", type: :system do
               expect(page).to have_content '入力情報に誤りがあります'
               expect(page).to have_content '名前は50文字以内で入力してください'
               expect(page).to have_button '更新'
-              expect(current_path).to eq profile_path
+              expect(page).to have_current_path profile_path
             end
           end
         end
@@ -72,7 +73,7 @@ RSpec.describe "Profile::Settings", type: :system do
               expect(page).to have_content '入力情報に誤りがあります'
               expect(page).to have_content 'メールアドレスを入力してください'
               expect(page).to have_button '更新'
-              expect(current_path).to eq profile_path
+              expect(page).to have_current_path profile_path
             end
           end
 
@@ -84,7 +85,7 @@ RSpec.describe "Profile::Settings", type: :system do
               expect(page).to have_content '入力情報に誤りがあります'
               expect(page).to have_content 'メールアドレスはすでに存在します'
               expect(page).to have_button '更新'
-              expect(current_path).to eq profile_path
+              expect(page).to have_current_path profile_path
             end
           end
         end

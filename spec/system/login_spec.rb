@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe "Login", type: :system do
+RSpec.describe 'Login' do
   let(:user) { create(:user) }
+
   describe 'ログイン' do
     before { visit login_path }
 
@@ -12,7 +13,7 @@ RSpec.describe "Login", type: :system do
           fill_in 'パスワード', with: 'user-password'
           click_button 'ログイン'
           expect(page).to have_content 'ログインしました'
-          expect(current_path).to eq profile_path
+          expect(page).to have_current_path profile_path
         end
       end
     end
@@ -25,7 +26,7 @@ RSpec.describe "Login", type: :system do
           it 'ログインが失敗し、ページが遷移しない' do
             click_button 'ログイン'
             expect(page).to have_content 'メールアドレス、もしくはパスワードが間違っています'
-            expect(current_path).to eq login_path
+            expect(page).to have_current_path login_path
           end
         end
 
@@ -34,7 +35,7 @@ RSpec.describe "Login", type: :system do
             fill_in 'メールアドレス', with: 'user-email-wrong@example.com'
             click_button 'ログイン'
             expect(page).to have_content 'メールアドレス、もしくはパスワードが間違っています'
-            expect(current_path).to eq login_path
+            expect(page).to have_current_path login_path
           end
         end
       end
@@ -46,7 +47,7 @@ RSpec.describe "Login", type: :system do
           it 'ログインが失敗し、ページが遷移しない' do
             click_button 'ログイン'
             expect(page).to have_content 'メールアドレス、もしくはパスワードが間違っています'
-            expect(current_path).to eq login_path
+            expect(page).to have_current_path login_path
           end
         end
 
@@ -55,7 +56,7 @@ RSpec.describe "Login", type: :system do
             fill_in 'パスワード', with: 'user-password-wrong'
             click_button 'ログイン'
             expect(page).to have_content 'メールアドレス、もしくはパスワードが間違っています'
-            expect(current_path).to eq login_path
+            expect(page).to have_current_path login_path
           end
         end
       end

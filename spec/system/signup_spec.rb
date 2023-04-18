@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe 'Signup', type: :system do
+RSpec.describe 'Signup' do
   let(:user) { create(:user) }
+
   describe 'ユーザー新規登録' do
     before { visit signup_path }
 
@@ -14,7 +15,7 @@ RSpec.describe 'Signup', type: :system do
           fill_in 'パスワード（確認用）', with: 'user-password'
           click_button '登録'
           expect(page).to have_content '新規作成に成功しました'
-          expect(current_path).to eq profile_path
+          expect(page).to have_current_path profile_path
         end
       end
 
@@ -29,7 +30,7 @@ RSpec.describe 'Signup', type: :system do
           it 'ユーザーの新規作成が成功し、プロフィールページに遷移する' do
             click_button '登録'
             expect(page).to have_content '新規作成に成功しました'
-            expect(current_path).to eq profile_path
+            expect(page).to have_current_path profile_path
           end
         end
 
@@ -38,7 +39,7 @@ RSpec.describe 'Signup', type: :system do
             fill_in '名前', with: 'a' * 50
             click_button '登録'
             expect(page).to have_content '新規作成に成功しました'
-            expect(current_path).to eq profile_path
+            expect(page).to have_current_path profile_path
           end
         end
 
@@ -48,7 +49,7 @@ RSpec.describe 'Signup', type: :system do
             click_button '登録'
             expect(page).to have_content '名前は50文字以内で入力してください'
             expect(page).to have_content '新規作成に失敗しました'
-            expect(current_path).to eq signup_path
+            expect(page).to have_current_path signup_path
           end
         end
       end
@@ -65,7 +66,7 @@ RSpec.describe 'Signup', type: :system do
             click_button '登録'
             expect(page).to have_content 'メールアドレスを入力してください'
             expect(page).to have_content '新規作成に失敗しました'
-            expect(current_path).to eq signup_path
+            expect(page).to have_current_path signup_path
           end
         end
 
@@ -75,7 +76,7 @@ RSpec.describe 'Signup', type: :system do
             click_button '登録'
             expect(page).to have_content 'メールアドレスはすでに存在します'
             expect(page).to have_content '新規作成に失敗しました'
-            expect(current_path).to eq signup_path
+            expect(page).to have_current_path signup_path
           end
         end
       end
@@ -93,7 +94,7 @@ RSpec.describe 'Signup', type: :system do
             expect(page).to have_content 'パスワードは3文字以上で入力してください'
             expect(page).to have_content 'パスワード（確認用）とパスワードの入力が一致しません'
             expect(page).to have_content '新規作成に失敗しました'
-            expect(current_path).to eq signup_path
+            expect(page).to have_current_path signup_path
           end
         end
 
@@ -103,7 +104,7 @@ RSpec.describe 'Signup', type: :system do
             click_button '登録'
             expect(page).to have_content 'パスワード（確認用）とパスワードの入力が一致しません'
             expect(page).to have_content '新規作成に失敗しました'
-            expect(current_path).to eq signup_path
+            expect(page).to have_current_path signup_path
           end
         end
 
@@ -114,7 +115,7 @@ RSpec.describe 'Signup', type: :system do
             click_button '登録'
             expect(page).to have_content 'パスワードは3文字以上で入力してください'
             expect(page).to have_content '新規作成に失敗しました'
-            expect(current_path).to eq signup_path
+            expect(page).to have_current_path signup_path
           end
         end
 
@@ -124,7 +125,7 @@ RSpec.describe 'Signup', type: :system do
             fill_in 'パスワード（確認用）', with: 'a' * 3
             click_button '登録'
             expect(page).to have_content '新規作成に成功しました'
-            expect(current_path).to eq profile_path
+            expect(page).to have_current_path profile_path
           end
         end
       end
