@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Search::InputTerms", type: :system do
+RSpec.describe 'Search::InputTerms' do
   let(:departure) { create(:departure, is_saved: true, user:) }
   let(:departure_form) { build(:departure_form) }
   let(:user) { create(:user) }
@@ -13,7 +13,7 @@ RSpec.describe "Search::InputTerms", type: :system do
         find('.fa.fa-search.nav-icon').click
         find('.fa.fa-folder-open.text-2xl').click
         click_link '出発'
-        expect(current_path).to eq new_search_path
+        expect(page).to have_current_path new_search_path(departure: departure.uuid)
         expect(page).to have_content '条件'
         expect(page).to have_content '出発地'
         expect(page).to have_field '距離(1000m~5000m)', with: ''
@@ -27,7 +27,7 @@ RSpec.describe "Search::InputTerms", type: :system do
       before { visit_input_terms_page(departure) }
 
       it '情報が正しく表示されている' do
-        expect(current_path).to eq new_search_path
+        expect(page).to have_current_path new_search_path(departure: departure.uuid)
         expect(page).to have_content departure.name
         expect(page).to have_content departure.address
         expect(page).to have_content I18n.l(departure.created_at, format: :short)
@@ -37,7 +37,7 @@ RSpec.describe "Search::InputTerms", type: :system do
         expect(page).to have_button '検索'
         expect(find('form')['action']).to be_include searches_path
         expect(find('form')['method']).to eq 'post'
-        expect(page).not_to have_selector("input[name='_method']", visible: false)
+        expect(page).not_to have_field('_method', type: 'hidden')
       end
     end
 
@@ -60,7 +60,7 @@ RSpec.describe "Search::InputTerms", type: :system do
       end
 
       it '情報が正しく表示されている' do
-        expect(current_path).to eq new_search_path
+        expect(page).to have_current_path new_search_path
         expect(page).to have_content geocode_result[:name]
         expect(page).to have_content geocode_result[:address]
         expect(page).to have_content '未保存'
@@ -86,7 +86,7 @@ RSpec.describe "Search::InputTerms", type: :system do
         select 'カフェ', from: '種類'
         click_button '検索'
         sleep(0.1)
-        expect(current_path).to eq searches_path
+        expect(page).to have_current_path searches_path
         expect(page).to have_content nearby_result[:variable][:name]
         expect(page).to have_content nearby_result[:fixed][:address]
       end
@@ -94,10 +94,10 @@ RSpec.describe "Search::InputTerms", type: :system do
 
     describe '#radius' do
       context '距離を空白にする' do
-        it '目的地の検索に失敗し、条件入力ページに戻る'do
+        it '目的地の検索に失敗し、条件入力ページに戻る' do
           fill_in '距離(1000m~5000m)', with: ''
           click_button '検索'
-          expect(current_path).to eq new_search_path
+          expect(page).to have_current_path new_search_path(departure: departure.uuid)
           expect(page).to have_content '入力情報に誤りがあります'
           expect(page).to have_content '距離を入力してください'
           expect(page).to have_content '距離は数値で入力してください'
@@ -108,49 +108,49 @@ RSpec.describe "Search::InputTerms", type: :system do
         it '目的地の検索に失敗し、条件入力ページに戻る' do
           fill_in '距離(1000m~5000m)', with: 999
           click_button '検索'
-          expect(current_path).to eq new_search_path
+          expect(page).to have_current_path new_search_path(departure: departure.uuid)
           # number_fieldで1000~5000に指定
         end
       end
 
-      context '距離に1000を入力する' do
+      context '距離に1,000を入力する' do
         it '目的地の検索に成功し、一覧が表示される' do
-        fill_in '距離(1000m~5000m)', with: 1000
-        select 'カフェ', from: '種類'
-        click_button '検索'
-        sleep(0.1)
-        expect(current_path).to eq searches_path
-        expect(page).to have_content nearby_result[:variable][:name]
-        expect(page).to have_content nearby_result[:fixed][:address]
-        end
-      end
-
-      context '距離に1001を入力する' do
-        it '目的地の検索に失敗し、条件入力ページに戻る' do
-          fill_in '距離(1000m~5000m)', with: 1001
-          click_button '検索'
-          expect(current_path).to eq new_search_path
-          # number_fieldでstep: 100に指定
-        end
-      end
-
-      context '距離に5000を入力する' do
-        it '目的地の検索に成功し、一覧が表示される' do
-          fill_in '距離(1000m~5000m)', with: 5000
+          fill_in '距離(1000m~5000m)', with: 1_000
           select 'カフェ', from: '種類'
           click_button '検索'
           sleep(0.1)
-          expect(current_path).to eq searches_path
+          expect(page).to have_current_path searches_path
           expect(page).to have_content nearby_result[:variable][:name]
           expect(page).to have_content nearby_result[:fixed][:address]
         end
       end
 
-      context '距離に5001を入力する' do
+      context '距離に1,001を入力する' do
+        it '目的地の検索に失敗し、条件入力ページに戻る' do
+          fill_in '距離(1000m~5000m)', with: 1_001
+          click_button '検索'
+          expect(page).to have_current_path new_search_path(departure: departure.uuid)
+          # number_fieldでstep: 100に指定
+        end
+      end
+
+      context '距離に5,000を入力する' do
+        it '目的地の検索に成功し、一覧が表示される' do
+          fill_in '距離(1000m~5000m)', with: 5000
+          select 'カフェ', from: '種類'
+          click_button '検索'
+          sleep(0.1)
+          expect(page).to have_current_path searches_path
+          expect(page).to have_content nearby_result[:variable][:name]
+          expect(page).to have_content nearby_result[:fixed][:address]
+        end
+      end
+
+      context '距離に5,001を入力する' do
         it '目的地の検索に失敗し、条件入力ページに戻る' do
           fill_in '距離(1000m~5000m)', with: 5001
           click_button '検索'
-          expect(current_path).to eq new_search_path
+          expect(page).to have_current_path new_search_path(departure: departure.uuid)
           # number_fieldで1000~5000に指定
         end
       end
@@ -164,10 +164,10 @@ RSpec.describe "Search::InputTerms", type: :system do
 
     context '距離を入力し、目的地の検索に失敗する' do
       it 'フォームから入力した距離が消えていない' do
-        #空白以外はnumber_fieldの設定ではじいているため
+        # 空白以外はnumber_fieldの設定ではじいているため
         fill_in '距離(1000m~5000m)', with: 999
         click_button '検索'
-        expect(current_path).to eq new_search_path
+        expect(page).to have_current_path new_search_path(departure: departure.uuid)
         expect(page).to have_field '距離(1000m~5000m)', with: 999
       end
     end
@@ -177,7 +177,7 @@ RSpec.describe "Search::InputTerms", type: :system do
         fill_in '距離(1000m~5000m)', with: ''
         select 'カフェ', from: '種類'
         click_button '検索'
-        expect(current_path).to eq new_search_path
+        expect(page).to have_current_path new_search_path(departure: departure.uuid)
         expect(page).to have_select('種類', selected: 'カフェ')
       end
     end
@@ -191,7 +191,7 @@ RSpec.describe "Search::InputTerms", type: :system do
 
         fill_in '距離(1000m~5000m)', with: 1000
         click_button '検索'
-        expect(current_path).to eq new_search_path
+        expect(page).to have_current_path new_search_path(departure: departure.uuid)
         expect(page).to have_content '目的地が見つかりませんでした'
       end
     end

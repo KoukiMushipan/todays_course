@@ -1,16 +1,17 @@
 require 'rails_helper'
 
-RSpec.describe "Search::Results", type: :system do
+RSpec.describe 'Search::Results' do
   let(:departure) { create(:departure, is_saved: true, user:) }
   let(:nearby_result) { Settings.nearby_result.radius_1000.to_hash }
   let(:user) { create(:user) }
+  let(:other) { create(:user) }
 
   describe 'Page' do
     context '検索結果ページにアクセスする' do
       it '情報が正しく表示されている' do
         nearby_mock(nearby_result)
         visit_search_results_page(departure)
-        expect(current_path).to eq searches_path
+        expect(page).to have_current_path searches_path
         expect(page).to have_content '検索結果'
         expect(page).to have_content 'コメント'
         expect(page).to have_content '保存済み'
@@ -27,7 +28,7 @@ RSpec.describe "Search::Results", type: :system do
         end
 
         it '情報が正しく表示されている' do
-          expect(current_path).to eq searches_path
+          expect(page).to have_current_path searches_path
           expect(page).to have_content nearby_result[:variable][:name]
           expect(page).to have_content nearby_result[:fixed][:address]
         end
@@ -54,18 +55,19 @@ RSpec.describe "Search::Results", type: :system do
         end
 
         it '情報が正しく表示されている' do
-          expect(current_path).to eq searches_path
+          expect(page).to have_current_path searches_path
           expect(page).to have_content published_comment_destination.name
           expect(page).to have_content published_comment_destination.address
           expect(page).to have_content published_comment_destination.comment
           expect(page).to have_css '.fa.fa-eye'
           expect(page).not_to have_css '.fa.fa-eye-slash'
-          expect(find('#center-content')).to have_css '.fa.fa-commenting'
+          expect(find_by_id('center-content')).to have_css '.fa.fa-commenting'
         end
 
         it 'リンク関連が正しく表示されている' do
           expect(page).to have_link '決定', href: new_destination_path(destination: uuid)
-          expect(page).not_to have_link '決定', href: new_destination_path(destination: published_comment_destination.uuid)
+          original_uuid = published_comment_destination.uuid
+          expect(page).not_to have_link '決定', href: new_destination_path(destination: original_uuid)
         end
       end
 
@@ -81,7 +83,7 @@ RSpec.describe "Search::Results", type: :system do
           expect(page).to have_content another_published_comment_destination.comment
           expect(page).to have_css '.fa.fa-eye'
           expect(page).not_to have_css '.fa.fa-eye-slash'
-          expect(find('#center-content')).to have_css '.fa.fa-commenting'
+          expect(find_by_id('center-content')).to have_css '.fa.fa-commenting'
         end
       end
 
@@ -116,7 +118,7 @@ RSpec.describe "Search::Results", type: :system do
             expect(page).to have_content destination.address
             expect(page).not_to have_css '.fa.fa-eye'
             expect(page).not_to have_css '.fa.fa-eye-slash'
-            expect(find('#right-content')).not_to have_css '.fa.fa-commenting'
+            expect(find_by_id('right-content')).not_to have_css '.fa.fa-commenting'
           end
         end
 
@@ -130,7 +132,7 @@ RSpec.describe "Search::Results", type: :system do
             expect(page).to have_content published_comment_destination.comment
             expect(page).to have_css '.fa.fa-eye'
             expect(page).not_to have_css '.fa.fa-eye-slash'
-            expect(find('#right-content')).to have_css '.fa.fa-commenting'
+            expect(find_by_id('right-content')).to have_css '.fa.fa-commenting'
           end
         end
 
@@ -144,7 +146,7 @@ RSpec.describe "Search::Results", type: :system do
             expect(page).to have_content not_published_comment_destination.comment
             expect(page).not_to have_css '.fa.fa-eye'
             expect(page).to have_css '.fa.fa-eye-slash'
-            expect(find('#right-content')).to have_css '.fa.fa-commenting'
+            expect(find_by_id('right-content')).to have_css '.fa.fa-commenting'
           end
         end
 
@@ -157,21 +159,23 @@ RSpec.describe "Search::Results", type: :system do
 
       context '他ユーザーの保存済み目的地が存在する状態で検索結果ページにアクセスする' do
         it '該当目的地が表示されない' do
-          # saved_own = destination
-          # saved_other = create(:destination, user: other, is_saved: true)
-          # visit_saved_destinations_page(saved_own)
-          # expect(page).to have_content saved_own.name
-          # expect(page).not_to have_content saved_other.name
+          saved_own = destination
+          saved_other = create(:destination, user: other, is_saved: true)
+          visit_search_results_page(saved_own.departure)
+          find('.fa.fa-folder-open.text-2xl').click
+          expect(page).to have_content saved_own.name
+          expect(page).not_to have_content saved_other.name
         end
       end
 
       context '保存済み・未保存目的地が存在する状態で検索結果ページにアクセスする' do
         it '保存済み目的地のみ表示される' do
-          # saved_destination = destination
-          # not_saved_destination = create(:destination, user:, is_saved: false)
-          # visit_saved_destinations_page(saved_destination)
-          # expect(page).to have_content saved_destination.name
-          # expect(page).not_to have_content not_saved_destination.name
+          saved_destination = destination
+          not_saved_destination = create(:destination, user:, is_saved: false)
+          visit_search_results_page(saved_destination.departure)
+          find('.fa.fa-folder-open.text-2xl').click
+          expect(page).to have_content saved_destination.name
+          expect(page).not_to have_content not_saved_destination.name
         end
       end
     end

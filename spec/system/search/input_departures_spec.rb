@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Search::InputDepartures", type: :system do
+RSpec.describe 'Search::InputDepartures' do
   let(:departure_form) { build(:departure_form) }
   let(:result_address) { build(:departure_form).address }
   let(:user) { create(:user) }
@@ -11,7 +11,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
         login(user)
         sleep(0.1)
         find('.fa.fa-search.nav-icon').click
-        expect(current_path).to eq new_departure_path
+        expect(page).to have_current_path new_departure_path
         expect(page).to have_content '出発地'
         expect(page).to have_content '入力'
         expect(page).to have_content '保存'
@@ -32,7 +32,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
         expect(page).to have_button '決定'
         expect(find('form')['action']).to be_include departures_path
         expect(find('form')['method']).to eq 'post'
-        expect(page).not_to have_selector("input[name='_method']", visible: false)
+        expect(page).not_to have_field('_method', type: 'hidden')
       end
     end
   end
@@ -52,7 +52,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
         check '保存する'
         click_button '決定'
         sleep(0.1)
-        expect(current_path).to eq new_search_path
+        expect(page).to have_current_path new_search_path
         expect(page).to have_content '出発地を保存しました'
         expect(page).to have_content geocode_result[:name]
         expect(page).to have_content geocode_result[:address]
@@ -67,7 +67,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
         uncheck '保存する'
         click_button '決定'
         sleep(0.1)
-        expect(current_path).to eq new_search_path
+        expect(page).to have_current_path new_search_path
         expect(page).not_to have_content '出発地を保存しました'
         expect(page).to have_content geocode_result[:name]
         expect(page).to have_content geocode_result[:address]
@@ -78,10 +78,10 @@ RSpec.describe "Search::InputDepartures", type: :system do
       before { fill_in '住所', with: for_geocode_result.address }
 
       context '名称を空白にする' do
-        it '出発地の取得に失敗し、出発地入力状態に戻る'do
+        it '出発地の取得に失敗し、出発地入力状態に戻る' do
           fill_in '名称', with: ''
           click_button '決定'
-          expect(current_path).to eq new_departure_path
+          expect(page).to have_current_path new_departure_path
           expect(page).to have_content '名称を入力してください'
           expect(page).to have_content '入力情報に誤りがあります'
         end
@@ -95,7 +95,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
           fill_in '名称', with: geocode_result[:name]
           click_button '決定'
           sleep(0.1)
-          expect(current_path).to eq new_search_path
+          expect(page).to have_current_path new_search_path
           expect(page).to have_content geocode_result[:name]
         end
       end
@@ -104,7 +104,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
         it '出発地の取得に失敗し、出発地入力状態に戻る' do
           fill_in '名称', with: 'a' * 51
           click_button '決定'
-          expect(current_path).to eq new_departure_path
+          expect(page).to have_current_path new_departure_path
           expect(page).to have_content '名称は50文字以内で入力してください'
           expect(page).to have_content '入力情報に誤りがあります'
         end
@@ -118,7 +118,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
         it '出発地の取得に失敗し、出発地入力状態に戻る' do
           fill_in '住所', with: ''
           click_button '決定'
-          expect(current_path).to eq new_departure_path
+          expect(page).to have_current_path new_departure_path
           expect(page).to have_content '住所を入力してください'
           expect(page).to have_content '入力情報に誤りがあります'
         end
@@ -131,7 +131,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
           fill_in '住所', with: 'a' * 255
           click_button '決定'
           sleep(0.1)
-          expect(current_path).to eq new_search_path
+          expect(page).to have_current_path new_search_path
           expect(page).to have_content geocode_result[:address]
         end
       end
@@ -140,7 +140,7 @@ RSpec.describe "Search::InputDepartures", type: :system do
         it '出発地の取得に失敗し、出発地入力状態に戻る' do
           fill_in '住所', with: 'a' * 256
           click_button '決定'
-          expect(current_path).to eq new_departure_path
+          expect(page).to have_current_path new_departure_path
           expect(page).to have_content '住所は255文字以内で入力してください'
           expect(page).to have_content '入力情報に誤りがあります'
         end

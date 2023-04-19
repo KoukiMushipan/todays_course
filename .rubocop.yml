@@ -53,6 +53,10 @@ RSpec/ExampleLength:
 RSpec/MultipleExpectations:
   Enabled: false
 
+# 1検証から呼び出せるletの数 いずれは設定してもいいかも
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
 # グループのネスト上限
 RSpec/NestedGroups:
   Enabled: false
