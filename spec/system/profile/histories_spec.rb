@@ -1,19 +1,19 @@
 require 'rails_helper'
 
-RSpec.describe "Profile::Histories", type: :system do
+RSpec.describe 'Profile::Histories' do
   let(:history) { create(:history, :commented) }
   let(:user) { create(:user) }
 
   describe 'Page' do
     context '履歴のページにアクセスする' do
       it '情報が正しく表示されている' do
-        histories = FactoryBot.create_list(:history, 5, user: user)
+        histories = create_list(:history, 5, user:)
         login(histories.first.user)
         sleep(0.2)
-        expect(current_path).to eq profile_path
+        expect(page).to have_current_path profile_path
         expect(page).to have_content "#{histories.first.user.name}さん"
         expect(page).to have_content "総移動時間: #{histories.sum { |history| history.decorate.moving_time }}分"
-        expect(page).to have_content "総移動距離: #{histories.sum { |history| history.moving_distance }}m"
+        expect(page).to have_content "総移動距離: #{histories.sum(&:moving_distance)}m"
         expect(page).to have_content '履歴'
         expect(page).to have_content '設定'
       end
@@ -27,7 +27,7 @@ RSpec.describe "Profile::Histories", type: :system do
       before { visit_histories_page(history) }
 
       it '情報が正しく表示されている' do
-        expect(current_path).to eq profile_path
+        expect(page).to have_current_path profile_path
         expect(page).to have_content history.destination.name
         expect(page).to have_content history.destination.address
         expect(page).to have_css '.fa.fa-eye-slash'
@@ -177,7 +177,7 @@ RSpec.describe "Profile::Histories", type: :system do
 
       describe '#moving_distance' do
         context '移動距離を空白にする' do
-          it '保存済み目的地の更新に失敗し、編集状態に戻る'do
+          it '保存済み目的地の更新に失敗し、編集状態に戻る' do
             fill_in '移動距離', with: ''
             click_button '更新'
             expect(page).to have_content '移動距離を入力してください'
@@ -204,18 +204,18 @@ RSpec.describe "Profile::Histories", type: :system do
           end
         end
 
-        context '移動距離に42,195を入力する' do
+        context '移動距離に42_195を入力する' do
           it '保存済み目的地の更新に成功し、一覧が表示される' do
-            fill_in '移動距離', with: 42195
+            fill_in '移動距離', with: 42_195
             click_button '更新'
             expect(page).to have_content '履歴を更新しました'
             expect(page).to have_content '42195m'
           end
         end
 
-        context '移動距離に42,196を入力する' do
+        context '移動距離に42_196を入力する' do
           it '保存済み目的地の更新に失敗し、編集状態に戻る' do
-            fill_in '移動距離', with: 42196
+            fill_in '移動距離', with: 42_196
             click_button '更新'
             expect(page).to have_content '移動距離は1m~42,195m以内に設定してください'
             expect(page).to have_content '入力情報に誤りがあります'
@@ -307,7 +307,7 @@ RSpec.describe "Profile::Histories", type: :system do
     end
 
     context '削除ボタンをクリックする' do
-      it  '正常に削除される' do
+      it '正常に削除される' do
         page.accept_confirm("履歴から削除します\nよろしいですか?") do
           click_link '削除'
         end

@@ -1,15 +1,16 @@
 require 'rails_helper'
 
-RSpec.describe 'Api::NearbyService', type: :request do
+RSpec.describe 'Api::NearbyService' do
   let(:departure_info) { build(:departure).attributes_for_session }
   let(:search_term_form) { build(:search_term_form) }
+
   before { allow(SecureRandom).to receive(:uuid).and_return('1263ab59-0996-4bc3-b6fc-fc4e035a2004') }
 
   describe 'APIリクエスト' do
     context 'radius: 1000を渡し、送信する' do
       it '正常な値が返却される', vcr: { cassette_name: 'nearby/success_radius_1000' } do
-        term_radius_1000 = build(:search_term_form, radius: 1000)
-        nearby_service = Api::NearbyService.new(departure_info, term_radius_1000)
+        term_radius1000 = build(:search_term_form, radius: 1000)
+        nearby_service = Api::NearbyService.new(departure_info, term_radius1000)
         locations_mock = Settings.coordinates.radius_1000.to_a
         allow(nearby_service).to receive(:three_locations_for_nearby_request).and_return(locations_mock)
         result = nearby_service.call
@@ -19,8 +20,8 @@ RSpec.describe 'Api::NearbyService', type: :request do
 
     context 'radius: 5000を渡し、送信する' do
       it '正常な値が返却される', vcr: { cassette_name: 'nearby/success_radius_5000' } do
-        term_radius_5000 = build(:search_term_form, radius: 5000)
-        nearby_service = Api::NearbyService.new(departure_info, term_radius_5000)
+        term_radius5000 = build(:search_term_form, radius: 5000)
+        nearby_service = Api::NearbyService.new(departure_info, term_radius5000)
         locations_mock = Settings.coordinates.radius_5000.to_a
         allow(nearby_service).to receive(:three_locations_for_nearby_request).and_return(locations_mock)
         result = nearby_service.call

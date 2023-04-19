@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Search::SelectDepartures", type: :system do
+RSpec.describe 'Search::SelectDepartures' do
   let(:departure) { create(:departure, is_saved: true, user:) }
   let(:destination) { create(:destination, departure:, user:) }
   let(:history) { create(:history, destination:, user:) }
@@ -13,7 +13,7 @@ RSpec.describe "Search::SelectDepartures", type: :system do
         login(user)
         sleep(0.1)
         find('.fa.fa-search.nav-icon').click
-        expect(current_path).to eq new_departure_path
+        expect(page).to have_current_path new_departure_path
         expect(page).to have_content '出発地'
         expect(page).to have_content '入力'
         expect(page).to have_content '保存'
@@ -28,7 +28,7 @@ RSpec.describe "Search::SelectDepartures", type: :system do
         before { visit_select_saved_departures_page(departure) }
 
         it '情報が正しく表示されている' do
-          expect(current_path).to eq new_departure_path
+          expect(page).to have_current_path new_departure_path
           expect(page).to have_content departure.name
           expect(page).to have_content departure.address
           expect(page).to have_content I18n.l(departure.created_at, format: :short)
@@ -94,7 +94,7 @@ RSpec.describe "Search::SelectDepartures", type: :system do
 
         describe '#name' do
           context '名称を空白にする' do
-            it '保存済み出発地の更新に失敗し、編集状態に戻る'do
+            it '保存済み出発地の更新に失敗し、編集状態に戻る' do
               fill_in '名称', with: ''
               click_button '更新'
               expect(page).to have_content '名称を入力してください'
@@ -250,7 +250,7 @@ RSpec.describe "Search::SelectDepartures", type: :system do
         before { visit_select_history_departure_page(history.departure) }
 
         it '情報が正しく表示されている' do
-          expect(current_path).to eq new_departure_path
+          expect(page).to have_current_path new_departure_path
           expect(page).to have_content history.departure.name
           expect(page).to have_content history.departure.address
           expect(page).to have_content I18n.l(history.start_time, format: :short)

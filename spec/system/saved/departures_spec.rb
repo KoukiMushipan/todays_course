@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Saved::Departures", type: :system do
+RSpec.describe 'Saved::Departures' do
   let(:departure) { create(:departure, is_saved: true) }
   let(:user) { create(:user) }
 
@@ -10,7 +10,7 @@ RSpec.describe "Saved::Departures", type: :system do
         login(user)
         sleep(0.1)
         find('.fa.fa-folder-open.nav-icon').click
-        expect(current_path).to eq departures_path
+        expect(page).to have_current_path departures_path
         expect(page).to have_content '保存済み'
         expect(page).to have_content '出発地'
         expect(page).to have_content '目的地'
@@ -25,7 +25,7 @@ RSpec.describe "Saved::Departures", type: :system do
       before { visit_saved_departures_page(departure) }
 
       it '情報が正しく表示されている' do
-        expect(current_path).to eq departures_path
+        expect(page).to have_current_path departures_path
         expect(page).to have_content departure.name
         expect(page).to have_content departure.address
         expect(page).to have_content I18n.l(departure.created_at, format: :short)
@@ -87,7 +87,7 @@ RSpec.describe "Saved::Departures", type: :system do
 
       describe '#name' do
         context '名称を空白にする' do
-          it '保存済み出発地の更新に失敗し、編集状態に戻る'do
+          it '保存済み出発地の更新に失敗し、編集状態に戻る' do
             fill_in '名称', with: ''
             click_button '更新'
             expect(page).to have_content '名称を入力してください'
@@ -209,7 +209,7 @@ RSpec.describe "Saved::Departures", type: :system do
     end
 
     context '削除ボタンをクリックする' do
-      it  '正常に削除される' do
+      it '正常に削除される' do
         page.accept_confirm("保存済みから削除します\nよろしいですか?") do
           click_link '削除'
         end

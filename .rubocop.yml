@@ -5,7 +5,6 @@ AllCops:
     - "config/**/*"
     - 'db/**/*'
     - "lib/**/*"
-    # - 'spec/**/*'
     - 'vendor/**/*'
     - 'app/helpers/page_helper.rb'
 
@@ -40,6 +39,26 @@ Style/ParallelAssignment:
 
 # 翻訳 後で消すかも
 Rails/I18nLocaleTexts:
+  Enabled: false
+
+# contextの接頭辞、接尾辞について いずれは設定してもいいかも
+RSpec/ContextWording:
+  Enabled: false
+
+# 1検証あたりの行数 いずれは設定してもいいかも
+RSpec/ExampleLength:
+  Enabled: false
+
+# 1検証あたりのexpectの回数
+RSpec/MultipleExpectations:
+  Enabled: false
+
+# 1検証から呼び出せるletの数 いずれは設定してもいいかも
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+# グループのネスト上限
+RSpec/NestedGroups:
   Enabled: false
 
 require:

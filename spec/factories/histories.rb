@@ -11,8 +11,8 @@ FactoryBot.define do
     end
 
     trait :another do
-      moving_distance { rand(2001..10000) }
-      start_time { Time.zone.now.ago(3.hour) }
+      moving_distance { rand(2001..10_000) }
+      start_time { Time.zone.now.ago(3.hours) }
       end_time { Time.zone.now.ago(1.hour) }
       association :destination, :another
     end
