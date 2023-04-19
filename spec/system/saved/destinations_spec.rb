@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Saved::Destinations", type: :system do
+RSpec.describe 'Saved::Destinations' do
   let(:destination) { create(:destination, :published_comment) }
   let(:user) { create(:user) }
 
@@ -10,7 +10,7 @@ RSpec.describe "Saved::Destinations", type: :system do
         login(user)
         sleep(0.1)
         find('.fa.fa-folder-open.nav-icon').click
-        expect(current_path).to eq departures_path
+        expect(page).to have_current_path departures_path
         expect(page).to have_content '保存済み'
         expect(page).to have_content '出発地'
         expect(page).to have_content '目的地'
@@ -23,8 +23,9 @@ RSpec.describe "Saved::Destinations", type: :system do
 
     context '１つの目的地を保存する' do
       before { visit_saved_destinations_page(destination) }
+
       it '情報が正しく表示されている' do
-        expect(current_path).to eq departures_path
+        expect(page).to have_current_path departures_path
         expect(page).to have_content destination.name
         expect(page).to have_content destination.address
         expect(page).to have_css '.fa.fa-eye'
@@ -128,7 +129,7 @@ RSpec.describe "Saved::Destinations", type: :system do
 
       describe '#name' do
         context '名称を空白にする' do
-          it '保存済み目的地の更新に失敗し、編集状態に戻る'do
+          it '保存済み目的地の更新に失敗し、編集状態に戻る' do
             fill_in '名称', with: ''
             click_button '更新'
             expect(page).to have_content '名称を入力してください'
@@ -240,7 +241,7 @@ RSpec.describe "Saved::Destinations", type: :system do
 
       describe '#distance' do
         context '片道の距離を空白にする' do
-          it '保存済み目的地の更新に失敗し、編集状態に戻る'do
+          it '保存済み目的地の更新に失敗し、編集状態に戻る' do
             fill_in '片道の距離', with: ''
             click_button '更新'
             expect(page).to have_content '片道の距離を入力してください'
@@ -269,7 +270,7 @@ RSpec.describe "Saved::Destinations", type: :system do
 
         context '片道の距離に21,097を入力する' do
           it '保存済み目的地の更新に成功し、一覧が表示される' do
-            fill_in '片道の距離', with: 21097
+            fill_in '片道の距離', with: 21_097
             click_button '更新'
             expect(page).to have_content '目的地を更新しました'
             expect(page).to have_content '21097m'
@@ -278,7 +279,7 @@ RSpec.describe "Saved::Destinations", type: :system do
 
         context '片道の距離に21,098を入力する' do
           it '保存済み目的地の更新に失敗し、編集状態に戻る' do
-            fill_in '片道の距離', with: 21098
+            fill_in '片道の距離', with: 21_098
             click_button '更新'
             expect(page).to have_content '片道の距離は1m~21,097m以内に設定してください'
             expect(page).to have_content '入力情報に誤りがあります'
@@ -373,7 +374,7 @@ RSpec.describe "Saved::Destinations", type: :system do
     end
 
     context '削除ボタンをクリックする' do
-      it  '正常に削除される' do
+      it '正常に削除される' do
         page.accept_confirm("保存済みから削除します\nよろしいですか?") do
           click_link '削除'
         end
