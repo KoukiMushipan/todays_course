@@ -5,6 +5,11 @@ FactoryBot.define do
     association :location, :for_destination
     association :departure
 
+    trait :commented do
+      is_saved { true }
+      sequence(:comment, 'destination-comment-1')
+    end
+
     trait :published_comment do
       is_saved { true }
       sequence(:comment, 'destination-comment-1')

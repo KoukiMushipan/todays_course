@@ -49,7 +49,7 @@ module VisitMacros
 
   def visit_search_results_page(departure)
     visit_input_terms_page(departure)
-    fill_in '距離(1000m~5000m)', with: '5000'
+    fill_in '距離(1000m~5000m)', with: 5000
     click_button '検索'
     sleep(0.1)
   end
@@ -57,5 +57,17 @@ module VisitMacros
   def visit_new_destination_page(departure)
     visit_search_results_page(departure)
     click_link '決定'
+  end
+
+  def visit_start_page_from_new(departure)
+    visit_new_destination_page(departure)
+    fill_in '名称', with: 'destination-name'
+    fill_in '片道の距離', with: 1000
+    click_button '決定'
+  end
+
+  def visit_start_page_from_saved(destination)
+    visit_saved_destinations_page(destination)
+    click_link '出発'
   end
 end
