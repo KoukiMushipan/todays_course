@@ -53,4 +53,9 @@ module VisitMacros
     click_button '検索'
     sleep(0.1)
   end
+
+  def visit_new_destination_page(departure)
+    visit_search_results_page(departure)
+    click_link '決定'
+  end
 end
