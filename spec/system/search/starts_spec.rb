@@ -392,4 +392,55 @@ RSpec.describe 'Search::Starts' do
       end
     end
   end
+
+  describe 'Destroy' do
+    before do
+      nearby_mock(nearby_result)
+      visit_new_destination_page(departure)
+      fill_in '名称', with: 'destination-name'
+      fill_in '片道の距離', with: 1000
+      check '保存する'
+      click_button '決定'
+      sleep(0.1)
+      find('.fa.fa-chevron-down').click
+    end
+
+    context '削除ボタンをクリックする' do
+      it '目的地が削除され、検索結果ページに遷移する' do
+        page.accept_confirm("保存を取り消します\nよろしいですか?") do
+          click_link '削除'
+        end
+        expect(page).to have_content '保存済みから削除しました'
+        expect(page).to have_current_path searches_path
+      end
+    end
+  end
+
+  describe 'Start' do
+    before { visit_start_page_from_saved(destination) }
+
+    context 'スタート（片道）をクリックする' do
+      it 'スタートし、ゴールページに遷移する' do
+        click_link 'スタート(片道)'
+        sleep(0.1)
+        expect(page).to have_content 'スタートしました(片道)'
+        expect(page).to have_current_path history_path(History.last.uuid)
+        expect(page).to have_content "#{destination.distance}m"
+        expect(page).not_to have_link 'スタート(片道)'
+        expect(page).not_to have_link 'スタート(往復)'
+      end
+    end
+
+    context 'スタート（往復）をクリックする' do
+      it 'スタートし、ゴールページに遷移する' do
+        click_link 'スタート(往復)'
+        sleep(0.1)
+        expect(page).to have_content 'スタートしました(往復)'
+        expect(page).to have_current_path history_path(History.last.uuid)
+        expect(page).to have_content "#{destination.distance * 2}m"
+        expect(page).not_to have_link 'スタート(片道)'
+        expect(page).not_to have_link 'スタート(往復)'
+      end
+    end
+  end
 end
