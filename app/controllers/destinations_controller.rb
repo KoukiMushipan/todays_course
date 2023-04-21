@@ -3,7 +3,7 @@ class DestinationsController < ApplicationController
   before_action :check_candidates_session, only: %i[new create]
   before_action :check_and_set_candidate_from_session, only: %i[new create]
   before_action :set_destination_and_location, only: %i[show edit update destroy]
-  before_action :set_route, only: %i[edit update destroy]
+  before_action :set_route, only: %i[show edit update destroy]
 
   def show
     case @route
@@ -64,8 +64,7 @@ class DestinationsController < ApplicationController
     case @route
     when 'start_page'
       @destination.destroy!
-      flash.now[:success] = '保存済みから削除しました'
-      redirect_to searches_path, status: :see_other
+      redirect_to searches_path, flash: { success: ' 保存済みから削除しました' }, status: :see_other
     when 'saved_page'
       @destination.update!(is_saved: false)
       flash.now[:success] = '目的地を保存済みから削除しました'
