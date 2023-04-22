@@ -5,6 +5,8 @@ class HistoriesController < ApplicationController
   before_action :set_history, only: %i[show edit update destroy cancel]
   before_action :set_route, only: %i[edit update destroy cancel]
 
+  skip_before_action :check_not_finished, only: %i[show]
+
   def show
     @departure_info = @history.departure.attributes_for_session
     @destination_info = @history.destination.attributes_for_session
