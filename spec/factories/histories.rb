@@ -10,6 +10,10 @@ FactoryBot.define do
       sequence(:comment, 'history-comment-1')
     end
 
+    trait :not_finished do
+      end_time { nil }
+    end
+
     trait :another do
       moving_distance { rand(2001..10_000) }
       start_time { Time.zone.now.ago(3.hours) }

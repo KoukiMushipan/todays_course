@@ -70,4 +70,10 @@ module VisitMacros
     visit_saved_destinations_page(destination)
     click_link '出発'
   end
+
+  def visit_goal_page_from_not_finished(history)
+    login(history.user)
+    sleep(0.2)
+    click_link 'こちら'
+  end
 end
