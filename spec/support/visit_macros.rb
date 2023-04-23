@@ -22,7 +22,7 @@ module VisitMacros
 
   def visit_histories_page(history)
     login(history.user)
-    sleep(0.2)
+    sleep(0.1)
   end
 
   def visit_new_departure_page(user)
@@ -73,7 +73,13 @@ module VisitMacros
 
   def visit_goal_page_from_not_finished(history)
     login(history.user)
-    sleep(0.2)
+    sleep(0.1)
     click_link 'こちら'
+  end
+
+  def visit_show_history_page(history)
+    login(history.user)
+    sleep(0.1)
+    visit history_path(history.uuid)
   end
 end
