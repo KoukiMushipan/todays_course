@@ -9,7 +9,7 @@ RSpec.describe 'Profile::Histories' do
       it '情報が正しく表示されている' do
         histories = create_list(:history, 5, user:)
         login(histories.first.user)
-        sleep(0.2)
+        sleep(0.1)
         expect(page).to have_current_path profile_path
         expect(page).to have_content "#{histories.first.user.name}さん"
         expect(page).to have_content "総移動時間: #{histories.sum { |history| history.decorate.moving_time }}分"
@@ -91,7 +91,7 @@ RSpec.describe 'Profile::Histories' do
       visit_histories_page(history)
       find('.fa.fa-chevron-down').click
       click_link('編集')
-      sleep(0.2)
+      sleep(0.1)
     end
 
     describe 'Validations' do
