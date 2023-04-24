@@ -139,6 +139,46 @@ RSpec.describe Destination do
           expect(destination.errors).to be_empty
         end
       end
+
+      context 'コメントを入力、公開する、保存しない' do
+        it 'コメントが空白、非公開になる' do
+          destination = build(:destination, comment: 'a', is_published_comment: true, is_saved: false)
+          expect(destination.save).to be_truthy
+          expect(destination.comment).to be_nil
+          expect(destination.is_published_comment).to be_falsey
+          expect(destination.is_saved).to be_falsey
+        end
+      end
+
+      context 'コメントを入力、公開する、保存する' do
+        it 'コメントが空白、非公開になる' do
+          destination = build(:destination, comment: 'a', is_published_comment: true, is_saved: true)
+          expect(destination.save).to be_truthy
+          expect(destination.comment).to eq 'a'
+          expect(destination.is_published_comment).to be_truthy
+          expect(destination.is_saved).to be_truthy
+        end
+      end
+
+      context 'コメントを空白、非公開、保存しない' do
+        it 'コメントが空白、非公開のままになる' do
+          destination = build(:destination, comment: '', is_published_comment: false, is_saved: false)
+          expect(destination.save).to be_truthy
+          expect(destination.comment).to be_nil
+          expect(destination.is_published_comment).to be_falsey
+          expect(destination.is_saved).to be_falsey
+        end
+      end
+
+      context 'コメントを空白、非公開、保存する' do
+        it 'コメントが空白、非公開のままになる' do
+          destination = build(:destination, comment: '', is_published_comment: false, is_saved: true)
+          expect(destination.save).to be_truthy
+          expect(destination.comment).to be_nil
+          expect(destination.is_published_comment).to be_falsey
+          expect(destination.is_saved).to be_truthy
+        end
+      end
     end
 
     describe '#is_published_comment' do
@@ -183,6 +223,42 @@ RSpec.describe Destination do
           expect(destination.is_published_comment).to be_truthy
           expect(destination).to be_valid
           expect(destination.errors).to be_empty
+        end
+      end
+
+      context 'コメントを入力せず、公開する' do
+        it '保存した際に非公開になる' do
+          destination = build(:destination, comment: '', is_published_comment: true, is_saved: true)
+          expect(destination.save).to be_truthy
+          expect(destination.comment).to be_nil
+          expect(destination.is_published_comment).to be_falsey
+        end
+      end
+
+      context 'コメントを入力して、公開する' do
+        it '保存した際にそのまま公開になる' do
+          destination = build(:destination, comment: 'a', is_published_comment: true, is_saved: true)
+          expect(destination.save).to be_truthy
+          expect(destination.comment).to eq 'a'
+          expect(destination.is_published_comment).to be_truthy
+        end
+      end
+
+      context 'コメントを入力せずに、非公開する' do
+        it '保存した際にそのまま非公開になる' do
+          destination = build(:destination, comment: '', is_published_comment: false, is_saved: true)
+          expect(destination.save).to be_truthy
+          expect(destination.comment).to be_nil
+          expect(destination.is_published_comment).to be_falsey
+        end
+      end
+
+      context 'コメントを入力して、非公開する' do
+        it '保存した際にそのまま非公開になる' do
+          destination = build(:destination, comment: 'a', is_published_comment: false, is_saved: true)
+          expect(destination.save).to be_truthy
+          expect(destination.comment).to eq 'a'
+          expect(destination.is_published_comment).to be_falsey
         end
       end
     end
