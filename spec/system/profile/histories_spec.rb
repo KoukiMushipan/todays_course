@@ -327,4 +327,19 @@ RSpec.describe 'Profile::Histories' do
       end
     end
   end
+
+  describe 'Database' do
+    context '履歴を削除する' do
+      it 'データベースから履歴が正常に削除される' do
+        visit_histories_page(history)
+        find('.fa.fa-chevron-down').click
+        sleep(0.1)
+        page.accept_confirm("履歴から削除します\nよろしいですか?") do
+          click_link '削除'
+        end
+        sleep(0.1)
+        expect(History.find_by(id: history.id)).to be_nil
+      end
+    end
+  end
 end

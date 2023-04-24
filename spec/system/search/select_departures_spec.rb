@@ -242,6 +242,21 @@ RSpec.describe 'Search::SelectDepartures' do
         end
       end
     end
+
+    describe 'Database' do
+      context '出発地を削除する' do
+        it '出発地が保存しないに変更される' do
+          visit_select_saved_departures_page(departure)
+          find('.fa.fa-chevron-down').click
+          sleep(0.1)
+          page.accept_confirm("保存済みから削除します\nよろしいですか?") do
+            click_link '削除'
+          end
+          sleep(0.1)
+          expect(Departure.find_by(id: departure.id).is_saved).to be_falsey
+        end
+      end
+    end
   end
 
   describe 'History' do

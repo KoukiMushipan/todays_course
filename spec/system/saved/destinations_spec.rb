@@ -394,4 +394,19 @@ RSpec.describe 'Saved::Destinations' do
       end
     end
   end
+
+  describe 'Database' do
+    context '目的地を削除する' do
+      it '目的地が保存しないに変更される' do
+        visit_saved_destinations_page(destination)
+        find('.fa.fa-chevron-down').click
+        sleep(0.1)
+        page.accept_confirm("保存済みから削除します\nよろしいですか?") do
+          click_link '削除'
+        end
+        sleep(0.1)
+        expect(Destination.find_by(id: destination.id).is_saved).to be_falsey
+      end
+    end
+  end
 end

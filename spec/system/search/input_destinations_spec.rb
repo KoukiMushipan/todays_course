@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Search::InputDestinations' do
   let(:departure) { create(:departure, is_saved: true) }
+  let(:user) { create(:user) }
   let(:nearby_result) { Settings.nearby_result.radius_1000.to_hash }
   let(:destination_form) { build(:destination_form) }
 
@@ -312,6 +313,65 @@ RSpec.describe 'Search::InputDestinations' do
           fill_in '片道の距離', with: distance
           click_button '決定'
           expect(page).to have_field '片道の距離', with: distance
+        end
+      end
+    end
+  end
+
+  describe 'Database' do
+    context '出発地を保存した状態で目的地を入力する' do
+      before do
+        nearby_mock(nearby_result)
+        visit_new_destination_page(departure)
+        fill_in '名称', with: destination_form.name
+        fill_in '片道の距離', with: destination_form.distance
+      end
+
+      context '保存するにチェックをして次に進む' do
+        it '目的地が作成される' do
+          check '保存する'
+          click_button '決定'
+          sleep(0.1)
+          expect(Destination.count).to eq 1
+        end
+      end
+
+      context '保存するにチェックをせずに次に進む' do
+        it '目的地が作成されない' do
+          uncheck '保存する'
+          click_button '決定'
+          sleep(0.1)
+          expect(Destination.count).to eq 0
+        end
+      end
+    end
+
+    context '出発地を保存していない状態で目的地を入力する' do
+      before do
+        visit_new_destination_page_from_new_departure(user)
+        fill_in '名称', with: destination_form.name
+        fill_in '片道の距離', with: destination_form.distance
+      end
+
+      context '出発地を保存していない状態で、保存するにチェックをして次に進む' do
+        it '出発地、目的地が作成される' do
+          check '保存する'
+          click_button '決定'
+          sleep(0.1)
+          expect(Departure.count).to eq 1
+          expect(Departure.first.is_saved).to be_falsey
+          expect(Destination.count).to eq 1
+          expect(Destination.first.is_saved).to be_truthy
+        end
+      end
+
+      context '出発地を保存していない状態で、保存するにチェックをせずに次に進む' do
+        it '出発地、目的地が作成されない' do
+          uncheck '保存する'
+          click_button '決定'
+          sleep(0.1)
+          expect(Departure.count).to eq 0
+          expect(Destination.count).to eq 0
         end
       end
     end

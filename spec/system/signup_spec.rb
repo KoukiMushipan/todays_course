@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe 'Signup' do
   let(:user) { create(:user) }
 
-  describe 'ユーザー新規登録' do
-    before { visit signup_path }
+  before { visit signup_path }
 
+  describe 'New' do
     describe 'Validations' do
       context '正常な値を入力する' do
         it 'ユーザーの新規作成が成功し、プロフィールページに遷移する' do
@@ -164,6 +164,20 @@ RSpec.describe 'Signup' do
           click_button '登録'
           expect(page).to have_field 'パスワード（確認用）', with: ''
         end
+      end
+    end
+  end
+
+  describe 'Database' do
+    context 'サインアップする' do
+      it 'ユーザーが作成される' do
+        fill_in '名前', with: 'user-name'
+        fill_in 'メールアドレス', with: 'user-email@example.com'
+        fill_in 'パスワード', with: 'user-password'
+        fill_in 'パスワード（確認用）', with: 'user-password'
+        click_button '登録'
+        sleep(0.1)
+        expect(User.count).to eq 1
       end
     end
   end

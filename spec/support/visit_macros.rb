@@ -51,7 +51,6 @@ module VisitMacros
     visit_input_terms_page(departure)
     fill_in '距離(1000m~5000m)', with: 5000
     click_button '検索'
-    sleep(0.1)
   end
 
   def visit_new_destination_page(departure)
@@ -59,16 +58,37 @@ module VisitMacros
     click_link '決定'
   end
 
+  def visit_new_destination_page_from_new_departure(user)
+    visit_new_departure_page(user)
+    geocode_mock(build(:location, :for_departure).attributes.compact.symbolize_keys)
+    nearby_mock(Settings.nearby_result.radius_1000.to_hash)
+    fill_in '名称', with: 'departure-name'
+    fill_in '住所', with: 'departure-address'
+    uncheck '保存する'
+    click_button '決定'
+    fill_in '距離(1000m~5000m)', with: 5000
+    click_button '検索'
+    click_link '決定'
+  end
+
   def visit_start_page_from_new(departure)
     visit_new_destination_page(departure)
     fill_in '名称', with: 'destination-name'
-    fill_in '片道の距離', with: 1000
+    fill_in '片道の距離', with: 5000
     click_button '決定'
   end
 
   def visit_start_page_from_saved(destination)
     visit_saved_destinations_page(destination)
     click_link '出発'
+  end
+
+  def visit_start_page_from_not_saved(user)
+    visit_new_destination_page_from_new_departure(user)
+    fill_in '名称', with: 'destination-name'
+    fill_in '片道の距離', with: 5000
+    uncheck '保存する'
+    click_button '決定'
   end
 
   def visit_goal_page_from_not_finished(history)

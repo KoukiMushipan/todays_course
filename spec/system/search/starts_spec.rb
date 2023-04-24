@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Search::Starts' do
   let(:departure) { create(:departure, is_saved: true) }
   let(:destination) { create(:destination, is_saved: true) }
+  let(:user) { create(:user) }
   let(:nearby_result) { Settings.nearby_result.radius_1000.to_hash }
   let(:destination_form) { build(:destination_form) }
 
@@ -440,6 +441,30 @@ RSpec.describe 'Search::Starts' do
         expect(page).to have_content "#{destination.distance * 2}m"
         expect(page).not_to have_link 'スタート(片道)'
         expect(page).not_to have_link 'スタート(往復)'
+      end
+    end
+  end
+
+  describe 'Database' do
+    context '出発地・目的地を保存した状態でスタートする' do
+      it '履歴が作成される' do
+        visit_start_page_from_saved(destination)
+        click_link 'スタート(片道)'
+        sleep(0.1)
+        expect(History.count).to eq 1
+      end
+    end
+
+    context '出発地・目的地を保存していない状態でスタートする' do
+      it '出発地・目的地・履歴が作成される' do
+        visit_start_page_from_not_saved(user)
+        click_link 'スタート(片道)'
+        sleep(0.1)
+        expect(Departure.count).to eq 1
+        expect(Departure.first.is_saved).to be_falsey
+        expect(Destination.count).to eq 1
+        expect(Destination.first.is_saved).to be_falsey
+        expect(History.count).to eq 1
       end
     end
   end
