@@ -6,7 +6,7 @@ RSpec.describe 'Profile::Settings' do
   describe 'ユーザー設定' do
     before { login(user) }
 
-    context 'ログアウトする' do
+    context 'Logout' do
       it '正常にログアウトし、ログインページに戻る' do
         find('label[for=right]').click
         page.accept_confirm('ログアウトしますか？') do
@@ -108,6 +108,20 @@ RSpec.describe 'Profile::Settings' do
             click_button '更新'
             expect(page).to have_field 'メールアドレス', with: email
           end
+        end
+      end
+    end
+
+    describe 'Delete' do
+      context 'ユーザー削除する' do
+        it '正常にユーザーを削除し、サインアップページに戻る' do
+          find('label[for=right]').click
+          find('.fa.fa-chevron-down').click
+          page.accept_confirm("データは全て削除され、戻すことはできません。\n削除しますか？") do
+            click_link 'ユーザー削除'
+          end
+          expect(page).to have_content 'ユーザーを削除しました'
+          expect(page).to have_current_path signup_path
         end
       end
     end
