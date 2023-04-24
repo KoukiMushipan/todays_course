@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Search::Goals' do
   let(:departure) { create(:departure) }
-  let(:destination) { create(:destination, departure: departure, user: departure.user) }
-  let(:not_finished_history) { create(:history, :not_finished, destination: destination, user: destination.user) }
+  let(:destination) { create(:destination, departure:, user: departure.user) }
+  let(:not_finished_history) { create(:history, :not_finished, destination:, user: destination.user) }
 
   describe 'Page' do
     context 'スタートし、ゴールページに遷移する' do

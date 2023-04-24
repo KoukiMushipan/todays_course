@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Search::ShowHitories' do
   let(:departure) { create(:departure) }
-  let(:destination) { create(:destination, departure: departure, user: departure.user) }
-  let(:history) { create(:history, destination: destination, user: destination.user) }
+  let(:destination) { create(:destination, departure:, user: departure.user) }
+  let(:history) { create(:history, destination:, user: destination.user) }
 
   describe 'Page' do
     context '履歴詳細ページに遷移する' do
