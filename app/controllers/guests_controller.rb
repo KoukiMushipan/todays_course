@@ -6,18 +6,13 @@ class GuestsController < ApplicationController
 
   def index
     @guest_form = GuestForm.new(guest_form_params)
+    return render_new_guest('入力情報に誤りがあります') unless @guest_form.valid?
 
     departure_info = Api::GeocodeService.new(@guest_form).call
-    if departure_info.include?(:error)
-      flash.now[:error] = departure_info[:error]
-      return render :new, status: :unprocessable_entity
-    end
+    return render_new_guest('位置情報の取得に失敗しました') unless departure_info
 
     @results = Api::NearbyService.new(departure_info, @guest_form).call
-    if @results.include?(:error)
-      flash.now[:error] = @results[:error]
-      return render :new, status: :unprocessable_entity
-    end
+    return render_new_guest('目的地が見つかりませんでした') unless @results
 
     gon.searchInfo = { results: @results, departure_info:, search_term: @guest_form.term }
   end
@@ -27,6 +22,11 @@ class GuestsController < ApplicationController
   end
 
   private
+
+  def render_new_guest(error_message)
+    flash.now[:error] = error_message
+    render :new, status: :unprocessable_entity
+  end
 
   def guest_form_params
     params.require(:guest_form).permit(:address, :radius, :type)
