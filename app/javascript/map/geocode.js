@@ -3,7 +3,7 @@ import toastr from "toastr";
 window.getCurrentLocation = () => {
   const button = document.getElementById('js-get-current-location-button');
   const loading = document.getElementById('js-loading-text');
-  const form = document.getElementById('departure_form_address')
+  const form = document.getElementById('departure_form_address') || document.getElementById('guest_form_address');
 
   toastr.options = {
     "closeButton": true,
