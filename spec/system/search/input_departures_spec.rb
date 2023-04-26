@@ -173,7 +173,7 @@ RSpec.describe 'Search::InputDepartures' do
 
   describe 'Failure' do
     context '入力された住所が存在しないため、取得に失敗する' do
-      it 'エラーメッセージが表示され、編集状態に戻る' do
+      it 'エラーメッセージが表示され、出発地入力状態に戻る' do
         geocode_mock(false)
 
         visit_new_departure_page(user)
