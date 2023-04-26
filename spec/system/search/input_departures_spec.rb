@@ -180,6 +180,7 @@ RSpec.describe 'Search::InputDepartures' do
         fill_in '名称', with: departure_form.name
         fill_in '住所', with: departure_form.address
         click_button '決定'
+        expect(page).to have_current_path new_departure_path
         expect(page).to have_content '位置情報の取得に失敗しました'
         expect(page).to have_field '名称', with: departure_form.name
         expect(page).to have_field '住所', with: departure_form.address

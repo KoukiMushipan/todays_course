@@ -116,7 +116,6 @@ RSpec.describe 'Search::InputTerms' do
       context '距離に1,000を入力する' do
         it '目的地の検索に成功し、一覧が表示される' do
           fill_in '距離(1000m~5000m)', with: 1_000
-          select 'カフェ', from: '種類'
           click_button '検索'
           sleep(0.1)
           expect(page).to have_current_path searches_path
@@ -178,7 +177,7 @@ RSpec.describe 'Search::InputTerms' do
         select 'カフェ', from: '種類'
         click_button '検索'
         expect(page).to have_current_path new_search_path(departure: departure.uuid)
-        expect(page).to have_select('種類', selected: 'カフェ')
+        expect(page).to have_select '種類', selected: 'カフェ'
       end
     end
   end
@@ -190,9 +189,12 @@ RSpec.describe 'Search::InputTerms' do
         visit_input_terms_page(departure)
 
         fill_in '距離(1000m~5000m)', with: 1000
+        select 'カフェ', from: '種類'
         click_button '検索'
         expect(page).to have_current_path new_search_path(departure: departure.uuid)
         expect(page).to have_content '目的地が見つかりませんでした'
+        expect(page).to have_field '距離(1000m~5000m)', with: 1000
+        expect(page).to have_select '種類', selected: 'カフェ'
       end
     end
   end
