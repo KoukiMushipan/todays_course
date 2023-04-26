@@ -167,20 +167,18 @@ RSpec.describe 'Guest::InputTerms' do
   describe 'Form' do
     context '住所を入力し、検索に失敗する' do
       it 'フォームから入力した住所が消えていない' do
-        address = 'a' * 256
-        fill_in '出発地の住所', with: address
+        fill_in '出発地の住所', with: guest_form.address
         click_button '検索'
-        expect(page).to have_field '出発地の住所', with: address
+        expect(page).to have_field '出発地の住所', with: guest_form.address
       end
     end
 
     context '距離を入力し、目的地の検索に失敗する' do
       it 'フォームから入力した距離が消えていない' do
-        # 空白以外はnumber_fieldの設定ではじいているため
-        fill_in '距離(1000m~5000m)', with: 999
+        fill_in '距離(1000m~5000m)', with: guest_form.radius
         click_button '検索'
         expect(page).to have_current_path new_guest_path
-        expect(page).to have_field '距離(1000m~5000m)', with: 999
+        expect(page).to have_field '距離(1000m~5000m)', with: guest_form.radius
       end
     end
 

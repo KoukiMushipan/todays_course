@@ -152,21 +152,25 @@ RSpec.describe 'Search::InputDepartures' do
 
     context '名称を入力し、取得に失敗する' do
       it 'フォームから入力した名称が消えていない' do
-        name = 'a' * 51
-        fill_in '名称', with: name
-        fill_in '住所', with: departure_form.address
+        fill_in '名称', with: departure_form.name
         click_button '決定'
-        expect(page).to have_field '名称', with: name
+        expect(page).to have_field '名称', with: departure_form.name
       end
     end
 
     context '住所を入力し、取得に失敗する' do
       it 'フォームから入力した住所が消えていない' do
-        address = 'a' * 256
-        fill_in '名称', with: departure_form.name
-        fill_in '住所', with: address
+        fill_in '住所', with: departure_form.address
         click_button '決定'
-        expect(page).to have_field '住所', with: address
+        expect(page).to have_field '住所', with: departure_form.address
+      end
+    end
+
+    context 'チェックを入れ、作成に失敗する' do
+      it '変更したチェックボックスがもとに戻っていない' do
+        check '保存する'
+        click_button '決定'
+        expect(page).to have_checked_field '保存する'
       end
     end
   end

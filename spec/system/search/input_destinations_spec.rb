@@ -281,23 +281,21 @@ RSpec.describe 'Search::InputDestinations' do
 
       context '名称を入力し、作成に失敗する' do
         it 'フォームから入力した名称が消えていない' do
-          name = 'a' * 51
-          fill_in '名称', with: name
+          fill_in '名称', with: destination_form.name
           click_button '決定'
-          expect(page).to have_field '名称', with: name
+          expect(page).to have_field '名称', with: destination_form.name
         end
       end
 
       context 'コメントを入力し、作成に失敗する' do
         it 'フォームから入力したコメントが消えていない' do
-          comment = 'a' * 256
-          fill_in 'コメント', with: comment
+          fill_in 'コメント', with: destination_form.comment
           click_button '決定'
-          expect(page).to have_field 'コメント', with: comment
+          expect(page).to have_field 'コメント', with: destination_form.comment
         end
       end
 
-      context '作成に失敗する' do
+      context 'チェックを入れ、作成に失敗する' do
         it '変更したチェックボックスがもとに戻っていない' do
           check 'コメントを公開する'
           check '保存する'
@@ -309,10 +307,9 @@ RSpec.describe 'Search::InputDestinations' do
 
       context '片道の距離を入力し、作成に失敗する' do
         it 'フォームから入力した片道の距離が消えていない' do
-          distance = 21_098
-          fill_in '片道の距離', with: distance
+          fill_in '片道の距離', with: destination_form.distance
           click_button '決定'
-          expect(page).to have_field '片道の距離', with: distance
+          expect(page).to have_field '片道の距離', with: destination_form.distance
         end
       end
     end
