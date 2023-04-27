@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Signup' do
+RSpec.describe 'Guest::Signup' do
   let(:user) { create(:user) }
 
   before { visit signup_path }

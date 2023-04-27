@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Login' do
+RSpec.describe 'Guest::Login' do
   let(:user) { create(:user) }
 
   describe 'ログイン' do
