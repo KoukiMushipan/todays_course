@@ -8,9 +8,7 @@ RSpec.describe 'Guest::Results' do
     "#{guests_path}?#{query.to_query}&#{{ commit: '検索' }.to_query}"
   end
 
-  before do
-    visit_results_for_guest_page
-  end
+  before { visit_results_for_guest_page }
 
   describe 'Page' do
     context 'ゲスト向け検索結果ページにアクセスする' do

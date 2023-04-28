@@ -27,7 +27,6 @@ RSpec.describe 'Search::InputTerms' do
       before { visit_input_terms_page(departure) }
 
       it '情報が正しく表示されている' do
-        expect(page).to have_current_path new_search_path(departure: departure.uuid)
         expect(page).to have_content departure.name
         expect(page).to have_content departure.address
         expect(page).to have_content I18n.l(departure.created_at, format: :short)

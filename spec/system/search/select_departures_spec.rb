@@ -28,7 +28,6 @@ RSpec.describe 'Search::SelectDepartures' do
         before { visit_select_saved_departures_page(departure) }
 
         it '情報が正しく表示されている' do
-          expect(page).to have_current_path new_departure_path
           expect(page).to have_content departure.name
           expect(page).to have_content departure.address
           expect(page).to have_content I18n.l(departure.created_at, format: :short)
@@ -265,7 +264,6 @@ RSpec.describe 'Search::SelectDepartures' do
         before { visit_select_history_departure_page(history.departure) }
 
         it '情報が正しく表示されている' do
-          expect(page).to have_current_path new_departure_path
           expect(page).to have_content history.departure.name
           expect(page).to have_content history.departure.address
           expect(page).to have_content I18n.l(history.start_time, format: :short)

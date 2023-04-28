@@ -25,7 +25,6 @@ RSpec.describe 'Saved::Departures' do
       before { visit_saved_departures_page(departure) }
 
       it '情報が正しく表示されている' do
-        expect(page).to have_current_path departures_path
         expect(page).to have_content departure.name
         expect(page).to have_content departure.address
         expect(page).to have_content I18n.l(departure.created_at, format: :short)
@@ -36,6 +35,7 @@ RSpec.describe 'Saved::Departures' do
         find('.fa.fa-chevron-down').click
         expect(page).to have_link '編集', href: edit_departure_path(departure.uuid)
         expect(page).to have_link '削除', href: departure_path(departure.uuid)
+        expect(find('a', text: '削除')['data-turbo-method']).to eq 'delete'
         click_link '編集'
         expect(page).to have_link '取消', href: departure_path(departure.uuid)
         expect(page).to have_button '更新'

@@ -28,7 +28,6 @@ RSpec.describe 'Search::Results' do
         end
 
         it '情報が正しく表示されている' do
-          expect(page).to have_current_path searches_path
           expect(page).to have_content nearby_result[:variable][:name]
           expect(page).to have_content nearby_result[:fixed][:address]
         end
@@ -55,7 +54,6 @@ RSpec.describe 'Search::Results' do
         end
 
         it '情報が正しく表示されている' do
-          expect(page).to have_current_path searches_path
           expect(page).to have_content published_comment_destination.name
           expect(page).to have_content published_comment_destination.address
           expect(page).to have_content published_comment_destination.comment

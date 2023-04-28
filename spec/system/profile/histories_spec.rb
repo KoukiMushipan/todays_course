@@ -27,7 +27,6 @@ RSpec.describe 'Profile::Histories' do
       before { visit_histories_page(history) }
 
       it '情報が正しく表示されている' do
-        expect(page).to have_current_path profile_path
         expect(page).to have_content history.destination.name
         expect(page).to have_content history.destination.address
         expect(page).to have_css '.fa.fa-eye-slash'
@@ -44,6 +43,7 @@ RSpec.describe 'Profile::Histories' do
         find('.fa.fa-chevron-down').click
         expect(page).to have_link '編集', href: edit_history_path(history.uuid, route: 'profile_page')
         expect(page).to have_link '削除', href: history_path(history.uuid, route: 'profile_page')
+        expect(find('a', text: '削除')['data-turbo-method']).to eq 'delete'
         click_link '編集'
         expect(page).to have_link '取消', href: cancel_history_path(history.uuid, route: 'profile_page')
         expect(page).to have_button '更新'

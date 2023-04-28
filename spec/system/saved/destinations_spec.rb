@@ -41,6 +41,7 @@ RSpec.describe 'Saved::Destinations' do
         find('.fa.fa-chevron-down').click
         expect(page).to have_link '編集', href: edit_destination_path(destination.uuid, route: 'saved_page')
         expect(page).to have_link '削除', href: destination_path(destination.uuid, route: 'saved_page')
+        expect(find('a', text: '削除')['data-turbo-method']).to eq 'delete'
         click_link '編集'
         expect(page).to have_link '取消', href: destination_path(destination.uuid, route: 'saved_page')
         expect(page).to have_button '更新'

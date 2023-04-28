@@ -3,12 +3,44 @@ require 'rails_helper'
 RSpec.describe 'Profile::Settings' do
   let(:user) { create(:user) }
 
-  before { login(user) }
+  before do
+    login(user)
+    find('label[for=right]').click
+  end
+
+  describe 'Page' do
+    context 'プロフィールページにアクセスし、設定のタブを開く' do
+      it '情報が正しく表示されている' do
+        expect(page).to have_current_path profile_path
+        histories = create_list(:history, 5, user:)
+        login(histories.first.user)
+        sleep(0.1)
+        expect(page).to have_current_path profile_path
+        expect(page).to have_content "#{histories.first.user.name}さん"
+        expect(page).to have_content "総移動時間: #{histories.sum { |history| history.decorate.moving_time }}分"
+        expect(page).to have_content "総移動距離: #{histories.sum(&:moving_distance)}m"
+        expect(page).to have_content '履歴'
+        expect(page).to have_content '設定'
+      end
+    end
+  end
+
+  describe 'Contents' do
+    context 'プロフィールページにアクセスし、設定のタブを開く' do
+      it 'リンク関連が正しく表示されている' do
+        expect(page).to have_link '編集', href: edit_profile_path
+        expect(page).to have_link 'ログアウト', href: logout_path
+        expect(find('a', text: 'ログアウト')['data-turbo-method']).to eq 'delete'
+        find('.fa.fa-chevron-down').click
+        expect(page).to have_link 'ユーザー削除', href: profile_path
+        expect(find('a', text: 'ユーザー削除')['data-turbo-method']).to eq 'delete'
+      end
+    end
+  end
 
   describe 'Logout' do
     context 'ログアウトをクリックする' do
       it '正常にログアウトし、ログインページに戻る' do
-        find('label[for=right]').click
         page.accept_confirm('ログアウトしますか？') do
           click_link 'ログアウト'
         end
@@ -19,10 +51,7 @@ RSpec.describe 'Profile::Settings' do
   end
 
   describe 'Edit' do
-    before do
-      find('label[for=right]').click
-      click_link '編集'
-    end
+    before { click_link '編集' }
 
     describe 'Validations' do
       context '正常な値を入力する' do
@@ -116,7 +145,6 @@ RSpec.describe 'Profile::Settings' do
   describe 'Delete' do
     context 'ユーザー削除する' do
       it '正常にユーザーを削除し、サインアップページに戻る' do
-        find('label[for=right]').click
         find('.fa.fa-chevron-down').click
         page.accept_confirm("データは全て削除され、戻すことはできません。\n削除しますか？") do
           click_link 'ユーザー削除'
@@ -130,7 +158,6 @@ RSpec.describe 'Profile::Settings' do
   describe 'Database' do
     context 'ユーザーを削除する' do
       it 'データベースからユーザーが正常に削除される' do
-        find('label[for=right]').click
         find('.fa.fa-chevron-down').click
         page.accept_confirm("データは全て削除され、戻すことはできません。\n削除しますか？") do
           click_link 'ユーザー削除'
