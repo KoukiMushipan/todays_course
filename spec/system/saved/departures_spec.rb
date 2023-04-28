@@ -16,6 +16,14 @@ RSpec.describe 'Saved::Departures' do
         expect(page).to have_content '目的地'
       end
     end
+
+    context '保存済み出発地のページにアクセスし、編集状態にする' do
+      it '情報が正しく表示されている' do
+        visit_edit_departure_page(departure)
+        expect(page).to have_field '名称'
+        expect(page).to have_field '住所'
+      end
+    end
   end
 
   describe 'Contents' do

@@ -22,6 +22,19 @@ RSpec.describe 'Search::Starts' do
         expect(page).to have_current_path new_history_path(destination: destination.uuid)
       end
     end
+
+    context '保存済み目的地ページから、スタートするページにアクセスし、編集状態にする' do
+      it '情報が正しく表示されている' do
+        visit_start_page_from_saved(destination)
+        sleep(0.1)
+        find('.fa.fa-chevron-down').click
+        click_link('編集')
+        expect(page).to have_field '名称'
+        expect(page).to have_field 'コメント'
+        expect(page).to have_unchecked_field 'コメントを公開する'
+        expect(page).to have_field '片道の距離'
+      end
+    end
   end
 
   describe 'Contents' do

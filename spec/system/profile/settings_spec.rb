@@ -20,6 +20,14 @@ RSpec.describe 'Profile::Settings' do
         expect(page).to have_content '設定'
       end
     end
+
+    context 'プロフィールページにアクセスし、編集状態にする' do
+      it '情報が正しく表示されている' do
+        click_link '編集'
+        expect(page).to have_field '名前'
+        expect(page).to have_field 'メールアドレス'
+      end
+    end
   end
 
   describe 'Contents' do

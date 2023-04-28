@@ -10,6 +10,10 @@ RSpec.describe 'Guest::Signup' do
       it '情報が正しく表示されている' do
         expect(page).to have_current_path signup_path
         expect(page).to have_content '新規登録'
+        expect(page).to have_field '名前', with: ''
+        expect(page).to have_field 'メールアドレス', with: ''
+        expect(page).to have_field 'パスワード', with: ''
+        expect(page).to have_field 'パスワード（確認用）', with: ''
       end
     end
   end

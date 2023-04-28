@@ -17,6 +17,9 @@ RSpec.describe 'Guest::InputTerms' do
       it '情報が正しく表示されている' do
         expect(page).to have_link '現在地取得'
         expect(page).to have_current_path new_guest_path
+        expect(page).to have_field '出発地の住所', with: ''
+        expect(page).to have_field '距離(1000m~5000m)', with: ''
+        expect(page).to have_select '種類', selected: 'コンビニエンスストア'
       end
     end
   end

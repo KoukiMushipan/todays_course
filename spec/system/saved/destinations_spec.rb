@@ -16,6 +16,16 @@ RSpec.describe 'Saved::Destinations' do
         expect(page).to have_content '目的地'
       end
     end
+
+    context '保存済み目的地のページにアクセスし、編集状態にする' do
+      it '情報が正しく表示されている' do
+        visit_edit_destination_page(destination)
+        expect(page).to have_field '名称'
+        expect(page).to have_field 'コメント'
+        expect(page).to have_checked_field 'コメントを公開する'
+        expect(page).to have_field '片道の距離'
+      end
+    end
   end
 
   describe 'Contents' do
@@ -104,12 +114,7 @@ RSpec.describe 'Saved::Destinations' do
   describe 'Edit' do
     let(:build_another_destination) { create(:destination, :another, :published_comment) }
 
-    before do
-      visit_saved_destinations_page(destination)
-      find('.fa.fa-chevron-down').click
-      click_link('編集')
-      sleep(0.1)
-    end
+    before { visit_edit_destination_page(destination) }
 
     describe 'Validations' do
       context '正常な値を入力する' do

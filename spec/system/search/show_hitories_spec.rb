@@ -12,6 +12,19 @@ RSpec.describe 'Search::ShowHitories' do
         expect(page).to have_current_path history_path(history.uuid)
       end
     end
+
+    context '履歴詳細ページに遷移し、編集状態にする' do
+      it '情報が正しく表示されている' do
+        visit_show_history_page(history)
+        find('.fa.fa-chevron-down').click
+        click_link('編集')
+        sleep(0.1)
+        expect(page).to have_field '開始時刻'
+        expect(page).to have_field '終了時刻'
+        expect(page).to have_field 'コメント', with: ''
+        expect(page).to have_field '移動距離'
+      end
+    end
   end
 
   describe 'Contents' do

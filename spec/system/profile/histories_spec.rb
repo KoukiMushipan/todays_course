@@ -18,6 +18,18 @@ RSpec.describe 'Profile::Histories' do
         expect(page).to have_content '設定'
       end
     end
+
+    context '履歴のページにアクセスし、編集状態にする' do
+      it '情報が正しく表示されている' do
+        visit_histories_page(history)
+        find('.fa.fa-chevron-down').click
+        click_link('編集')
+        expect(page).to have_field '開始時刻'
+        expect(page).to have_field '終了時刻'
+        expect(page).to have_field 'コメント'
+        expect(page).to have_field '移動距離'
+      end
+    end
   end
 
   describe 'Contents' do
@@ -91,7 +103,6 @@ RSpec.describe 'Profile::Histories' do
       visit_histories_page(history)
       find('.fa.fa-chevron-down').click
       click_link('編集')
-      sleep(0.1)
     end
 
     describe 'Validations' do
@@ -303,7 +314,6 @@ RSpec.describe 'Profile::Histories' do
     before do
       visit_histories_page(history)
       find('.fa.fa-chevron-down').click
-      sleep(0.1)
     end
 
     context '削除ボタンをクリックする' do
@@ -333,7 +343,6 @@ RSpec.describe 'Profile::Histories' do
       it 'データベースから履歴が正常に削除される' do
         visit_histories_page(history)
         find('.fa.fa-chevron-down').click
-        sleep(0.1)
         page.accept_confirm("履歴から削除します\nよろしいですか?") do
           click_link '削除'
         end

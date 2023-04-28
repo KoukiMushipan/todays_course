@@ -12,6 +12,10 @@ RSpec.describe 'Search::InputDestinations' do
         nearby_mock(nearby_result)
         visit_new_destination_page(departure)
         expect(page).to have_current_path new_destination_path(destination: nearby_result[:variable][:uuid])
+        expect(page).to have_field '名称'
+        expect(page).to have_field 'コメント'
+        expect(page).to have_field '片道の距離'
+        expect(page).to have_unchecked_field '保存する'
       end
     end
   end

@@ -19,4 +19,11 @@ module SavedPlaceMacros
     sleep(0.1)
     visit departures_path
   end
+
+  def visit_edit_destination_page(destination)
+    visit_saved_destinations_page(destination)
+    find('.fa.fa-chevron-down').click
+    click_link('編集')
+    sleep(0.1)
+  end
 end

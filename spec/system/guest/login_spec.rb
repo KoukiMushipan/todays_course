@@ -10,6 +10,8 @@ RSpec.describe 'Guest::Login' do
       it '情報が正しく表示されている' do
         expect(page).to have_current_path login_path
         expect(page).to have_content 'ログイン'
+        expect(page).to have_field 'メールアドレス', with: ''
+        expect(page).to have_field 'パスワード', with: ''
       end
     end
   end
