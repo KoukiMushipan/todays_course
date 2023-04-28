@@ -3,10 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Profile::Settings' do
   let(:user) { create(:user) }
 
-  before do
-    login(user)
-    find('label[for=right]').click
-  end
+  before { visit_setting_page(user) }
 
   describe 'Page' do
     context 'プロフィールページにアクセスし、設定のタブを開く' do

@@ -1,30 +1,4 @@
-module VisitMacros
-  def visit_saved_departures_page(departure)
-    login(departure.user)
-    sleep(0.1)
-    visit departures_path
-    sleep(0.1)
-    find('label[for=left]').click
-  end
-
-  def visit_edit_departure_page(departure)
-    visit_saved_departures_page(departure)
-    find('.fa.fa-chevron-down').click
-    click_link('編集')
-    sleep(0.1)
-  end
-
-  def visit_saved_destinations_page(destination)
-    login(destination.user)
-    sleep(0.1)
-    visit departures_path
-  end
-
-  def visit_histories_page(history)
-    login(history.user)
-    sleep(0.1)
-  end
-
+module SearchMacros
   def visit_new_departure_page(user)
     login(user)
     sleep(0.1)
@@ -101,16 +75,5 @@ module VisitMacros
     login(history.user)
     sleep(0.1)
     visit history_path(history.uuid)
-  end
-
-  def visit_results_for_guest_page
-    for_departure = build(:location, :for_departure)
-    geocode_mock(for_departure.attributes.compact.symbolize_keys)
-    nearby_mock(Settings.nearby_result.radius_1000.to_hash)
-    visit new_guest_path
-    fill_in '出発地の住所', with: for_departure.address
-    fill_in '距離(1000m~5000m)', with: 5000
-    select 'コンビニエンスストア', from: '目的地の種類'
-    click_button '検索'
   end
 end
