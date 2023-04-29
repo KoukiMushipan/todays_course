@@ -21,7 +21,11 @@ window.getCurrentLocation = () => {
     geocoder.geocode({ location: latLng, region: 'JP' })
       .then((response) => {
         if (response.results[0]) {
-          form.value = response.results[0].formatted_address.split(' ').pop();
+          const formatted_address = response.results[0].formatted_address.match(/.*[\d１-９]{3}[-ー−][\d１-９]{4}\s*(.+)/)[1];
+          form.value = formatted_address.replace(/[０-９ａ-ｚＡ-Ｚ．＠−]/g, function (s) {
+            return String.fromCharCode(s.charCodeAt(0) - (s >= "０" && s <= "９" ? 0xFEE0 : 0));
+          }).replace(/(\d)[-ー−]/g, '$1-').replace(/\s/, ' ');
+
           toastr.success('現在地を取得しました');
           loading.classList.toggle('hidden');
         } else {
