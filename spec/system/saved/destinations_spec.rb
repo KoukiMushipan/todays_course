@@ -6,14 +6,19 @@ RSpec.describe 'Saved::Destinations' do
 
   describe 'Page' do
     context '保存済み目的地のページにアクセスする' do
+      before { login(user) }
+
       it '情報が正しく表示されている' do
-        login(user)
         sleep(0.1)
         find('.fa.fa-folder-open.nav-icon').click
         expect(page).to have_current_path departures_path
         expect(page).to have_content '保存済み'
         expect(page).to have_content '出発地'
         expect(page).to have_content '目的地'
+      end
+
+      it '共通レイアウトが正常に表示されている' do
+        verify_user_layout
       end
     end
 

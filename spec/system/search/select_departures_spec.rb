@@ -9,6 +9,8 @@ RSpec.describe 'Search::SelectDepartures' do
 
   describe 'Page' do
     context '出発地を入力するページにアクセスする' do
+      before { visit_select_saved_departures_page(departure) }
+
       it '情報が正しく表示されている' do
         login(user)
         sleep(0.1)
@@ -18,6 +20,10 @@ RSpec.describe 'Search::SelectDepartures' do
         expect(page).to have_content '入力'
         expect(page).to have_content '保存'
         expect(page).to have_content '履歴'
+      end
+
+      it '共通レイアウトが正常に表示されている' do
+        verify_user_layout
       end
     end
 

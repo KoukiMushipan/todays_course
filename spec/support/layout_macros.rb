@@ -6,5 +6,13 @@ module LayoutMacros
   end
 
   def verify_user_layout
+    nav_search_icon = find('.fa.fa-search.nav-icon').find(:xpath, '..')
+    expect(URI.parse(nav_search_icon[:href]).path).to eq new_departure_path
+
+    nav_folder_icon = find('.fa.fa-folder-open.nav-icon').find(:xpath, '..')
+    expect(URI.parse(nav_folder_icon[:href]).path).to eq departures_path
+
+    nav_user_icon = find('.fa.fa-user.nav-icon').find(:xpath, '..')
+    expect(URI.parse(nav_user_icon[:href]).path).to eq profile_path
   end
 end

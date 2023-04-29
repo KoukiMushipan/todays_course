@@ -17,6 +17,11 @@ RSpec.describe 'Profile::Histories' do
         expect(page).to have_content '履歴'
         expect(page).to have_content '設定'
       end
+
+      it '共通レイアウトが正常に表示されている' do
+        login(user)
+        verify_user_layout
+      end
     end
 
     context '履歴のページにアクセスし、編集状態にする' do

@@ -7,9 +7,14 @@ RSpec.describe 'Search::Goals' do
 
   describe 'Page' do
     context 'スタートし、ゴールページに遷移する' do
+      before { visit_goal_page_from_not_finished(not_finished_history) }
+
       it '情報が正しく表示されている' do
-        visit_goal_page_from_not_finished(not_finished_history)
         expect(page).to have_current_path history_path(not_finished_history.uuid)
+      end
+
+      it '共通レイアウトが正常に表示されている' do
+        verify_user_layout
       end
     end
   end

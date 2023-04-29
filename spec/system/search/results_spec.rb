@@ -16,6 +16,12 @@ RSpec.describe 'Search::Results' do
         expect(page).to have_content 'コメント'
         expect(page).to have_content '保存済み'
       end
+
+      it '共通レイアウトが正常に表示されている' do
+        nearby_mock(nearby_result)
+        visit_search_results_page(departure)
+        verify_user_layout
+      end
     end
   end
 

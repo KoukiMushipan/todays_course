@@ -19,6 +19,11 @@ RSpec.describe 'Profile::Settings' do
         expect(page).to have_content '履歴'
         expect(page).to have_content '設定'
       end
+
+      it '共通レイアウトが正常に表示されている' do
+        login(user)
+        verify_user_layout
+      end
     end
 
     context 'プロフィールページにアクセスし、編集状態にする' do

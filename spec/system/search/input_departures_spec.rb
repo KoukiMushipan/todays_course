@@ -23,6 +23,11 @@ RSpec.describe 'Search::InputDepartures' do
         expect(page).to have_field '住所', with: ''
         expect(page).to have_unchecked_field '保存する'
       end
+
+      it '共通レイアウトが正常に表示されている' do
+        visit_new_departure_page(user)
+        verify_user_layout
+      end
     end
   end
 

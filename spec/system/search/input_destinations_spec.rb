@@ -8,14 +8,21 @@ RSpec.describe 'Search::InputDestinations' do
 
   describe 'Page' do
     context '目的地を作成するページにアクセスする' do
-      it '情報が正しく表示されている' do
+      before do
         nearby_mock(nearby_result)
         visit_new_destination_page(departure)
+      end
+
+      it '情報が正しく表示されている' do
         expect(page).to have_current_path new_destination_path(destination: nearby_result[:variable][:uuid])
         expect(page).to have_field '名称'
         expect(page).to have_field 'コメント'
         expect(page).to have_field '片道の距離'
         expect(page).to have_unchecked_field '保存する'
+      end
+
+      it '共通レイアウトが正常に表示されている' do
+        verify_user_layout
       end
     end
   end

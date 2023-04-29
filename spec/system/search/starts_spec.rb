@@ -8,11 +8,18 @@ RSpec.describe 'Search::Starts' do
   let(:destination_form) { build(:destination_form) }
 
   describe 'Page' do
+    before do
+      nearby_mock(nearby_result)
+      visit_start_page_from_new(departure)
+    end
+
     context '目的地を作成するページから、スタートするページにアクセスする' do
       it '情報が正しく表示されている' do
-        nearby_mock(nearby_result)
-        visit_start_page_from_new(departure)
         expect(page).to have_current_path new_history_path
+      end
+
+      it '共通レイアウトが正常に表示されている' do
+        verify_user_layout
       end
     end
 

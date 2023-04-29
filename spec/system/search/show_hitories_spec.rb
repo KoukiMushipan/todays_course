@@ -7,9 +7,14 @@ RSpec.describe 'Search::ShowHitories' do
 
   describe 'Page' do
     context '履歴詳細ページに遷移する' do
+      before { visit_show_history_page(history) }
+
       it '情報が正しく表示されている' do
-        visit_show_history_page(history)
         expect(page).to have_current_path history_path(history.uuid)
+      end
+
+      it '共通レイアウトが正常に表示されている' do
+        verify_user_layout
       end
     end
 
