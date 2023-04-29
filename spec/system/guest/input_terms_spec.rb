@@ -21,6 +21,10 @@ RSpec.describe 'Guest::InputTerms' do
         expect(page).to have_field '距離(1000m~5000m)', with: ''
         expect(page).to have_select '種類', selected: 'コンビニエンスストア'
       end
+
+      it '共通レイアウトが正常に表示されている' do
+        verify_guest_layout
+      end
     end
   end
 

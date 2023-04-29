@@ -68,4 +68,5 @@ RSpec.configure do |config|
   config.include ProfileMacros
   config.include SavedPlaceMacros
   config.include SearchMacros
+  config.include LayoutMacros
 end

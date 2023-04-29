@@ -15,6 +15,12 @@ RSpec.describe 'Guest::Signup' do
         expect(page).to have_field 'パスワード', with: ''
         expect(page).to have_field 'パスワード（確認用）', with: ''
       end
+
+      it '共通レイアウトが正常に表示されている' do
+        expect(page).to have_link "Today's Course", href: top_path
+        expect(page).not_to have_link '新規登録', href: signup_path
+        expect(page).to have_link 'ログイン', href: login_path
+      end
     end
   end
 

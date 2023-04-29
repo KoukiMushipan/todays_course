@@ -15,6 +15,10 @@ RSpec.describe 'Guest::Results' do
       it '情報が正しく表示されている' do
         expect(page).to have_current_path guests_path_and_query
       end
+
+      it '共通レイアウトが正常に表示されている' do
+        verify_guest_layout
+      end
     end
   end
 
