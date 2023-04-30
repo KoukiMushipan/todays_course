@@ -23,7 +23,9 @@ RSpec.describe 'Guest::InputTerms' do
       end
 
       it '共通レイアウトが正常に表示されている' do
-        verify_guest_layout
+        expect(page).to have_link "Today's Course", href: top_path
+        expect(page).to have_link '新規登録', href: signup_path
+        expect(page).to have_link 'ログイン', href: login_path
       end
     end
   end

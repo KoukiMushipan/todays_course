@@ -14,7 +14,9 @@ RSpec.describe 'Search::ShowHitories' do
       end
 
       it '共通レイアウトが正常に表示されている' do
-        verify_user_layout
+        expect(nav_search_icon).to eq new_departure_path
+        expect(nav_folder_icon).to eq departures_path
+        expect(nav_user_icon).to eq profile_path
       end
     end
 

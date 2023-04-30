@@ -1,18 +1,16 @@
 module LayoutMacros
-  def verify_guest_layout
-    expect(page).to have_link "Today's Course", href: top_path
-    expect(page).to have_link '新規登録', href: signup_path
-    expect(page).to have_link 'ログイン', href: login_path
+  def nav_search_icon
+    a_tag = find('.fa.fa-search.nav-icon').find(:xpath, '..')
+    URI.parse(a_tag[:href]).path
   end
 
-  def verify_user_layout
-    nav_search_icon = find('.fa.fa-search.nav-icon').find(:xpath, '..')
-    expect(URI.parse(nav_search_icon[:href]).path).to eq new_departure_path
+  def nav_folder_icon
+    a_tag = find('.fa.fa-folder-open.nav-icon').find(:xpath, '..')
+    URI.parse(a_tag[:href]).path
+  end
 
-    nav_folder_icon = find('.fa.fa-folder-open.nav-icon').find(:xpath, '..')
-    expect(URI.parse(nav_folder_icon[:href]).path).to eq departures_path
-
-    nav_user_icon = find('.fa.fa-user.nav-icon').find(:xpath, '..')
-    expect(URI.parse(nav_user_icon[:href]).path).to eq profile_path
+  def nav_user_icon
+    a_tag = find('.fa.fa-user.nav-icon').find(:xpath, '..')
+    URI.parse(a_tag[:href]).path
   end
 end
