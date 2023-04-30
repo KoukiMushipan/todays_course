@@ -4,6 +4,8 @@ RSpec.describe 'Search::InputDepartures' do
   let(:departure_form) { build(:departure_form) }
   let(:result_address) { build(:departure_form).address }
   let(:user) { create(:user) }
+  let(:for_geocode_result) { build(:location, :for_departure) }
+  let(:geocode_result) { for_geocode_result.attributes.compact.symbolize_keys }
 
   describe 'Page' do
     context '出発地を入力するページにアクセスする' do
@@ -20,6 +22,13 @@ RSpec.describe 'Search::InputDepartures' do
         expect(page).to have_field '名称', with: ''
         expect(page).to have_field '住所', with: ''
         expect(page).to have_unchecked_field '保存する'
+      end
+
+      it '共通レイアウトが正常に表示されている' do
+        visit_new_departure_page(user)
+        expect(nav_search_icon).to eq new_departure_path
+        expect(nav_folder_icon).to eq departures_path
+        expect(nav_user_icon).to eq profile_path
       end
     end
   end
@@ -38,9 +47,6 @@ RSpec.describe 'Search::InputDepartures' do
   end
 
   describe 'Validations' do
-    let(:for_geocode_result) { build(:location, :for_departure) }
-    let(:geocode_result) { for_geocode_result.attributes.compact.symbolize_keys }
-
     before { visit_new_departure_page(user) }
 
     context '正常な値を入力する（保存する）' do
@@ -153,37 +159,71 @@ RSpec.describe 'Search::InputDepartures' do
 
     context '名称を入力し、取得に失敗する' do
       it 'フォームから入力した名称が消えていない' do
-        name = 'a' * 51
-        fill_in '名称', with: name
-        fill_in '住所', with: departure_form.address
+        fill_in '名称', with: departure_form.name
         click_button '決定'
-        expect(page).to have_field '名称', with: name
+        expect(page).to have_field '名称', with: departure_form.name
       end
     end
 
     context '住所を入力し、取得に失敗する' do
       it 'フォームから入力した住所が消えていない' do
-        address = 'a' * 256
-        fill_in '名称', with: departure_form.name
-        fill_in '住所', with: address
+        fill_in '住所', with: departure_form.address
         click_button '決定'
-        expect(page).to have_field '住所', with: address
+        expect(page).to have_field '住所', with: departure_form.address
+      end
+    end
+
+    context 'チェックを入れ、作成に失敗する' do
+      it '変更したチェックボックスがもとに戻っていない' do
+        check '保存する'
+        click_button '決定'
+        expect(page).to have_checked_field '保存する'
       end
     end
   end
 
   describe 'Failure' do
     context '入力された住所が存在しないため、取得に失敗する' do
-      it 'エラーメッセージが表示され、編集状態に戻る' do
+      it 'エラーメッセージが表示され、出発地入力状態に戻る' do
         geocode_mock(false)
 
         visit_new_departure_page(user)
         fill_in '名称', with: departure_form.name
         fill_in '住所', with: departure_form.address
         click_button '決定'
+        expect(page).to have_current_path new_departure_path
         expect(page).to have_content '位置情報の取得に失敗しました'
         expect(page).to have_field '名称', with: departure_form.name
         expect(page).to have_field '住所', with: departure_form.address
+      end
+    end
+  end
+
+  describe 'Database' do
+    before do
+      visit_new_departure_page(user)
+      geocode_mock(geocode_result)
+      fill_in '名称', with: for_geocode_result.name
+      fill_in '住所', with: for_geocode_result.address
+    end
+
+    context '保存するにチェックをして次に進む' do
+      it '出発地が作成される' do
+        geocode_result[:is_saved] = true
+        check '保存する'
+        click_button '決定'
+        sleep(0.1)
+        expect(Departure.count).to eq 1
+      end
+    end
+
+    context '保存するにチェックをせずに次に進む' do
+      it '出発地が作成されない' do
+        geocode_result[:is_saved] = false
+        uncheck '保存する'
+        click_button '決定'
+        sleep(0.1)
+        expect(Departure.count).to eq 0
       end
     end
   end

@@ -57,7 +57,7 @@ window.showCandidates = () => {
     return marker
   };
 
-  let infoWindow; // info windowは出発地を覗いて1つしか開かないようにするための変数
+  let infoWindow; // info windowは出発地を除いて1つしか開かないようにするための変数
   const openInfoWindow = (location, marker) => { // マーカーにinfo windowをつける関数
     if (infoWindow) {
       infoWindow.close();

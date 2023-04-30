@@ -16,6 +16,14 @@ RSpec.describe 'Search::Results' do
         expect(page).to have_content 'コメント'
         expect(page).to have_content '保存済み'
       end
+
+      it '共通レイアウトが正常に表示されている' do
+        nearby_mock(nearby_result)
+        visit_search_results_page(departure)
+        expect(nav_search_icon).to eq new_departure_path
+        expect(nav_folder_icon).to eq departures_path
+        expect(nav_user_icon).to eq profile_path
+      end
     end
   end
 
@@ -28,7 +36,6 @@ RSpec.describe 'Search::Results' do
         end
 
         it '情報が正しく表示されている' do
-          expect(page).to have_current_path searches_path
           expect(page).to have_content nearby_result[:variable][:name]
           expect(page).to have_content nearby_result[:fixed][:address]
         end
@@ -55,7 +62,6 @@ RSpec.describe 'Search::Results' do
         end
 
         it '情報が正しく表示されている' do
-          expect(page).to have_current_path searches_path
           expect(page).to have_content published_comment_destination.name
           expect(page).to have_content published_comment_destination.address
           expect(page).to have_content published_comment_destination.comment

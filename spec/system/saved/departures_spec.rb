@@ -6,14 +6,29 @@ RSpec.describe 'Saved::Departures' do
 
   describe 'Page' do
     context '保存済み出発地のページにアクセスする' do
+      before { login(user) }
+
       it '情報が正しく表示されている' do
-        login(user)
         sleep(0.1)
         find('.fa.fa-folder-open.nav-icon').click
         expect(page).to have_current_path departures_path
         expect(page).to have_content '保存済み'
         expect(page).to have_content '出発地'
         expect(page).to have_content '目的地'
+      end
+
+      it '共通レイアウトが正常に表示されている' do
+        expect(nav_search_icon).to eq new_departure_path
+        expect(nav_folder_icon).to eq departures_path
+        expect(nav_user_icon).to eq profile_path
+      end
+    end
+
+    context '保存済み出発地のページにアクセスし、編集状態にする' do
+      it '情報が正しく表示されている' do
+        visit_edit_departure_page(departure)
+        expect(page).to have_field '名称'
+        expect(page).to have_field '住所'
       end
     end
   end
@@ -25,7 +40,6 @@ RSpec.describe 'Saved::Departures' do
       before { visit_saved_departures_page(departure) }
 
       it '情報が正しく表示されている' do
-        expect(page).to have_current_path departures_path
         expect(page).to have_content departure.name
         expect(page).to have_content departure.address
         expect(page).to have_content I18n.l(departure.created_at, format: :short)
@@ -36,6 +50,7 @@ RSpec.describe 'Saved::Departures' do
         find('.fa.fa-chevron-down').click
         expect(page).to have_link '編集', href: edit_departure_path(departure.uuid)
         expect(page).to have_link '削除', href: departure_path(departure.uuid)
+        expect(find('a', text: '削除')['data-turbo-method']).to eq 'delete'
         click_link '編集'
         expect(page).to have_link '取消', href: departure_path(departure.uuid)
         expect(page).to have_button '更新'
@@ -240,6 +255,21 @@ RSpec.describe 'Saved::Departures' do
         click_button '更新'
         expect(page).to have_content '位置情報の取得に失敗しました'
         expect(page).to have_field '住所', with: address
+      end
+    end
+  end
+
+  describe 'Database' do
+    context '出発地を削除する' do
+      it '出発地が保存しないに変更される' do
+        visit_saved_departures_page(departure)
+        find('.fa.fa-chevron-down').click
+        sleep(0.1)
+        page.accept_confirm("保存済みから削除します\nよろしいですか?") do
+          click_link '削除'
+        end
+        sleep(0.1)
+        expect(Departure.find_by(id: departure.id).is_saved).to be_falsey
       end
     end
   end

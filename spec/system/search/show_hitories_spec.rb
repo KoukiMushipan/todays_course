@@ -1,104 +1,58 @@
 require 'rails_helper'
 
-RSpec.describe 'Profile::Histories' do
-  let(:history) { create(:history, :commented) }
-  let(:user) { create(:user) }
+RSpec.describe 'Search::ShowHitories' do
+  let(:departure) { create(:departure) }
+  let(:destination) { create(:destination, departure:, user: departure.user) }
+  let(:history) { create(:history, destination:, user: destination.user) }
 
   describe 'Page' do
-    context '履歴のページにアクセスする' do
+    context '履歴詳細ページに遷移する' do
+      before { visit_show_history_page(history) }
+
       it '情報が正しく表示されている' do
-        histories = create_list(:history, 5, user:)
-        login(histories.first.user)
-        sleep(0.1)
-        expect(page).to have_current_path profile_path
-        expect(page).to have_content "#{histories.first.user.name}さん"
-        expect(page).to have_content "総移動時間: #{histories.sum { |history| history.decorate.moving_time }}分"
-        expect(page).to have_content "総移動距離: #{histories.sum(&:moving_distance)}m"
-        expect(page).to have_content '履歴'
-        expect(page).to have_content '設定'
+        expect(page).to have_current_path history_path(history.uuid)
       end
 
       it '共通レイアウトが正常に表示されている' do
-        login(user)
         expect(nav_search_icon).to eq new_departure_path
         expect(nav_folder_icon).to eq departures_path
         expect(nav_user_icon).to eq profile_path
       end
     end
 
-    context '履歴のページにアクセスし、編集状態にする' do
+    context '履歴詳細ページに遷移し、編集状態にする' do
       it '情報が正しく表示されている' do
-        visit_histories_page(history)
+        visit_show_history_page(history)
         find('.fa.fa-chevron-down').click
         click_link('編集')
+        sleep(0.1)
         expect(page).to have_field '開始時刻'
         expect(page).to have_field '終了時刻'
-        expect(page).to have_field 'コメント'
+        expect(page).to have_field 'コメント', with: ''
         expect(page).to have_field '移動距離'
       end
     end
   end
 
   describe 'Contents' do
-    let(:other) { create(:user) }
+    context '履歴詳細ページに遷移する' do
+      before { visit_show_history_page(history) }
 
-    context '１つの履歴を保存する' do
-      before { visit_histories_page(history) }
-
-      it '情報が正しく表示されている' do
+      it 'コンテンツが正しく表示されている' do
         expect(page).to have_content history.destination.name
-        expect(page).to have_content history.destination.address
-        expect(page).to have_css '.fa.fa-eye-slash'
-        expect(page).to have_css '.fa.fa-commenting'
-        expect(page).to have_content history.comment
         expect(page).to have_content "#{history.moving_distance}m"
-        expect(page).to have_content I18n.l(history.start_time, format: :short)
-        expect(page).to have_content "#{history.decorate.moving_time}分"
+        expect(page).to have_content history.destination.address
+        expect(page).to have_content "START: #{I18n.l(history.start_time, format: :short)}"
+        expect(page).to have_content "GOAL: #{I18n.l(history.end_time, format: :short)}"
         expect(page).to have_content history.departure.name
       end
 
       it 'リンク関連が正しく表示されている' do
-        expect(page).to have_link '出発', href: new_history_path(destination: history.destination.uuid)
+        expect(page).to have_link 'ユーザーページに戻る', href: profile_path
         find('.fa.fa-chevron-down').click
-        expect(page).to have_link '編集', href: edit_history_path(history.uuid, route: 'profile_page')
-        expect(page).to have_link '削除', href: history_path(history.uuid, route: 'profile_page')
+        expect(page).to have_link '編集', href: edit_history_path(history.uuid, route: 'goal_page')
+        expect(page).to have_link '削除', href: history_path(history.uuid, route: 'goal_page')
         expect(find('a', text: '削除')['data-turbo-method']).to eq 'delete'
-        click_link '編集'
-        expect(page).to have_link '取消', href: cancel_history_path(history.uuid, route: 'profile_page')
-        expect(page).to have_button '更新'
-        expect(find('form')['action']).to be_include history_path(history.uuid, route: 'profile_page')
-        expect(find('input[name="_method"]', visible: false)['value']).to eq 'patch'
-      end
-    end
-
-    context '複数のユーザーの履歴を作成する' do
-      it '自分の履歴のみ表示される' do
-        saved_own = history
-        saved_other = create(:history, user: other)
-        visit_histories_page(saved_own)
-        expect(page).to have_content saved_own.destination.name
-        expect(page).not_to have_content saved_other.destination.name
-      end
-    end
-
-    context 'コメントをした目的地を作成する' do
-      it 'コメントと関連するアイコンが表示される' do
-        commented_history = create(:history, :commented)
-        visit_histories_page(commented_history)
-        expect(page).to have_content commented_history.comment
-        expect(page).not_to have_css '.fa.fa-eye'
-        expect(page).to have_css '.fa.fa-eye-slash'
-        expect(page).to have_css '.fa.fa-commenting'
-      end
-    end
-
-    context 'コメントをしない目的地を作成する' do
-      it 'コメントと関連するアイコンが表示されない' do
-        not_commented_history = create(:history)
-        visit_histories_page(not_commented_history)
-        expect(page).not_to have_css '.fa.fa-eye'
-        expect(page).not_to have_css '.fa.fa-eye-slash'
-        expect(page).not_to have_css '.fa.fa-commenting'
       end
     end
   end
@@ -107,9 +61,10 @@ RSpec.describe 'Profile::Histories' do
     let(:build_another_history) { build(:history, :another, :commented) }
 
     before do
-      visit_histories_page(history)
+      visit_show_history_page(history)
       find('.fa.fa-chevron-down').click
       click_link('編集')
+      sleep(0.1)
     end
 
     describe 'Validations' do
@@ -121,10 +76,13 @@ RSpec.describe 'Profile::Histories' do
           fill_in '移動距離', with: build_another_history.moving_distance
           click_button '更新'
           expect(page).to have_content '履歴を更新しました'
+          expect(page).not_to have_css '.fa.fa-eye'
+          expect(page).to have_css '.fa.fa-eye-slash'
+          expect(page).to have_css '.fa.fa-commenting'
           expect(page).to have_content build_another_history.comment
           expect(page).to have_content "#{build_another_history.moving_distance}m"
           expect(page).to have_content I18n.l(build_another_history.start_time, format: :short)
-          expect(page).to have_content "#{build_another_history.decorate.moving_time}分"
+          expect(page).to have_content I18n.l(build_another_history.end_time, format: :short)
         end
       end
 
@@ -177,6 +135,7 @@ RSpec.describe 'Profile::Histories' do
             fill_in 'コメント', with: comment
             click_button '更新'
             expect(page).to have_content '履歴を更新しました'
+            expect(page).not_to have_css '.fa.fa-eye'
             expect(page).to have_css '.fa.fa-eye-slash'
             expect(page).to have_css '.fa.fa-commenting'
             expect(page).to have_content comment
@@ -304,14 +263,17 @@ RSpec.describe 'Profile::Histories' do
           fill_in 'コメント', with: build_another_history.comment
           fill_in '移動距離', with: build_another_history.moving_distance
           click_link '取消'
-          expect(page).to have_content history.comment
           expect(page).to have_content "#{history.moving_distance}m"
           expect(page).to have_content I18n.l(history.start_time, format: :short)
-          expect(page).to have_content "#{history.decorate.moving_time}分"
+          expect(page).to have_content I18n.l(history.end_time, format: :short)
+
+          expect(page).not_to have_css '.fa.fa-eye'
+          expect(page).not_to have_css '.fa.fa-eye-slash'
+          expect(page).not_to have_css '.fa.fa-commenting'
           expect(page).not_to have_content build_another_history.comment
           expect(page).not_to have_content "#{build_another_history.moving_distance}m"
           expect(page).not_to have_content I18n.l(build_another_history.start_time, format: :short)
-          expect(page).not_to have_content "#{build_another_history.decorate.moving_time}分"
+          expect(page).not_to have_content I18n.l(build_another_history.end_time, format: :short)
         end
       end
     end
@@ -319,7 +281,7 @@ RSpec.describe 'Profile::Histories' do
 
   describe 'Destroy' do
     before do
-      visit_histories_page(history)
+      visit_show_history_page(history)
       find('.fa.fa-chevron-down').click
     end
 
@@ -329,32 +291,18 @@ RSpec.describe 'Profile::Histories' do
           click_link '削除'
         end
         expect(page).to have_content '履歴を削除しました'
-        expect(page).not_to have_content history.destination.name
+        expect(page).to have_current_path new_history_path(destination: history.destination.uuid)
       end
     end
   end
 
-  describe 'Start' do
-    before { visit_histories_page(history) }
-
-    context '出発ボタンをクリックする' do
-      it 'スタートページに遷移する' do
-        click_link '出発'
-        expect(current_url).to be_include new_history_path(destination: history.destination.uuid)
-      end
-    end
-  end
-
-  describe 'Database' do
-    context '履歴を削除する' do
-      it 'データベースから履歴が正常に削除される' do
-        visit_histories_page(history)
-        find('.fa.fa-chevron-down').click
-        page.accept_confirm("履歴から削除します\nよろしいですか?") do
-          click_link '削除'
-        end
-        sleep(0.1)
-        expect(History.find_by(id: history.id)).to be_nil
+  describe 'Profile' do
+    context 'ユーザーページに戻るをクリックする' do
+      it 'ユーザーページに遷移する' do
+        visit_show_history_page(history)
+        click_link 'ユーザーページに戻る'
+        expect(page).to have_current_path profile_path
+        expect(page).to have_content history.user.name
       end
     end
   end

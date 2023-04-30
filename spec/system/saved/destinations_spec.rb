@@ -6,14 +6,31 @@ RSpec.describe 'Saved::Destinations' do
 
   describe 'Page' do
     context '保存済み目的地のページにアクセスする' do
+      before { login(user) }
+
       it '情報が正しく表示されている' do
-        login(user)
         sleep(0.1)
         find('.fa.fa-folder-open.nav-icon').click
         expect(page).to have_current_path departures_path
         expect(page).to have_content '保存済み'
         expect(page).to have_content '出発地'
         expect(page).to have_content '目的地'
+      end
+
+      it '共通レイアウトが正常に表示されている' do
+        expect(nav_search_icon).to eq new_departure_path
+        expect(nav_folder_icon).to eq departures_path
+        expect(nav_user_icon).to eq profile_path
+      end
+    end
+
+    context '保存済み目的地のページにアクセスし、編集状態にする' do
+      it '情報が正しく表示されている' do
+        visit_edit_destination_page(destination)
+        expect(page).to have_field '名称'
+        expect(page).to have_field 'コメント'
+        expect(page).to have_checked_field 'コメントを公開する'
+        expect(page).to have_field '片道の距離'
       end
     end
   end
@@ -41,6 +58,7 @@ RSpec.describe 'Saved::Destinations' do
         find('.fa.fa-chevron-down').click
         expect(page).to have_link '編集', href: edit_destination_path(destination.uuid, route: 'saved_page')
         expect(page).to have_link '削除', href: destination_path(destination.uuid, route: 'saved_page')
+        expect(find('a', text: '削除')['data-turbo-method']).to eq 'delete'
         click_link '編集'
         expect(page).to have_link '取消', href: destination_path(destination.uuid, route: 'saved_page')
         expect(page).to have_button '更新'
@@ -103,12 +121,7 @@ RSpec.describe 'Saved::Destinations' do
   describe 'Edit' do
     let(:build_another_destination) { create(:destination, :another, :published_comment) }
 
-    before do
-      visit_saved_destinations_page(destination)
-      find('.fa.fa-chevron-down').click
-      click_link('編集')
-      sleep(0.1)
-    end
+    before { visit_edit_destination_page(destination) }
 
     describe 'Validations' do
       context '正常な値を入力する' do
@@ -391,6 +404,21 @@ RSpec.describe 'Saved::Destinations' do
       it 'スタートページに遷移する' do
         click_link '出発'
         expect(current_url).to be_include new_history_path(destination: destination.uuid)
+      end
+    end
+  end
+
+  describe 'Database' do
+    context '目的地を削除する' do
+      it '目的地が保存しないに変更される' do
+        visit_saved_destinations_page(destination)
+        find('.fa.fa-chevron-down').click
+        sleep(0.1)
+        page.accept_confirm("保存済みから削除します\nよろしいですか?") do
+          click_link '削除'
+        end
+        sleep(0.1)
+        expect(Destination.find_by(id: destination.id).is_saved).to be_falsey
       end
     end
   end

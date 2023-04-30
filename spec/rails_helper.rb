@@ -63,6 +63,10 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include LoginMacros
-  config.include VisitMacros
   config.include MockMacros
+  config.include GuestMacros
+  config.include ProfileMacros
+  config.include SavedPlaceMacros
+  config.include SearchMacros
+  config.include LayoutMacros
 end

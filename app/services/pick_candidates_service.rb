@@ -8,8 +8,8 @@ class PickCandidatesService
   def call
     nearby_destinations = search_nearby_destinations
 
-    nearby_commented_info = acquisition_commented_info(nearby_destinations).sample(20)
-    nearby_own_info = acquisition_own_info(nearby_destinations).sample(20)
+    nearby_commented_info = acquisition_commented_info(nearby_destinations)
+    nearby_own_info = acquisition_own_info(nearby_destinations)
 
     pick_candidates = { results:, nearby_commented_info:, nearby_own_info: }
     prepare_pick_candidates(pick_candidates)

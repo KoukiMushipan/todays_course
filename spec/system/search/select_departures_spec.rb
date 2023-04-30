@@ -9,6 +9,8 @@ RSpec.describe 'Search::SelectDepartures' do
 
   describe 'Page' do
     context '出発地を入力するページにアクセスする' do
+      before { visit_select_saved_departures_page(departure) }
+
       it '情報が正しく表示されている' do
         login(user)
         sleep(0.1)
@@ -19,6 +21,22 @@ RSpec.describe 'Search::SelectDepartures' do
         expect(page).to have_content '保存'
         expect(page).to have_content '履歴'
       end
+
+      it '共通レイアウトが正常に表示されている' do
+        expect(nav_search_icon).to eq new_departure_path
+        expect(nav_folder_icon).to eq departures_path
+        expect(nav_user_icon).to eq profile_path
+      end
+    end
+
+    context '保存済み出発地のページにアクセスし、編集状態にする' do
+      it '情報が正しく表示されている' do
+        visit_select_saved_departures_page(departure)
+        find('.fa.fa-chevron-down').click
+        click_link '編集'
+        expect(page).to have_field '名称'
+        expect(page).to have_field '住所'
+      end
     end
   end
 
@@ -28,7 +46,6 @@ RSpec.describe 'Search::SelectDepartures' do
         before { visit_select_saved_departures_page(departure) }
 
         it '情報が正しく表示されている' do
-          expect(page).to have_current_path new_departure_path
           expect(page).to have_content departure.name
           expect(page).to have_content departure.address
           expect(page).to have_content I18n.l(departure.created_at, format: :short)
@@ -242,6 +259,21 @@ RSpec.describe 'Search::SelectDepartures' do
         end
       end
     end
+
+    describe 'Database' do
+      context '出発地を削除する' do
+        it '出発地が保存しないに変更される' do
+          visit_select_saved_departures_page(departure)
+          find('.fa.fa-chevron-down').click
+          sleep(0.1)
+          page.accept_confirm("保存済みから削除します\nよろしいですか?") do
+            click_link '削除'
+          end
+          sleep(0.1)
+          expect(Departure.find_by(id: departure.id).is_saved).to be_falsey
+        end
+      end
+    end
   end
 
   describe 'History' do
@@ -250,7 +282,6 @@ RSpec.describe 'Search::SelectDepartures' do
         before { visit_select_history_departure_page(history.departure) }
 
         it '情報が正しく表示されている' do
-          expect(page).to have_current_path new_departure_path
           expect(page).to have_content history.departure.name
           expect(page).to have_content history.departure.address
           expect(page).to have_content I18n.l(history.start_time, format: :short)
